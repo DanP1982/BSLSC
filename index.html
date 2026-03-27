@@ -128,26 +128,14 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .action-btn.warning{background:rgba(193,18,31,.08);color:var(--red);border:1px solid rgba(193,18,31,.2)}
 .upload-btn-wrap{display:flex;align-items:center;justify-content:center;gap:6px;min-height:var(--tap);border:1.5px dashed var(--border);border-radius:var(--radius-sm);font-family:'Barlow Semi Condensed',sans-serif;font-size:14px;font-weight:600;color:var(--sky);background:#f0f8ff;padding:10px;margin-bottom:8px;cursor:pointer}
 .field-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mid);margin-bottom:4px}
-@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:white;overflow:auto}.app,.main-scroll{height:auto;overflow:visible}.top-bar,.bottom-nav{display:none!important}}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:white;overflow:auto}.app,.main-scroll{height:auto;overflow:visible}.top-bar,.bottom-nav{display:none!important}.no-print{display:none!important}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top-bar">
   <div class="top-bar-inner">
-    <div class="logo-mark">
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" fill="#c1121f"/>
-        <circle cx="20" cy="20" r="15.5" fill="none" stroke="white" stroke-width="1.2"/>
-        <circle cx="20" cy="11.5" r="2.5" fill="white"/>
-        <line x1="20" y1="14" x2="20" y2="19" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <line x1="16" y1="16.5" x2="24" y2="16.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <line x1="20" y1="19" x2="17.5" y2="23" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-        <line x1="20" y1="19" x2="22.5" y2="23" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
-        <path d="M8 27 Q11.5 24 15 27 Q18.5 30 22 27 Q25.5 24 29 27 Q31 28.5 32 27" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M9 31 Q12 28.5 15.5 31 Q19 33.5 22.5 31 Q26 28.5 29.5 31" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
-      </svg>
-    </div>
+    <div class="logo-mark"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCABQAFADASIAAhEBAxEB/8QAGwAAAgIDAQAAAAAAAAAAAAAAAAEEBQMGBwL/xAAzEAACAQMCBAUCBQMFAAAAAAABAgMABBEFEhMhMVEyQWFxkQYiFBUjgaEkQsEzUmKi0f/EABoBAAIDAQEAAAAAAAAAAAAAAAIFAAMEAQb/xAArEQABBAEBBgQHAAAAAAAAAAABAAIDERIEBRMhMYGhFUFhsSIycdHh8PH/2gAMAwEAAhEDEQA/ANTAG0ch07U8DsPigeEe1OnarSwOw+KX2+lS9Otmu9Qgt0TezuPtzjPnj+K25oC8rpLK1xOnOSKyCwxQ+jPismp1bICARaJrbWo2unXN1IixQkb/AAlhtB9s9T6CiXTriOLjCBnhJI4irkZHUHsfQ1tRJkQqJOJFnwm4M6f9lHyrA1Y6TxYNSHi2XCHfk5yQMgnueRGfMY86XybVcwF2I+iMR2uc4X0p4HYfFb99RarbW+61tYoWuP75OGp2fx1rSL1QtyxUABgHAHqM1r0OvGqHy0rZdJJFGJHcisGB2HxRgdh8U6KYLKkPCPanSHhHtTqKKdokc02rQRW8nClkJVXz4SQefxmtjMkTI8dvEHsraUW9tAelxOf7n7gda1O0na1u4bhDhonDCtnstttp2lTsf04tRbiH36H4pTtJhsO6e5/HVWMKyg3F1fSW8U8f6Cs01zN4VCnBIUcgM8gB251lv9RvbK1RRJbTcaMmC7hUrlQcMMHo3SoH4xdM1O4iQRyMryRyK/OOWNjuAJHMEHzqPqOoG84aiOKKOJCkUUWdqAnJOTzJNYpI4jGLA5df4mGj08jntOJ59K+6gkknJOSajX3+qnLH6a/5qSqlmCjqTiodzIJbh2Xw5wvsOQrVsxhzLvRb9tSARtZ52sVFFFOV5xIeEe1OkPCPanUURVtZ6hI+kT6YQrByGGeuB29f8VU0AlSCpII5gjyqqaIStxP6Ucb8HBxFqUT0EmQw6MKeX8pExTSYTjDbRJ2PIP8A+GlIYYBzRWm/25yF9+59Kw7h+WJHsR35JsNVGG5Nd7g9uBRKeBHkvulkHL/ip8/c1EpszOxZiSxOSTSphGzBtJVLIZHFxRRRRRqtIeEe1S9OsJdRuGghaNSsbSEucAKvM1EHhHtVhoupflV61wY2fdE8eFfaRuGMg46ihdePDmos35Bc7mJuLURCD8RxTIdmzO3PTPX0pSaDfIrsvClVUjdTG+eIJDtXb351Mf6nk2uIIZFkNsYFmeXfJ4t2Scc+wFeW+pZSGcQf1DxwKZC3Vo23biMefIYqkPkXeCiy6FcJKsK3NnJLxVhdElyY3JwAf38xmsaaPcFJ3kkhhjt5hC7yMVUMc+nTlViPqK3jDGHT3BkuFuGDShgrBtxC8sgGot7r1zfWN3a3BlkE84lQvJnhAZ+0D9/4roe9Sl5uNBure7S14sEszY+yJixGRkZGPMUovp/UJr2S0jjHGSMybWOCQMcvfmMd6yvrrPrDX6whQ0aoUJ3Dkm056ciM/NM6+4lmaOHaGtjBGEO3h9MEdTyx3865nJ6LtClW3NnNbQW00oAW4QugzzABIOe3MVHqy1nV21f8KzwrG8MZVip5OxOS2PLJqtq9pJHFCkPCPapujyW0WrW0l6AbdXy+Rkfv++KhDwj2p0L2ZsLT5rt0V0S81GF5w1nqVisRUDBkUc+fp7fFeIb5Y4W4mq2Ukm4YHEUDbg58u+Piue0UnGxGBuOXYKzeldAjvQsMgfVrNpCg2kSKAG3c/LtXlr6Rskarpy9SMSKfP2rQaKLwZl3l2Cm9K6At/wD02G1Ox4u7ORKuMY9umfKvcOoJ+YLJLqViLbnlOIpPnjy9viueUUJ2Iwg/Fz9ApvSrf6nmsrjWpZNP2mIqAzIMBm8yKqaKKbwxCKNsYN0KVZNm1//Z" alt="Brighton SLSC" style="width:40px;height:40px;border-radius:6px;object-fit:cover;display:block;"></div>
     <div class="logo-text">
       <h1>Brighton SLSC</h1>
       <p>Session Planner</p>
@@ -177,8 +165,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   <div class="card">
     <div class="card-hdr"><div class="card-hdr-title">🌊 Sea &amp; Safety</div></div>
     <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
-      <div><div class="field-label">Safety notes / hazards</div><textarea class="notes-area" id="safetyNotes" placeholder="e.g. Rip running south of groyne 2. Westerly current."></textarea></div>
-      <div><div class="field-label">Plan B (if conditions change)</div><textarea class="notes-area" id="planBNotes" placeholder="e.g. If swell >1.5m: Nippers knee-depth only."></textarea></div>
+      <div><div class="field-label">Safety notes / hazards</div><textarea class="notes-area" id="safetyNotes" placeholder="e.g. Heavy shore dump expected at high tide. Strong W current."></textarea></div>
+      <div><div class="field-label">Plan B (if conditions change)</div><textarea class="notes-area" id="planBNotes" placeholder="e.g. If swell >1.5m: Nippers knee-depth only. Beach games noted above."></textarea></div>
     </div>
   </div>
   <div class="card">
@@ -189,10 +177,9 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 
 <!-- LIBRARY PAGE -->
 <div class="page" id="pageLibrary">
-  <div class="section-title">📚 Activity Library</div>
+  <div class="section-title" id="libTitle">📚 Activity Library</div>
   <div class="target-picker" id="targetPicker">
-    <button class="target-btn active" data-block="aims" onclick="setTarget(this)">🎯 Session Aims</button>
-    <button class="target-btn" data-block="warmup" onclick="setTarget(this)">🔥 Warm Up</button>
+    <button class="target-btn active" data-block="warmup" onclick="setTarget(this)">🔥 Warm Up</button>
     <button class="target-btn" data-block="theory" onclick="setTarget(this)">📖 Theory</button>
     <button class="target-btn" data-block="mainset" onclick="setTarget(this)">🏊 Main Set</button>
   </div>
@@ -219,8 +206,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
       <div class="session-fields">
         <div class="field-g"><label>Date</label><input type="date" id="sessionDate" onchange="updateAll()"></div>
         <div class="field-g"><label>Start Time</label><input type="time" id="sessionTime" value="09:00"></div>
-        <div class="field-g"><label>Coach</label><input type="text" id="coachName" placeholder="e.g. Jo Gold" autocomplete="off"></div>
-        <div class="field-g"><label>Safety Cover</label><input type="text" id="safetyCover" placeholder="e.g. Dan, Olivia" autocomplete="off"></div>
+        <div class="field-g"><label>Coach</label><input type="text" id="coachName" placeholder="e.g. Dan P" autocomplete="off"></div>
+        <div class="field-g"><label>Safety Cover</label><input type="text" id="safetyCover" placeholder="e.g. Pete M" autocomplete="off"></div>
       </div>
     </div>
   </div>
@@ -235,14 +222,17 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
     <div class="w-tile"><div class="w-tile-icon">🌡️</div><div class="w-tile-val" id="wSea">--</div><div class="w-tile-lbl">Sea °C</div></div>
   </div>
   <div class="card">
-    <div class="card-hdr"><div class="card-hdr-title">🌊 Tides &amp; Current</div></div>
+    <div class="card-hdr">
+      <div class="card-hdr-title">🌊 Tides &amp; Current</div>
+      <button onclick="fetchTides()" id="fetchTidesBtn" class="add-to-block" style="background:#eff6ff;border-color:#bfdbfe;color:var(--sky);">⛅ Auto-fill</button>
+    </div>
     <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
       <div class="tide-row">
-        <div class="field-g"><label>Low Tide</label><input type="text" id="ltTime" placeholder="07.02am 0.78m"></div>
-        <div class="field-g"><label>High Tide</label><input type="text" id="htTime" placeholder="13.04pm 6.69m"></div>
+        <div class="field-g"><label>Low Tide</label><input type="text" id="ltTime" placeholder="07:02 0.78m"></div>
+        <div class="field-g"><label>High Tide</label><input type="text" id="htTime" placeholder="13:04 6.69m"></div>
       </div>
       <div class="field-g"><label>Current / Break</label><input type="text" id="current" placeholder="e.g. Westerly, SW 0.5m swell"></div>
-      <div style="font-size:12px;color:var(--mid);">Tide tables: <a href="https://easytide.admiralty.co.uk/?PortID=0082" target="_blank" style="color:var(--sky);font-weight:600;">ADMIRALTY EasyTide</a> · <a href="https://www.bbc.co.uk/weather/coast-and-sea/tide-tables/7/6" target="_blank" style="color:var(--sky);font-weight:600;">BBC Brighton</a></div>
+      <div style="font-size:12px;color:var(--mid);">Manual lookup: <a id="admiraltyLink" href="https://easytide.admiralty.co.uk/?PortID=0082" target="_blank" style="color:var(--sky);font-weight:600;">ADMIRALTY EasyTide</a> · <a id="bbcTideLink" href="https://www.bbc.co.uk/weather/coast-and-sea/tide-tables/7/6" target="_blank" style="color:var(--sky);font-weight:600;">BBC Brighton</a></div>
     </div>
   </div>
   <div class="ai-panel" id="aiPanel"><div class="ai-label">✦ Coach Notes</div><div class="ai-note">Build the session to see suggestions.</div></div>
@@ -252,22 +242,68 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 <div class="page" id="pageSchedule">
   <div class="section-title">📋 Run Order</div>
   <div id="sessionOrder">
-    <div class="order-item" data-grp="nippers"><span class="order-dot" style="background:#fb923c"></span><span class="order-label">🐬 Nippers</span><input class="order-time-input" type="time" value="09:00"></div>
-    <div class="order-item" data-grp="juniors"><span class="order-dot" style="background:#38bdf8"></span><span class="order-label">🏊 Juniors</span><input class="order-time-input" type="time" value="10:00"></div>
-    <div class="order-item" data-grp="youth"><span class="order-dot" style="background:#a78bfa"></span><span class="order-label">⚡ Youth</span><input class="order-time-input" type="time" value="10:00"></div>
-    <div class="order-item" data-grp="seniors"><span class="order-dot" style="background:#4ade80"></span><span class="order-label">🏄 Seniors</span><input class="order-time-input" type="time" value="10:00"></div>
-    <div class="order-item" data-grp="masters"><span class="order-dot" style="background:#f87171"></span><span class="order-label">🥇 Masters</span><input class="order-time-input" type="time" value="10:00"></div>
+    <div class="order-item" data-grp="nippers" onchange="syncTimeFromSchedule('nippers',this.value)"><span class="order-dot" style="background:#fb923c"></span><span class="order-label">🐬 Nippers</span><input class="order-time-input" type="time" value="09:00"></div>
+    <div class="order-item" data-grp="juniors" onchange="syncTimeFromSchedule('juniors',this.value)"><span class="order-dot" style="background:#38bdf8"></span><span class="order-label">🏊 Juniors</span><input class="order-time-input" type="time" value="10:00"></div>
+    <div class="order-item" data-grp="youth" onchange="syncTimeFromSchedule('youth',this.value)"><span class="order-dot" style="background:#a78bfa"></span><span class="order-label">⚡ Youth</span><input class="order-time-input" type="time" value="10:00"></div>
+    <div class="order-item" data-grp="seniors" onchange="syncTimeFromSchedule('seniors',this.value)"><span class="order-dot" style="background:#4ade80"></span><span class="order-label">🏄 Seniors</span><input class="order-time-input" type="time" value="10:00"></div>
+    <div class="order-item" data-grp="masters" onchange="syncTimeFromSchedule('masters',this.value)"><span class="order-dot" style="background:#f87171"></span><span class="order-label">🥇 Masters</span><input class="order-time-input" type="time" value="10:00"></div>
   </div>
   <div class="action-row" style="margin-top:16px;"><button class="action-btn warning" onclick="clearAll()">🗑 Clear All</button></div>
 </div>
 
-</div><!-- end main-scroll -->
+<!-- GUIDANCE PAGE — excluded from print -->
+<div class="page no-print" id="pageGuidance">
+  <div class="section-title">ℹ️ Guide</div>
+
+  <div class="card">
+    <div class="card-hdr"><div class="card-hdr-title">About this tool</div></div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:14px;font-size:15px;line-height:1.6;color:var(--dark);">
+      <p>This app helps Brighton Surf Life Saving Club coaches plan Saturday morning sessions for Nippers, Juniors, Youth, Seniors and Masters. It is designed to make session planning quicker, more consistent and easier to record.</p>
+      <p>It is a <strong>work in progress</strong>. The more it is used, the more insight we will have to make adjustments and improvements. Your feedback is genuinely valued — please reach out to <strong>Dan P</strong> with any thoughts.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr"><div class="card-hdr-title">How to use it</div></div>
+    <div class="card-body" style="font-size:15px;line-height:1.7;color:var(--dark);display:flex;flex-direction:column;gap:12px;">
+      <div><strong>1. Weather tab</strong> — enter the date, start time, coach and safety cover. Tap <em>⛅ Populate Weather</em> to auto-fill conditions, and <em>⛅ Auto-fill</em> in the Tides section to fetch Brighton Marina tide times for the session date. Both require an internet connection. Manual tide lookup links are provided as a backup.</div>
+      <div><strong>2. Session tab</strong> — select a group from the dropdown. Use <em>+ Add</em> on each block to browse the activity library, or tap <em>✦</em> to get AI suggestions for that block. Once your warm up, theory and main set are set, tap <em>✦ Generate</em> to auto-create session aims — then edit them to suit.</div>
+      <div><strong>3. Library tab</strong> — browse and search activities filtered to the selected group. Activities are categorised as Warm Up, Theory or Main Set.</div>
+      <div><strong>4. Schedule tab</strong> — set start times for each group. These feed through automatically to the session time when you switch groups.</div>
+      <div><strong>5. Print / Save</strong> — tap 🖨 to print the current group's session plan as a CP1-format PDF, save to Photos, or save the full plan as a file to reopen later.</div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--red);">
+    <div class="card-hdr"><div class="card-hdr-title" style="color:var(--red);">⚠️ AI disclaimer</div></div>
+    <div class="card-body" style="font-size:15px;line-height:1.6;color:var(--dark);display:flex;flex-direction:column;gap:10px;">
+      <p>Some content in this tool is generated by artificial intelligence — including weather forecasts, session aim suggestions and activity recommendations.</p>
+      <p><strong>AI can make mistakes.</strong> It is the responsibility of the coach to review all details before using them in a session, including auto-populated weather and conditions data. Always apply your own judgement and refer to live conditions on the day.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr"><div class="card-hdr-title">💬 Share your feedback</div></div>
+    <div class="card-body" style="font-size:15px;line-height:1.6;color:var(--dark);display:flex;flex-direction:column;gap:12px;">
+      <p>If you use a free-text field to describe an activity or session aim that works well, and you think it would be useful to add to the library for others, please share it with <strong>Dan P</strong>.</p>
+      <p>Equally, if something doesn't work as expected, an activity description is wrong, or you have ideas for improvement — please get in touch. The tool will get better with use.</p>
+      <div style="margin-top:4px;">
+        <div class="field-label" style="margin-bottom:6px;">Your feedback</div>
+        <textarea class="notes-area" id="feedbackText" placeholder="Type your feedback, suggested activity, or improvement idea here…" style="min-height:100px;"></textarea>
+        <button onclick="copyFeedback()" style="margin-top:8px;width:100%;min-height:var(--tap);background:var(--navy);color:white;border-radius:var(--radius-sm);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:15px;">📋 Copy to clipboard — then send to Dan P</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:12px;color:var(--light);padding:12px 0 4px;">Brighton SLSC Session Planner · Built with Claude AI</div>
+</div>
 
 <nav class="bottom-nav">
   <button class="nav-btn active" id="nav-builder" onclick="showPage('Builder',this)"><span class="nav-icon">📋</span>Session</button>
   <button class="nav-btn" id="nav-library" onclick="showPage('Library',this)"><span class="nav-icon">📚</span>Library</button>
   <button class="nav-btn" id="nav-weather" onclick="showPage('Weather',this)"><span class="nav-icon">⛅</span>Weather</button>
   <button class="nav-btn" id="nav-schedule" onclick="showPage('Schedule',this)"><span class="nav-icon">📊</span>Schedule</button>
+  <button class="nav-btn" id="nav-guidance" onclick="showPage('Guidance',this)"><span class="nav-icon">ℹ️</span>Guide</button>
 </nav>
 </div>
 
@@ -325,71 +361,138 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 
 <script>
 const LIBRARY=[
-  {cat:'aims',text:'I know how tide, wind and sea conditions influence where I enter the sea for safety and for racing',sub:'Knowledge'},
-  {cat:'aims',text:'Demonstrate correct racing start and bunny hop board entry technique',sub:'Performance'},
-  {cat:'aims',text:'Identify a rip current and know the correct self-rescue response',sub:'Knowledge / Safety'},
-  {cat:'aims',text:'Perform conscious board rescue: approach, turn board, get casualty on board, return to shore',sub:'Performance'},
-  {cat:'aims',text:'Recall all 5 CHUMS questions and apply them in a missing person scenario',sub:'Knowledge'},
-  {cat:'aims',text:'Demonstrate whistle signals: 1, 2, 3, 4 blasts and respond correctly to all 4',sub:'Knowledge / Safety'},
-  {cat:'aims',text:'Build confidence in rough water: shore dump entries, going under waves, breath-hold technique',sub:'Confidence / Safety'},
-  {cat:'aims',text:'Complete prone and knee paddling circuit maintaining board trim and correct body position',sub:'Performance'},
-  {cat:'aims',text:'Work effectively in partnership: communicate during two-up board paddling and casualty pick-up',sub:'Performance / Teamwork'},
-  {cat:'aims',text:'Relay coherent 999 PPP call under simulated stress',sub:'Emergency Skills'},
-  {cat:'warmup',text:'Long jog, side step, skip, kick, stretch on beach',sub:'All groups · 8 min'},
-  {cat:'warmup',text:'Run to wall and back with dynamic stretches',sub:'All groups · 6 min'},
-  {cat:'warmup',text:'Pairs: over/under plank × 1 min, leap frog to boards, sprint to wall, 5 star jumps, jog back',sub:'Nippers/Juniors · 8 min'},
-  {cat:'warmup',text:'Gorilla runs on the sand, arm swings & jumps',sub:'All groups · 5 min'},
-  {cat:'warmup',text:'Run, 5 press ups, run, 5 press ups, run, 5 press ups, back',sub:'Nippers/Juniors · 8 min'},
-  {cat:'warmup',text:'Whistle warm-up: beach flags start position, 1 blast = hand to ears, 2 = stand, 3 = run, 4 = shout get out of water',sub:'All groups · 10 min'},
-  {cat:'warmup',text:'Game: 1 = star jump, 2 = burpee, 3 = press ups, 4 = into sea',sub:'Nippers/Juniors · 6 min'},
-  {cat:'warmup',text:'Name game: go round circle, name + favourite sea creature or food',sub:'New groups / start of season · 5 min'},
-  {cat:'warmup',text:'Light jog, shoulder/hip mobility, short accelerations for entries and transitions',sub:'Juniors/Youth · 8 min'},
-  {cat:'warmup',text:'Swim 2×200m easy pace with bilateral breathing focus',sub:'Seniors/Masters · 12 min'},
-  {cat:'theory',text:'Whistle signals: 1 blast = attract attention, 2 blasts = attract another LG, 3 blasts = immediate situation/LG going in, 4 blasts = mass rescue',sub:'All groups · 10 min'},
-  {cat:'theory',text:'Hand signals: return to shore, proceed further out, remain stationary, left, right, assistance required',sub:'All groups · 10 min'},
-  {cat:'theory',text:"Rip currents: what is a rip, how to identify, what to do — don't panic, float on back, raise arm, swim parallel or 45° if strong swimmer",sub:'All groups · 15 min'},
-  {cat:'theory',text:'CHUMS: Company, Hit head, Unconscious, Medical condition, Submerged/swallowed water',sub:'Nippers/Juniors · 10 min'},
-  {cat:'theory',text:'Sea conditions: observing tide, wind, swell direction and how they influence safe entry point and racing line',sub:'All groups · 10 min'},
-  {cat:'theory',text:'Points of the compass: game with 4 tubes marking N/S/E/W, everyone in the middle, run to the called compass point',sub:'Nippers/Juniors · 10 min'},
-  {cat:'theory',text:'Beach flags and flag meanings: red/yellow swim zone, red flag (no swim), watercraft flag, windsock',sub:'Nippers/Juniors · 10 min'},
-  {cat:'theory',text:'Waves: shore dump (HT), spiller/surfy (LT), backwash (HT); how wave size relates to wind strength, duration, fetch',sub:'Nippers/Juniors · 10 min'},
-  {cat:'theory',text:"Cold water shock: don't panic, float on back until breathing calms, call for help, survival float strategy",sub:'Masters/Seniors · 10 min'},
-  {cat:'theory',text:'Tides: neap vs spring, time between tides; Brighton tidal characteristics and how to read them',sub:'Juniors/Youth · 10 min'},
-  {cat:'theory',text:'999 / PPP caller exercise: Position, Problem, People — practice under stress with spinners disorientating the caller',sub:'Juniors/Youth · 15 min'},
-  {cat:'theory',text:'Dangers of Brighton beach: steeply shelved, cold water, shore dump at HT, piers & groynes, cross-shore current',sub:'Beginners / start of season · 15 min'},
-  {cat:'theory',text:'Phonetics alphabet: why (clarity on radios), say your name in phonetics, Sharks & Lifeguards game',sub:'Juniors · 15 min'},
-  {cat:'mainset',text:'Beach flags: competitors ready, heads down on pebbles, whistle — race to flags, correct technique: toes, hands, twist, momentum',sub:'All groups · 15 min'},
-  {cat:'mainset',text:'Board race: beach flags start, board carry on hip, racing entry, bunny hop over waves, prone paddling to marker',sub:'Nippers/Juniors · 20 min'},
-  {cat:'mainset',text:'Board relay: pairs round safety markers, racing start, board entry, bunny hop technique, prone/knee paddling, tag partner',sub:'All groups · 20 min'},
-  {cat:'mainset',text:'Two-up board paddling: both paddle to 50-100m marker; on single whistle front person rolls off, rear person moves forward, original front mounts rear',sub:'Juniors/Youth/Masters · 45 min'},
-  {cat:'mainset',text:'Swim relay obstacle: 50m swim to safety marker, swim under rescue board, climb back over, duck dive collect pebble, swim back',sub:'Juniors/Youth · 20 min'},
-  {cat:'mainset',text:'Endurance swim set: 4×150m steady pace 45s regroup, then 2×200m tempo pace 1 min regroup',sub:'Juniors/Youth/Seniors · 20 min'},
-  {cat:'mainset',text:'Run-swim-run transitions: 3× (150m beach run → 80-100m swim → 150m beach run)',sub:'Youth/Seniors · 10 min'},
-  {cat:'mainset',text:'Board paddle set: 4× (50m paddle → turn buoy → 50m return) moderate pace',sub:'Youth/Seniors · 15 min'},
-  {cat:'mainset',text:'Conscious tube rescue in pairs: swimmer out, rescuer pushes tube, strap over one shoulder not neck; CHUMS on return',sub:'Juniors/Youth · 20 min'},
-  {cat:'mainset',text:'Conscious board rescue in pairs: casualty signals for help, rescuer paddles out, turns board, gets casualty onto board',sub:'Nippers/Juniors · 20 min'},
-  {cat:'mainset',text:'Board rescues: conscious and unconscious; board positioning, speeding up board entry, body position for easiest paddling',sub:'Masters/Seniors/Youth · 30 min'},
-  {cat:'mainset',text:'Shark/fish game: surfer and swimmer tag in the water',sub:'Nippers/Juniors · 10 min'},
-  {cat:'mainset',text:'Rips & Rocks game: pairs in beach flag start, one side Rips other Rocks, shout and try to catch each other',sub:'Juniors · 8 min'},
-  {cat:'mainset',text:'Water entry relay: teams of 4, run into sea to waist deep round safety marker and back',sub:'Nippers · 15 min'},
-  {cat:'mainset',text:'Caterpillar relay in the water: team lines up, person at back goes through legs to front until team reaches shore',sub:'Nippers · 10 min'},
-  {cat:'mainset',text:'Raft up: 3 rescue boards, 6-8 nippers on each, build raft and race to finish. Walk the plank game',sub:'Nippers/Juniors · 15 min'},
-  {cat:'mainset',text:'Medley relay: swim, run, board race in teams of 2-3',sub:'All groups · 20 min'},
-  {cat:'mainset',text:'Wading race: circuit around 2 markers using beach flags start',sub:'Nippers · 10 min'},
-  {cat:'mainset',text:'Surfing free time: divide kids, look after a few each; focus on wiping out safely, protecting head',sub:'Nippers/Juniors · 15 min'},
-  {cat:'mainset',text:'Patrol simulation: casualty assessment, debrief led by participants, reviewing teamwork and communication',sub:'Seniors/Youth · 35 min'},
+  // ── SESSION AIMS ──
+  {cat:'aims',text:'I know how tide, wind and sea conditions influence where I enter the sea for safety and for racing',sub:''},
+  {cat:'aims',text:'Demonstrate correct racing start and bunny hop board entry technique',sub:''},
+  {cat:'aims',text:'Identify a rip current and know the correct self-rescue response',sub:''},
+  {cat:'aims',text:'Perform conscious board rescue: approach, turn board, get casualty on board, return to shore',sub:''},
+  {cat:'aims',text:'Recall all 5 CHUMS questions and apply them in a missing person scenario',sub:''},
+  {cat:'aims',text:'Demonstrate whistle signals: 1, 2, 3, 4 blasts and respond correctly to all 4',sub:''},
+  {cat:'aims',text:'Build confidence in rough water: shore dump entries, going under waves, breath-hold technique',sub:''},
+  {cat:'aims',text:'Complete prone and knee paddling circuit maintaining board trim and correct body position',sub:''},
+  {cat:'aims',text:'Work effectively in partnership: communicate during two-up board paddling and casualty pick-up',sub:''},
+  {cat:'aims',text:'Relay coherent 999 PPP call under simulated stress',sub:''},
+  {cat:'aims',text:'Develop board paddling technique: correct kneeling position, deep catch at front straps, high hip/low chin pull, arms parallel to rails on recovery',sub:''},
+  {cat:'aims',text:'Understand NOP and EAP — know the club Normal Operating Procedure and Emergency Action Plan and apply them in the session briefing',sub:''},
+  {cat:'aims',text:'Develop teamwork, communication and leadership skills through games and relay activities',sub:''},
+  {cat:'aims',text:'Complete a pre-session risk assessment: water state, depth, hazards, temperature, beach conditions, equipment, weather and UV',sub:''},
+  {cat:'aims',text:'Understand ski wash riding positions: side wash (most forward for passing), tail wash (failsafe), V wash (most energy efficient but can be boxed in)',sub:'Seniors/Youth'},
+  {cat:'aims',text:'Complete a 200m pool time trial and set a target time for next assessment — use as baseline for training plan',sub:'Seniors/Masters'},
+  {cat:'aims',text:'Demonstrate correct unconscious board rescue from 100m: approach, load, paddle, beach handover',sub:'Seniors/Masters'},
+  {cat:'aims',text:'Apply correct radio communication procedure under simulated emergency conditions',sub:'Youth/Seniors'},
+  {cat:'aims',text:'Understand and describe the stages of cold water shock and the correct response for self-rescue and helping a casualty',sub:'Seniors/Masters'},
+  {cat:'aims',text:'Set one personal performance goal for the season — swim time, race entry, or rescue qualification',sub:'Youth/Seniors/Masters'},
+  {cat:'aims',text:'Sight accurately to a fixed landmark every 6 strokes without breaking stroke rhythm or veering off course',sub:'Youth/Seniors/Masters'},
+  {cat:'aims',text:'Execute a correct tight buoy turn — approach on correct side, touch and spin without wide arc, maintain speed out of turn',sub:'Youth/Seniors/Masters'},
+  {cat:'aims',text:'Demonstrate correct in-water spinal injury management: stabilise head, log roll with partner, load onto board without rotation',sub:'Seniors/Masters'},
+  {cat:'aims',text:'Complete a run-swim-run transition maintaining race pace — no more than 5s slowdown in first 15m of each run segment after water exit',sub:'Youth/Seniors'},
+  // ── WARM UPS ──
+  {cat:'warmup',text:'Long jog, side step, skip, kick, stretch on beach',sub:'All groups'},
+  {cat:'warmup',text:'Run to wall and back with dynamic stretches',sub:'All groups'},
+  {cat:'warmup',text:'Pairs: over/under plank × 1 min, leap frog to boards, sprint to wall, 5 star jumps, jog back',sub:'Nippers/Juniors'},
+  {cat:'warmup',text:'Gorilla runs on the sand, arm swings & jumps',sub:'All groups'},
+  {cat:'warmup',text:'Run, 5 press ups, run, 5 press ups, run, 5 press ups, back',sub:'All groups'},
+  {cat:'warmup',text:'Whistle warm-up: beach flags start position, 1 blast = hand to ears, 2 = stand, 3 = run, 4 = shout get out of water',sub:'Nippers/Juniors'},
+  {cat:'warmup',text:'Game: 1 = star jump, 2 = burpee, 3 = press ups, 4 = into sea',sub:'Nippers/Juniors'},
+  {cat:'warmup',text:'Light jog, shoulder/hip mobility, short accelerations for entries and transitions',sub:'All groups'},
+  {cat:'warmup',text:'Compass points game: 4 rescue tubes mark N/S/E/W, everyone in the middle. Coach calls a compass point and everyone sprints to it. Last to arrive does a forfeit',sub:'Nippers/Juniors'},
+  {cat:'warmup',text:'Cat and Mouse: 4 cones in 10x10m square, two teams start diagonally, one person from each runs clockwise — cats try to catch mice',sub:'Nippers/Juniors'},
+  {cat:'warmup',text:'Squares: 20x20m square with 4 sides named (e.g. Board, Tube, Groyne, Sea). Coach calls a side, everyone sprints to it — last one eliminated. Variations: start on stomach',sub:'Nippers/Juniors'},
+  {cat:'warmup',text:'Caterpillar sprint: single file 1m apart, person at back zigzags through all team members to reach front. Continue until all have gone. Develops toe-running and agility for beach flags',sub:'Nippers/Juniors'},
+  {cat:'warmup',text:'Dynamic paddle warm-up dryland: arm circles (forward/back), shoulder cross-body stretch, thoracic rotation, wrist circles, press-up hold for 30s — activates rotator cuff before paddling',sub:'All groups'},
+  // ── THEORY ──
+  {cat:'theory',text:'Whistle signals: 1 blast = attract attention, 2 blasts = attract another LG, 3 blasts = immediate situation/LG going in, 4 blasts = mass rescue',sub:'All groups'},
+  {cat:'theory',text:'Hand signals: return to shore, proceed further out, remain stationary, left, right, assistance required',sub:'All groups'},
+  {cat:'theory',text:'CHUMS: Company, Hit head, Unconscious, Medical condition, Submerged/swallowed water',sub:'All groups'},
+  {cat:'theory',text:'Sea conditions: observing tide, wind, swell direction and how they influence safe entry point and racing line',sub:'All groups'},
+  {cat:'theory',text:'Points of the compass: game with 4 tubes marking N/S/E/W, everyone in the middle, run to the called compass point',sub:'Nippers/Juniors'},
+  {cat:'theory',text:'Beach flags and flag meanings: red/yellow swim zone, red flag (no swim), watercraft flag, windsock',sub:'All groups'},
+  {cat:'theory',text:'Waves: shore dump (HT), spiller/surfy (LT), backwash (HT); how wave size relates to wind strength, duration, fetch',sub:'All groups'},
+  {cat:'theory',text:'Tides: neap vs spring, time between tides; Brighton tidal characteristics and how to read them',sub:'All groups'},
+  {cat:'theory',text:'999 / PPP caller exercise: Position, Problem, People — practice under stress with spinners disorientating the caller',sub:'All groups'},
+  {cat:'theory',text:'Dangers of Brighton beach: steeply shelved, cold water, shore dump at HT, piers & groynes, cross-shore current',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'theory',text:'Phonetics alphabet: why (clarity on radios), say your name in phonetics',sub:'Juniors'},
+  {cat:'theory',text:'NOP and EAP: what is the club Normal Operating Procedure, what triggers the Emergency Action Plan, who is responsible for what, how to conduct session briefing to volunteers',sub:'Seniors/Masters'},
+  {cat:'theory',text:'Analytical Risk Assessment: water risks (state, depth, hazards, temperature), beach risks, equipment check, weather/UV — PROCEED / CAUTION / STOP framework',sub:'Seniors/Masters'},
+  {cat:'theory',text:'Sun safety: UV index, when UV is dangerous at Brighton (Apr-Sep), rash vest importance, recognising heat exhaustion vs heat stroke',sub:'All groups'},
+  {cat:'theory',text:'Reading a wave from the beach: identify peak, shoulder, closeout and rip channel. What makes a good entry point for racing vs rescue at Brighton — pebble entry, shore dump at HT',sub:'Seniors/Masters'},
+  {cat:'theory',text:'Resuscitation basics: what triggers CPR, 30:2 ratio, compression depth and rate, recovery position, when to stop — relate to Brighton beach scenarios',sub:'Youth/Seniors/Masters'},
+  {cat:'theory',text:'Personal Safety Network: who are the adults at the club you can ask for help? What to do if separated from the group, lost on the beach, or you witness an incident',sub:'Nippers'},
+  {cat:'theory',text:'Spinal injury management: when to suspect spinal injury in surf (wipeout, dumped by wave, diving), in-water stabilisation, log roll, when to immobilise vs evacuate quickly',sub:'Seniors/Masters'},
+  {cat:'theory',text:'Radio communications: phonetic alphabet, correct procedure for emergency call, channel use, equipment check',sub:'Youth/Seniors/Masters'},
+  {cat:'theory',text:'Cold water immersion and hypothermia: stages of cold water shock, how to help a hypothermic casualty',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'theory',text:'Open water sighting technique: why pool times don\&#39;t predict surf performance, how to sight without breaking stroke rhythm, using landmarks vs buoys, effect of chop and swell on sighting, common errors and fixes',sub:'Youth/Seniors/Masters'},
+  {cat:'theory',text:'Beach sprint biomechanics: pebble vs sand surface differences, arm drive mechanics, acceleration phase vs max velocity phase, how to peak for competition day',sub:'Youth/Seniors/Masters'},
+  // ── MAIN SETS ──
+  {cat:'mainset',text:'Beach flags: competitors ready, heads down on pebbles, whistle — race to flags, correct technique: toes, hands, twist, momentum',sub:'All groups'},
+  {cat:'mainset',text:'Board race: beach flags start, board carry on hip, racing entry, bunny hop over waves, prone paddling to marker',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Board relay: pairs round safety markers, racing start, board entry, bunny hop technique, prone/knee paddling, tag partner',sub:'All groups'},
+  {cat:'mainset',text:'Two-up board paddling: both paddle to 25-50m marker; on single whistle front person rolls off, rear person moves forward, original front mounts rear',sub:'Juniors/Youth/Masters'},
+  {cat:'mainset',text:'Swim relay obstacle: 25m swim to safety marker, swim under rescue board, climb back over, duck dive collect pebble, swim back',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Endurance swim set: 4×75m steady pace 45s regroup, then 2×100m tempo pace 1 min regroup',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Run-swim-run transitions: 3× (75m beach run → 40-50m swim → 75m beach run)',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Board paddle set: 4× (25m paddle → turn buoy → 25m return) moderate pace',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Conscious tube rescue in pairs: swimmer out, rescuer pushes tube, strap over one shoulder not neck; CHUMS on return',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Conscious board rescue in pairs: casualty signals for help, rescuer paddles out, turns board, gets casualty onto board, paddle back to shore',sub:'All groups'},
+  {cat:'mainset',text:'Board rescues: conscious and unconscious; board positioning, speeding up board entry, body position for easiest paddling',sub:'Masters/Seniors/Youth'},
+  {cat:'mainset',text:'Shark/fish game',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Rips & Rocks game: pairs in beach flag start, one side Rips other Rocks, shout and try to catch each other',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Water entry relay: teams of 4, run into sea to waist deep round safety marker and back',sub:'Nippers'},
+  {cat:'mainset',text:'Caterpillar relay in the water: team lines up, person at back goes through legs to front until team reaches shore',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Raft up: 3 rescue boards, build raft and race to finish. Walk the plank game',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Medley relay: swim, run, board race in teams of 2-3',sub:'All groups'},
+  {cat:'mainset',text:'Wading race: circuit around 2 markers using beach flags start',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Surfing free time: divide kids, look after a few each; focus on wiping out safely, protecting head',sub:'Nippers/Juniors/Youth'},
+  {cat:'mainset',text:'All In Dodgeball: 2-3 chasers with ball try to hit others in set time. Hit players stand still and signal for help — released when someone passes through their legs. Can be played on beach, shallow water or on boards',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Fetch: coach hits tennis ball into sea, teams of 3 race in to retrieve it. Variations: start in beach flags position, coach stands further back so participants must sight the ball in flight',sub:'Nippers/Juniors/Youth'},
+  {cat:'mainset',text:'Grand National: teams of 3-4 in relay format, gallop around track and jump obstacles. Add rescue board to carry for extra challenge',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Into the Sea: pairs lie head-to-toe in a line. First person runs over team members to far end and lies down, then shouts go for next person. Continue until all team members have crossed finish line',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Treasure Grab: teams with own base, treasure (balls/flags) spread in central area. Players race one at a time to collect and return treasure. When all gone, teams can steal ONE piece from rivals. Most treasure wins',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Water Flags (Board): pairs face down on boards heads pointing to sea, on whistle turn board and race to shore to grab a flag',sub:'All groups'},
+  {cat:'mainset',text:'Water Flags (Swim): pairs standing chest-depth facing out to sea, on whistle turn and race to shore to grab a flag. Develop: body surfing, dolphin diving, wading technique',sub:'All groups'},
+  {cat:'mainset',text:'Sand Dredge: teams fill small container with sand, charge into sea to empty into helper\&#39;s large container, sprint back and pass container to next person. Variation: use water instead of sand, helper balances container on head',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Wading Bull Rush: tagger tries to catch others wading across shallow water zone. Tagged players become taggers. Develop wading speed and low centre of gravity technique',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Duck Diving Race: course through breaking water, competitors race to far marker using correct duck dive technique under each wave. Focus on timing, streamlined body position',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Body Surfing Flags: participants chest-deep facing out to sea, on whistle body surf back and grab a flag. Combines wave timing, body surfing technique and speed',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Signal Challenge: participants in water, coach signals from shore — participants must respond correctly to each hand signal (return to shore, proceed out, remain stationary, left, right)',sub:'All groups'},
+  {cat:'mainset',text:'Board Series: 5× (sprint paddle 25m, rest 30s) then 3× (50m tempo paddle, rest 60s). Focus on stroke rate vs stroke length, board trim throughout',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Back-to-Back Flags: pairs stand back-to-back in water, on whistle both turn and race for one flag. Only one can win. Develops reaction speed and competitive instinct',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Water Immunity: last person to touch the safety marker when whistle blows is eliminated. Played in waist-deep water',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Bucket Relay: fill small bucket with water, carry to large container, empty and sprint back. Variation: helper balances large container on head',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Fist paddling drill: paddle 2×25m with hands in fists to force forearm engagement and early vertical forearm (EVF). Alternate with normal paddling to feel the difference in catch',sub:'Seniors/Masters'},
+  {cat:'mainset',text:'Wave negotiation circuit: 6× paddle out through break, around buoy, ride wave back. Focus on reading sets, duck dive timing, positioning to catch wave home',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Ironman/Ironwoman simulation: run-swim-board-run transitions with timed rest between disciplines. Focus on quick board pickup, smooth water entry and transition breathing control',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Fartlek ocean swim: 20 min continuous swim alternating 2 min easy / 1 min hard effort. Mirrors real patrol conditions — aerobic base with ability to sprint for a casualty',sub:'Seniors/Masters'},
+  {cat:'mainset',text:'Board interval set: 6× (sprint paddle 50m at max effort, rest 45s). Focus on explosive first 10 strokes from race start, maintaining high elbow catch throughout',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Tube rescue 50m circuit: swim out 50m to casualty with tube, conscious rescue with correct strap placement (over one shoulder, not neck), tow back to shore. 3× each person, swap roles',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Board rescue 100m: paddle out 100m to casualty, correct board approach (turn board before reaching casualty), get casualty on board, return. Progress: add simulated shore dump landing',sub:'Seniors/Masters/Youth'},
+  {cat:'mainset',text:'Unconscious board rescue: approach, stabilise head and neck, roll casualty onto board, paddle to shore, handover to first aider on beach. Debrief on technique after each attempt',sub:'Seniors/Masters'},
+  {cat:'mainset',text:'Competition simulation — run-swim-board-run: beach start, 100m sprint run, wade in, 100m swim around buoy, exit, board paddle 100m around buoy, exit, 100m sprint finish. Timed',sub:'Youth/Seniors'},
+  {cat:'mainset',text:'Patrol simulation with debrief: set scenario (missing swimmer, casualty in water), team manages full response — briefing, entry, rescue, first aid, record. Participants lead the debrief reviewing what worked',sub:'Seniors/Masters'},
+  {cat:'mainset',text:'Open water sighting drill: swim 4×50m in sea sighting every 6 strokes — pick a fixed landmark (groyne, pier), lift eyes just above water on exhale without breaking stroke. Compare with unsighted swim — how far off course?',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Buoy turn race: 3× sprint swim to buoy at 25m, execute tight turn (touch and spin, not wide arc), sprint back. Focus: approach on correct side, sight early, tight arm-over-arm turn to minimise distance',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Sighting under fatigue: 6×25m at 90% effort, sighting every 4 strokes. Rest 20s. Final rep: eyes closed for first 12m then open and correct course. Develops automatic sighting without breaking rhythm',sub:'Seniors/Masters'},
+  {cat:'mainset',text:'Beach sprint technique: 6×15m sprint on pebble — focus on high knees, arm drive at 90°, toe-first landing, leaning forward into acceleration phase. Rest 60s',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Water exit to sprint: 6× wade in to waist-deep, turn, exit through shore dump and sprint 15m to finish line. Focus: dolphin dive last wave, high knees out of water, immediate transition to sprint gait on pebble',sub:'Youth/Seniors/Masters'},
+  {cat:'mainset',text:'Run-swim transition: 4× (50m beach sprint → immediate water entry → 25m sprint swim → exit → 50m sprint finish). Timed with rest 2 min',sub:'Youth/Seniors'},
+  {cat:'mainset',text:'Spinal injury management in surf: practice in-water head stabilisation, manual carry through shore dump. Scenario: wipeout in shallow water, unconscious casualty. Debrief on decision points',sub:'Seniors/Masters/Youth'},
+  {cat:'mainset',text:'Hypothermia management scenario: identify signs of mild/moderate hypothermia (shivering, confusion, cold skin), correct handling, when to call 999 vs warm passively on beach',sub:'Seniors/Masters/Youth'},
+  {cat:'mainset',text:'Multi-casualty beach scenario: 2 casualties (one conscious in water, one unconscious on beach), limited equipment, team must prioritise, communicate roles, execute rescues simultaneously. Timed debrief',sub:'Seniors/Masters/Youth'},
 ];
+
+
+
 const CAT_COLORS={warmup:'#e85d04',theory:'#0891b2',mainset:'#0077b6',aims:'#16a34a'};
 const CAT_LABELS={warmup:'🔥 Warm Ups',theory:'📖 Theory / Knowledge',mainset:'🏊 Main Sets',aims:'🎯 Session Aims'};
-const COOLDOWN_OPTIONS=['Slow board relay','Group stretch circle','Debrief on beach','Free swim / surf','Sardines in shorebreak','Raft up — walk the plank','Individual coaching feedback','One personal focus for next week','Equipment pack-down together','Bodysurf fun time'];
+const COOLDOWN_OPTIONS=['Free swim / surf','Sardines in shorebreak','Raft up — walk the plank','Bodysurf fun time'];
 const EQUIP_LIST=[{id:'rescueboards',label:'Rescue boards'},{id:'raceboards',label:'Race boards'},{id:'tubes',label:'Rescue tubes'},{id:'sup',label:'Giant SUP'}];
 const equipState={};
 EQUIP_LIST.forEach(e=>equipState[e.id]={checked:false});
 const GROUPS=['nippers','juniors','youth','seniors','masters'];
 const GROUP_META={nippers:{icon:'🐬',label:'Nippers',color:'#e85d04'},juniors:{icon:'🏊',label:'Juniors',color:'#0077b6'},youth:{icon:'⚡',label:'Youth',color:'#7c3aed'},seniors:{icon:'🏄',label:'Seniors',color:'#2d6a4f'},masters:{icon:'🥇',label:'Masters',color:'#c1121f'}};
 const sessionData={};
-GROUPS.forEach(g=>sessionData[g]={aims:[],warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''});
-let activeGroup='nippers',activeTarget='aims',draggingChip=null;
+GROUPS.forEach(g=>sessionData[g]={aims:[],aimsText:'',warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''});
+let activeGroup='nippers',activeTarget='warmup',draggingChip=null;
 
 document.addEventListener('DOMContentLoaded',()=>{
   const sat=new Date(),d=sat.getDay();
@@ -411,6 +514,12 @@ function switchGroupSelect(grp){
   activeGroup=grp;
   const s=document.getElementById('groupSelect');
   if(s)s.value=grp;
+  // Sync session time from the schedule page start time for this group
+  const orderItem=document.querySelector(`#sessionOrder .order-item[data-grp="${grp}"]`);
+  if(orderItem){
+    const t=orderItem.querySelector('input')?.value;
+    if(t)document.getElementById('sessionTime').value=t;
+  }
   renderSession(grp);updateAll();
 }
 function openShareModal(){document.getElementById('shareModal').classList.add('open');}
@@ -441,19 +550,24 @@ function renderSession(grp){
     <div class="aims-row">
       <div class="block-hdr">
         <div class="block-hdr-left"><span class="block-dot" style="background:#16a34a"></span>🎯 Session Aims</div>
-        <div style="display:flex;gap:6px;">
-          <button class="add-to-block" style="background:#eff6ff;border-color:#bfdbfe;color:var(--sky);" onclick="aiSuggestBlock('${grp}','aims')">✦</button>
-          <button class="add-to-block" onclick="openLibraryFor('aims')">+ Add</button>
-        </div>
+        <button class="add-to-block" style="background:#eff6ff;border-color:#bfdbfe;color:var(--sky);" onclick="generateAims('${grp}')" id="generateAimsBtn_${grp}">✦ Generate</button>
       </div>
-      <div class="block-items">${(d.aims||[]).length?(d.aims).map((it,i)=>`<div class="dropped-item"><span class="dropped-item-text">${it}</span><button class="rm-btn" onclick="removeItem('${grp}','aims',${i})">✕</button></div>`).join(''):'<div class="drop-hint">Tap + Add to set session aims</div>'}</div>
+      <div style="font-size:12px;color:var(--mid);margin-bottom:8px;">Auto-generated from your warm up, theory &amp; main set — edit freely below</div>
+      <textarea class="notes-area" id="aimsText_${grp}" style="font-size:14px;min-height:80px;" placeholder="Session aims will appear here after tapping ✦ Generate, or write your own…" onchange="sessionData['${grp}'].aimsText=this.value">${d.aimsText||''}</textarea>
     </div>
     ${blockHtml('warmup','🔥 Warm Up','#e85d04')}
     ${blockHtml('theory','📖 Theory','#0891b2')}
     ${blockHtml('mainset','🏊 Main Set','#0077b6')}
     <div class="s-block" style="border-bottom:none;">
       <div class="block-hdr"><div class="block-hdr-left"><span class="block-dot" style="background:#64748b"></span>🌊 Cool Down</div></div>
-      <div>${COOLDOWN_OPTIONS.map(opt=>{const on=cdArr.includes(opt);return`<div class="equip-item ${on?'checked':''}" onclick="toggleCoolDown('${grp}','${opt.replace(/'/g,'&#39;')}')"><div class="equip-check">${on?'✓':''}</div><span class="equip-label">${opt}</span></div>`;}).join('')}</div>
+      <div>
+        ${COOLDOWN_OPTIONS.map(opt=>{const on=cdArr.includes(opt);return`<div class="equip-item ${on?'checked':''}" onclick="toggleCoolDown('${grp}','${opt.replace(/'/g,'&#39;')}')"><div class="equip-check">${on?'✓':''}</div><span class="equip-label">${opt}</span></div>`;}).join('')}
+        ${cdArr.filter(o=>!COOLDOWN_OPTIONS.includes(o)).map((opt,i)=>`<div class="equip-item checked"><div class="equip-check" onclick="toggleCoolDown('${grp}','${opt.replace(/'/g,'&#39;')}')">✓</div><span class="equip-label" style="flex:1;">${opt}</span><button class="rm-btn" onclick="toggleCoolDown('${grp}','${opt.replace(/'/g,'&#39;')}')">✕</button></div>`).join('')}
+        <div style="display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <input type="text" id="cdCustom_${grp}" placeholder="Add custom cool down…" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-family:'Barlow',sans-serif;color:var(--dark);background:#fafafa;outline:none;" onkeydown="if(event.key==='Enter')addCustomCoolDown('${grp}')">
+          <button onclick="addCustomCoolDown('${grp}')" style="flex-shrink:0;background:var(--navy);color:white;border-radius:8px;padding:0 16px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:14px;min-height:var(--tap);">+ Add</button>
+        </div>
+      </div>
     </div>
     <div class="s-block" style="border-bottom:none;">
       <div class="block-hdr"><div class="block-hdr-left"><span class="block-dot" style="background:#94a3b8"></span>📝 Coaching Points</div></div>
@@ -465,19 +579,54 @@ function renderSession(grp){
 
 function toggleCoolDown(grp,opt){const arr=sessionData[grp].coolDown||[];const idx=arr.indexOf(opt);if(idx===-1)arr.push(opt);else arr.splice(idx,1);sessionData[grp].coolDown=arr;renderSession(grp);updateProgress();}
 
+function addCustomCoolDown(grp){
+  const input=document.getElementById('cdCustom_'+grp);
+  if(!input)return;
+  const val=input.value.trim();
+  if(!val)return;
+  const arr=sessionData[grp].coolDown||[];
+  if(!arr.includes(val)){arr.push(val);sessionData[grp].coolDown=arr;}
+  renderSession(grp);updateProgress();
+}
+
 function buildEquipment(){
   const grid=document.getElementById('equipGrid');if(!grid)return;
   grid.innerHTML=EQUIP_LIST.map(e=>{const s=equipState[e.id];return`<div class="equip-item ${s.checked?'checked':''}" onclick="toggleEquip('${e.id}')"><div class="equip-check">${s.checked?'✓':''}</div><span class="equip-label">${e.label}</span></div>`;}).join('');
 }
 function toggleEquip(id){equipState[id].checked=!equipState[id].checked;buildEquipment();}
 
+// Maps each group to the keywords that should match in the sub field
+const GROUP_KEYWORDS = {
+  nippers: ['nippers','all groups','all ages','all'],
+  juniors: ['juniors','all groups','all ages','all'],
+  youth:   ['youth','all groups','all ages','all'],
+  seniors: ['seniors','all groups','all ages','all'],
+  masters: ['masters','all groups','all ages','all'],
+};
+
+function itemMatchesGroup(item, grp){
+  const sub = item.sub.toLowerCase();
+  // If no group keywords present at all, show to everyone
+  const anyGroupKeyword = ['nippers','juniors','youth','seniors','masters','all groups','all ages'].some(k=>sub.includes(k));
+  if(!anyGroupKeyword) return true;
+  // Otherwise check if any of this group's keywords appear in sub
+  return (GROUP_KEYWORDS[grp]||[]).some(k=>sub.includes(k));
+}
+
 function buildLibrary(filter=''){
   const container=document.getElementById('libContent');if(!container)return;
   const q=(filter||'').toLowerCase();
-  const items=LIBRARY.filter(l=>l.cat===activeTarget&&(!q||l.text.toLowerCase().includes(q)||l.sub.toLowerCase().includes(q)));
-  if(!items.length){container.innerHTML='<p style="color:var(--light);font-size:14px;text-align:center;padding:24px 0;">No activities match</p>';return;}
+  const items=LIBRARY.filter(l=>
+    l.cat===activeTarget &&
+    itemMatchesGroup(l, activeGroup) &&
+    (!q||l.text.toLowerCase().includes(q)||l.sub.toLowerCase().includes(q))
+  );
+  if(!items.length){
+    container.innerHTML='<p style="color:var(--light);font-size:14px;text-align:center;padding:24px 0;">No activities match for '+GROUP_META[activeGroup].label+'</p>';
+    return;
+  }
   const color=CAT_COLORS[activeTarget]||'#0077b6';
-  let html=`<div class="lib-cat-hdr" style="color:${color}">${CAT_LABELS[activeTarget]||''}</div>`;
+  let html=`<div class="lib-cat-hdr" style="color:${color}">${CAT_LABELS[activeTarget]||''} <span style="font-weight:400;font-size:10px;color:var(--light);"> — ${items.length} for ${GROUP_META[activeGroup].label}</span></div>`;
   items.forEach(item=>{
     const added=(sessionData[activeGroup][activeTarget]||[]).includes(item.text);
     const safe=item.text.replace(/'/g,'&#39;').replace(/"/g,'&quot;');
@@ -497,6 +646,9 @@ function setTarget(btn){
 function openLibraryFor(blockType){
   activeTarget=blockType;
   document.querySelectorAll('.target-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-block')===blockType));
+  // Update library title to show current group
+  const t=document.getElementById('libTitle');
+  if(t)t.textContent=`📚 ${GROUP_META[activeGroup].icon} ${GROUP_META[activeGroup].label} Library`;
   buildLibrary('');
   showPage('Library',document.getElementById('nav-library'));
 }
@@ -510,11 +662,15 @@ function addAISuggestion(i){
   arr.push(text);
   sessionData[s.grp][s.blockType]=arr;
   LIBRARY.push({cat:s.blockType,text,sub:'✦ AI'});
-  renderSession(s.grp);updateAll();
-  // Mark button as added
+  // Mark button first, before renderSession wipes the DOM
   const btns=document.querySelectorAll('#aiModalBody button');
   if(btns[i]){btns[i].textContent='✓ Added';btns[i].disabled=true;btns[i].style.background='#16a34a';}
   toast('Added to '+s.blockType+' ✓');
+  // Update session in background without closing modal
+  updateProgress();updateAI();
+  // Re-render session card but keep modal open
+  const card=document.getElementById('sessionCard');
+  if(card){renderSession(s.grp);}
 }
 
 function addDirectly(text,cat){
@@ -554,24 +710,51 @@ function blockDrop(e,grp,bt){
 }
 function removeItem(grp,bt,idx){sessionData[grp][bt].splice(idx,1);renderSession(grp);updateAll();buildLibrary(document.getElementById('libSearch').value);}
 
-function clearSession(grp){sessionData[grp]={aims:[],warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''};renderSession(grp);updateAll();buildLibrary();toast('Session cleared');}
-function clearAll(){GROUPS.forEach(g=>sessionData[g]={aims:[],warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''});renderSession(activeGroup);updateAll();buildLibrary();toast('All cleared');}
+function clearSession(grp){sessionData[grp]={aims:[],aimsText:'',warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''};renderSession(grp);updateAll();buildLibrary();toast('Session cleared');}
+function clearAll(){GROUPS.forEach(g=>sessionData[g]={aims:[],aimsText:'',warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''});renderSession(activeGroup);updateAll();buildLibrary();toast('All cleared');}
 
 function updateProgress(){
-  // Update dropdown ticks only
   const sel=document.getElementById('groupSelect');
   if(!sel)return;
   GROUPS.forEach(g=>{
     const opt=sel.querySelector(`option[value="${g}"]`);if(!opt)return;
     const m=GROUP_META[g];
-    const filled=['aims','warmup','theory','mainset'].filter(b=>(sessionData[g][b]||[]).length).length;
-    opt.textContent=`${m.icon} ${m.label}${filled===4?' ✓':''}`;
+    const filled=['warmup','theory','mainset'].filter(b=>(sessionData[g][b]||[]).length).length;
+    const hasAims=!!(sessionData[g].aimsText||'').trim();
+    opt.textContent=`${m.icon} ${m.label}${(filled===3&&hasAims)?' ✓':''}`;
   });
 }
 
 function updateTimeSummary(){}
 
-function updateAll(){updateProgress();updateTimeSummary();updateAI();}
+function syncTimeFromSchedule(grp, time){
+  // If this group is currently active, update the session time field too
+  if(grp === activeGroup && time){
+    document.getElementById('sessionTime').value = time;
+  }
+}
+
+function updateAll(){updateProgress();updateTimeSummary();updateAI();updateTideLinks();}
+
+function updateTideLinks(){
+  const date=document.getElementById('sessionDate').value;
+  const admiralty=document.getElementById('admiraltyLink');
+  const bbc=document.getElementById('bbcTideLink');
+  if(!admiralty||!bbc||!date)return;
+
+  // ADMIRALTY EasyTide: PortID=0082 (Brighton Marina), date param = YYYY-MM-DD
+  admiralty.href='https://easytide.admiralty.co.uk/?PortID=0082&date='+date;
+  admiralty.textContent='ADMIRALTY EasyTide ('+formatShortDate(date)+')';
+
+  // BBC tide tables for Brighton don't support a date param, but update label
+  bbc.textContent='BBC Tides Brighton';
+}
+
+function formatShortDate(dateStr){
+  if(!dateStr)return'';
+  const d=new Date(dateStr+'T12:00:00');
+  return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+}
 
 function updateAI(swellM,windMph){
   const d=sessionData[activeGroup],m=GROUP_META[activeGroup],notes=[];
@@ -580,8 +763,47 @@ function updateAI(swellM,windMph){
   if(!d.warmup.length)notes.push({type:'warn',msg:`⚠ ${m.label}: no warm up added.`});
   if(!d.mainset.length)notes.push({type:'warn',msg:`⚠ ${m.label}: no main set added.`});
   if(!d.theory.length)notes.push({type:'ok',msg:`💡 Add theory — CHUMS, signals or rips work well.`});
-  if(d.aims.length&&d.warmup.length&&d.mainset.length&&d.theory.length)notes.push({type:'ok',msg:`✅ ${m.label} session looks complete!`});
+  if(!(d.aimsText||'').trim())notes.push({type:'ok',msg:`💡 Tap ✦ Generate to create session aims from your plan.`});
+  if((d.aimsText||'').trim()&&d.warmup.length&&d.mainset.length&&d.theory.length)notes.push({type:'ok',msg:`✅ ${m.label} session looks complete!`});
   document.getElementById('aiPanel').innerHTML='<div class="ai-label">✦ COACH NOTES</div>'+(notes.length?notes.map(n=>`<div class="ai-note ${n.type}">${n.msg}</div>`).join(''):'<div class="ai-note">Build the session to see suggestions.</div>');
+}
+
+async function generateAims(grp){
+  const d=sessionData[grp],m=GROUP_META[grp];
+  const btn=document.getElementById('generateAimsBtn_'+grp);
+  const textarea=document.getElementById('aimsText_'+grp);
+  if(!d.warmup.length&&!d.theory.length&&!d.mainset.length){
+    toast('Add warm up, theory or main set first');return;
+  }
+  if(btn){btn.textContent='⏳ Generating…';btn.disabled=true;}
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:
+        `You are an expert surf lifesaving coach at Brighton SLSC, UK. Based on this ${m.label} session plan, write 2-3 clear, concise session aims suitable for ${m.label}. Brighton beach: pebble, steeply shelved, shore dump at HT.
+
+Warm up: ${d.warmup.join('; ')||'none'}
+Theory: ${d.theory.join('; ')||'none'}
+Main set: ${d.mainset.join('; ')||'none'}
+
+Write the aims as simple numbered sentences starting with "By the end of this session, participants will be able to..." or "Participants will develop...". No bullet points, no markdown, no headings. Plain text only, each aim on its own line.`
+      }]})
+    });
+    const data=await res.json();
+    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+    if(textarea){
+      // If there's existing text, append rather than overwrite
+      const existing=(sessionData[grp].aimsText||'').trim();
+      textarea.value = existing ? existing+'\n\n'+text : text;
+      sessionData[grp].aimsText=textarea.value;
+    }
+    updateProgress();
+    toast('✦ Session aims generated — edit as needed');
+  }catch(e){
+    toast('Could not reach AI — check connection');
+    console.error('generateAims:',e);
+  }
+  if(btn){btn.textContent='✦ Generate';btn.disabled=false;}
 }
 
 async function aiSuggestBlock(grp, blockType){
@@ -594,7 +816,7 @@ async function aiSuggestBlock(grp, blockType){
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,messages:[{role:'user',content:
-        `You are an expert surf lifesaving coach at Brighton SLSC, UK. Group: ${m.label}. Brighton beach: pebble, steeply shelved, shore dump at HT, spiller at LT.\nCurrent session: Warm-up: ${d.warmup.join('; ')||'empty'}, Theory: ${d.theory.join('; ')||'empty'}, Main set: ${d.mainset.join('; ')||'empty'}, Aims: ${d.aims.join('; ')||'empty'}.\nSuggest 3 "${blockType}" activities only. Use Brighton SLSC terminology. Return ONLY a JSON array of strings, no objects, no markdown: ["activity one","activity two","activity three"]`
+        `You are an expert surf lifesaving coach at Brighton SLSC, UK. Group: ${m.label}. Brighton beach: pebble, steeply shelved, shore dump at HT, spiller at LT.\nCurrent session: Warm-up: ${d.warmup.join('; ')||'empty'}, Theory: ${d.theory.join('; ')||'empty'}, Main set: ${d.mainset.join('; ')||'empty'}, Aims: ${(d.aimsText||'').trim()||'empty'}.\nSuggest 3 "${blockType}" activities only. Use Brighton SLSC terminology. Return ONLY a JSON array of strings, no objects, no markdown: ["activity one","activity two","activity three"]`
       }]})
     });
     const data=await res.json();
@@ -612,8 +834,70 @@ async function aiSuggestBlock(grp, blockType){
           <button onclick="addAISuggestion(${i})" style="flex-shrink:0;background:var(--sky);color:white;border-radius:6px;padding:6px 14px;font-size:13px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;border:none;cursor:pointer;">+ Add</button>
         </div>`).join('')}`;
   }catch(err){
-    document.getElementById('aiModalBody').innerHTML='<div style="color:var(--red);font-size:14px;">Could not reach AI — check connection.</div>';
+    console.error('aiSuggestBlock error:', err);
+    document.getElementById('aiModalBody').innerHTML='<div style="color:var(--red);font-size:14px;">Error: '+err.message+'</div>';
   }
+}
+
+async function fetchTides(){
+  const btn=document.getElementById('fetchTidesBtn');
+  const date=document.getElementById('sessionDate').value;
+  if(!date){toast('Set a session date first');return;}
+  btn.textContent='⏳…';btn.disabled=true;
+
+  // Build tidetimes.org.uk URL for Brighton Marina on session date
+  const d=new Date(date+'T12:00:00');
+  const dateStr=d.getFullYear().toString()+
+    String(d.getMonth()+1).padStart(2,'0')+
+    String(d.getDate()).padStart(2,'0');
+  const tideUrl=`https://www.tidetimes.org.uk/brighton-marina-tide-times-${dateStr}`;
+
+  try{
+    // Fetch the page via Claude API with web search tool so it can retrieve the URL
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:
+          `Fetch the tide times for Brighton Marina on ${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})} from this URL: ${tideUrl}
+
+Extract ALL high and low tides for that specific date. Return ONLY this JSON, no other text:
+{"tides":[{"type":"HT","time":"06:14","height":"6.2m"},{"type":"LT","time":"12:28","height":"0.9m"}]}
+
+Use 24hr time format. Include all tides for the day in chronological order.`
+        }]
+      })
+    });
+    const data=await res.json();
+    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+    const match=text.match(/\{[\s\S]*\}/);
+    if(!match)throw new Error('No JSON found');
+    const result=JSON.parse(match[0]);
+    const tides=result.tides||[];
+
+    // Find first LT and first HT
+    const lt=tides.find(t=>t.type==='LT');
+    const ht=tides.find(t=>t.type==='HT');
+    // Also find afternoon tides
+    const lt2=tides.filter(t=>t.type==='LT')[1];
+    const ht2=tides.filter(t=>t.type==='HT')[1];
+
+    // Format as "HH:MM Xm" — fill LT and HT fields with all tides
+    const ltAll=tides.filter(t=>t.type==='LT').map(t=>`${t.time} ${t.height}`).join(' / ');
+    const htAll=tides.filter(t=>t.type==='HT').map(t=>`${t.time} ${t.height}`).join(' / ');
+
+    if(ltAll)document.getElementById('ltTime').value=ltAll;
+    if(htAll)document.getElementById('htTime').value=htAll;
+
+    toast(`✓ Tides filled for ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}`);
+  }catch(e){
+    toast('⚠ Could not fetch tides — check connection');
+    console.error('fetchTides:',e);
+  }
+  btn.textContent='⛅ Auto-fill';btn.disabled=false;
 }
 
 async function fetchAirTemp(){
@@ -727,6 +1011,20 @@ function savePlan(){
   toast('Plan saved ✓');
 }
 
+function copyFeedback(){
+  const text=document.getElementById('feedbackText').value.trim();
+  if(!text){toast('Please type your feedback first');return;}
+  navigator.clipboard.writeText(text).then(()=>{
+    toast('Copied! Now send to Dan P 👍');
+  }).catch(()=>{
+    // Fallback for older browsers
+    const ta=document.createElement('textarea');
+    ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    toast('Copied! Now send to Dan P 👍');
+  });
+}
+
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 </script>
 
@@ -748,9 +1046,11 @@ function injectPrint(){
   const planB=document.getElementById('planBNotes').value;
   const equip=EQUIP_LIST.filter(e=>equipState[e.id].checked).map(e=>e.label).join(', ');
   const dateStr=date?new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'—';
-  const ordered=[...document.querySelectorAll('#sessionOrder .order-item')].map(i=>({grp:i.getAttribute('data-grp'),time:i.querySelector('input')?.value||''}));
-  let groups=ordered.filter(({grp})=>{const d=sessionData[grp];return d.warmup.length||d.theory.length||d.mainset.length||d.aims.length;});
-  if(!groups.length)groups=ordered;
+  // Print only the currently selected group
+  const grpTime = [...document.querySelectorAll('#sessionOrder .order-item')]
+    .find(i=>i.getAttribute('data-grp')===activeGroup);
+  const time = grpTime?.querySelector('input')?.value || '09:00';
+  const groups = [{grp: activeGroup, time}];
   const tmins=t=>{if(!t)return 9*60;const[h,m]=t.split(':').map(Number);return h*60+(m||0);};
   const tstr=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
   let html='<div id="printOverlay">';
@@ -768,7 +1068,7 @@ function injectPrint(){
       <table style="width:100%;border-collapse:collapse;margin-bottom:5pt">
         <tr><td style="border:1pt solid black;padding:4pt 6pt;width:30%"><strong>Date:</strong> ${dateStr}<br><strong>Group:</strong> ${m.icon} ${m.label}</td><td style="border:1pt solid black;padding:4pt 6pt;width:40%"><strong>LT:</strong> ${lt} &nbsp;<strong>HT:</strong> ${ht}<br><strong>Swell:</strong> ${wS} @ ${wP} &nbsp;<strong>Wind:</strong> ${wW} ${wD}<br><strong>Air:</strong> ${wT} &nbsp;<strong>Sea:</strong> ${wSea} &nbsp;<strong>Current:</strong> ${cur}</td><td style="border:1pt solid black;padding:4pt 6pt;width:30%"><strong>Location:</strong> Brighton Beach<br><strong>Start:</strong> ${time}</td></tr>
         <tr><td style="border:1pt solid black;padding:4pt 6pt"><strong>Coach:</strong> ${coach}</td><td colspan="2" style="border:1pt solid black;padding:4pt 6pt"><strong>Safety Cover:</strong> ${safety}</td></tr>
-        <tr><td colspan="3" style="border:1pt solid black;padding:4pt 6pt"><strong>Session Aims:</strong> ${(d.aims||[]).join(' · ')||'—'}</td></tr>
+        <tr><td colspan="3" style="border:1pt solid black;padding:4pt 6pt"><strong>Session Aims:</strong> ${(d.aimsText||'').trim()||'—'}</td></tr>
       </table>
       <table style="width:100%;border-collapse:collapse;font-size:9pt">
         <tr><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:12%">Time</th><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:53%">Activity</th><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:35%">Coaching Points</th></tr>
