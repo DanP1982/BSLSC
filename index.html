@@ -171,7 +171,13 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   </div>
   <div class="card">
     <div class="card-hdr"><div class="card-hdr-title">🎒 Equipment</div><span style="font-size:11px;color:var(--light);">tap to check off</span></div>
-    <div class="card-body" style="padding-top:4px;padding-bottom:4px;"><div id="equipGrid"></div></div>
+    <div class="card-body" style="padding-top:4px;padding-bottom:4px;">
+      <div id="equipGrid"></div>
+      <div style="display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+        <input type="text" id="equipCustomInput" placeholder="Add custom equipment…" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-family:'Barlow',sans-serif;color:var(--dark);background:#fafafa;outline:none;" onkeydown="if(event.key==='Enter')addCustomEquip()">
+        <button onclick="addCustomEquip()" style="flex-shrink:0;background:var(--navy);color:white;border-radius:8px;padding:0 16px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:14px;min-height:var(--tap);">+ Add</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -300,8 +306,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 
 <nav class="bottom-nav">
   <button class="nav-btn active" id="nav-builder" onclick="showPage('Builder',this)"><span class="nav-icon">📋</span>Session</button>
-  <button class="nav-btn" id="nav-library" onclick="showPage('Library',this)"><span class="nav-icon">📚</span>Library</button>
   <button class="nav-btn" id="nav-weather" onclick="showPage('Weather',this)"><span class="nav-icon">⛅</span>Weather</button>
+  <button class="nav-btn" id="nav-library" onclick="showPage('Library',this)"><span class="nav-icon">📚</span>Library</button>
   <button class="nav-btn" id="nav-schedule" onclick="showPage('Schedule',this)"><span class="nav-icon">📊</span>Schedule</button>
   <button class="nav-btn" id="nav-guidance" onclick="showPage('Guidance',this)"><span class="nav-icon">ℹ️</span>Guide</button>
 </nav>
@@ -487,6 +493,7 @@ const CAT_LABELS={warmup:'🔥 Warm Ups',theory:'📖 Theory / Knowledge',mainse
 const COOLDOWN_OPTIONS=['Free swim / surf','Sardines in shorebreak','Raft up — walk the plank','Bodysurf fun time'];
 const EQUIP_LIST=[{id:'rescueboards',label:'Rescue boards'},{id:'raceboards',label:'Race boards'},{id:'tubes',label:'Rescue tubes'},{id:'sup',label:'Giant SUP'}];
 const equipState={};
+const equipCustom=[];
 EQUIP_LIST.forEach(e=>equipState[e.id]={checked:false});
 const GROUPS=['nippers','juniors','youth','seniors','masters'];
 const GROUP_META={nippers:{icon:'🐬',label:'Nippers',color:'#e85d04'},juniors:{icon:'🏊',label:'Juniors',color:'#0077b6'},youth:{icon:'⚡',label:'Youth',color:'#7c3aed'},seniors:{icon:'🏄',label:'Seniors',color:'#2d6a4f'},masters:{icon:'🥇',label:'Masters',color:'#c1121f'}};
@@ -591,9 +598,18 @@ function addCustomCoolDown(grp){
 
 function buildEquipment(){
   const grid=document.getElementById('equipGrid');if(!grid)return;
-  grid.innerHTML=EQUIP_LIST.map(e=>{const s=equipState[e.id];return`<div class="equip-item ${s.checked?'checked':''}" onclick="toggleEquip('${e.id}')"><div class="equip-check">${s.checked?'✓':''}</div><span class="equip-label">${e.label}</span></div>`;}).join('');
+  const standard=EQUIP_LIST.map(e=>{const s=equipState[e.id];return`<div class="equip-item ${s.checked?'checked':''}" onclick="toggleEquip('${e.id}')"><div class="equip-check">${s.checked?'✓':''}</div><span class="equip-label">${e.label}</span></div>`;}).join('');
+  const custom=(equipCustom||[]).map((label,i)=>`<div class="equip-item checked"><div class="equip-check">✓</div><span class="equip-label" style="flex:1;">${label}</span><button class="rm-btn" onclick="removeCustomEquip(${i})">✕</button></div>`).join('');
+  grid.innerHTML=standard+custom;
 }
 function toggleEquip(id){equipState[id].checked=!equipState[id].checked;buildEquipment();}
+function addCustomEquip(){
+  const inp=document.getElementById('equipCustomInput');
+  if(!inp)return;
+  const val=inp.value.trim();if(!val)return;
+  equipCustom.push(val);inp.value='';buildEquipment();
+}
+function removeCustomEquip(i){equipCustom.splice(i,1);buildEquipment();}
 
 // Maps each group to the keywords that should match in the sub field
 const GROUP_KEYWORDS = {
@@ -791,6 +807,7 @@ Write the aims as simple numbered sentences starting with "By the end of this se
     });
     const data=await res.json();
     const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+    if(!text)throw new Error('No text response from AI');
     if(textarea){
       // If there's existing text, append rather than overwrite
       const existing=(sessionData[grp].aimsText||'').trim();
@@ -816,12 +833,17 @@ async function aiSuggestBlock(grp, blockType){
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,messages:[{role:'user',content:
-        `You are an expert surf lifesaving coach at Brighton SLSC, UK. Group: ${m.label}. Brighton beach: pebble, steeply shelved, shore dump at HT, spiller at LT.\nCurrent session: Warm-up: ${d.warmup.join('; ')||'empty'}, Theory: ${d.theory.join('; ')||'empty'}, Main set: ${d.mainset.join('; ')||'empty'}, Aims: ${(d.aimsText||'').trim()||'empty'}.\nSuggest 3 "${blockType}" activities only. Use Brighton SLSC terminology. Return ONLY a JSON array of strings, no objects, no markdown: ["activity one","activity two","activity three"]`
+        `You are an expert surf lifesaving coach at Brighton SLSC, UK. Group: ${m.label}. Brighton beach: pebble, steeply shelved, shore dump at HT, spiller at LT.\nCurrent session: Warm-up: ${d.warmup.join('; ')||'empty'}, Theory: ${d.theory.join('; ')||'empty'}, Main set: ${d.mainset.join('; ')||'empty'}.\nSuggest 3 "${blockType}" activities only. Use Brighton SLSC terminology (bunny hop, shore dump, CHUMS, beach flags, groyne, prone/knee paddling). Return ONLY a JSON array of 3 strings, no objects, no markdown, no explanation: ["activity one","activity two","activity three"]`
       }]})
     });
     const data=await res.json();
-    const raw=data.content?.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
-    const suggestions=JSON.parse(raw);
+    // Extract only text blocks (ignore tool_use, tool_result etc)
+    const raw=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+    if(!raw)throw new Error('No text response from AI');
+    // Find JSON array in response
+    const arrMatch=raw.match(/\[[\s\S]*\]/);
+    if(!arrMatch)throw new Error('No JSON array found in: '+raw.substring(0,100));
+    const suggestions=JSON.parse(arrMatch[0]);
 
     // Store for safe index-based access
     window._aiSuggestions={grp,blockType,items:suggestions};
@@ -845,56 +867,49 @@ async function fetchTides(){
   if(!date){toast('Set a session date first');return;}
   btn.textContent='⏳…';btn.disabled=true;
 
-  // Build tidetimes.org.uk URL for Brighton Marina on session date
   const d=new Date(date+'T12:00:00');
-  const dateStr=d.getFullYear().toString()+
-    String(d.getMonth()+1).padStart(2,'0')+
-    String(d.getDate()).padStart(2,'0');
+  const dayStr=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const dateStr=d.getFullYear().toString()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
   const tideUrl=`https://www.tidetimes.org.uk/brighton-marina-tide-times-${dateStr}`;
 
   try{
-    // Fetch the page via Claude API with web search tool so it can retrieve the URL
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
-        max_tokens:300,
+        max_tokens:500,
         tools:[{type:'web_search_20250305',name:'web_search'}],
         messages:[{role:'user',content:
-          `Fetch the tide times for Brighton Marina on ${d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})} from this URL: ${tideUrl}
+          `Search for the tide times at Brighton Marina, UK on ${dayStr}. Use the URL ${tideUrl} or search "Brighton Marina tide times ${dayStr}".
 
-Extract ALL high and low tides for that specific date. Return ONLY this JSON, no other text:
+Find ALL high tide (HT) and low tide (LT) times and heights for that specific date.
+
+Respond with ONLY this JSON and nothing else:
 {"tides":[{"type":"HT","time":"06:14","height":"6.2m"},{"type":"LT","time":"12:28","height":"0.9m"}]}
 
-Use 24hr time format. Include all tides for the day in chronological order.`
+Use 24-hour time format. List all tides for the day in chronological order.`
         }]
       })
     });
     const data=await res.json();
+    // Extract text content only (ignore tool_use blocks)
     const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-    const match=text.match(/\{[\s\S]*\}/);
-    if(!match)throw new Error('No JSON found');
+    if(!text)throw new Error('No text response');
+    const match=text.match(/\{[\s\S]*?\}/);
+    if(!match)throw new Error('No JSON in response');
     const result=JSON.parse(match[0]);
     const tides=result.tides||[];
+    if(!tides.length)throw new Error('No tides found');
 
-    // Find first LT and first HT
-    const lt=tides.find(t=>t.type==='LT');
-    const ht=tides.find(t=>t.type==='HT');
-    // Also find afternoon tides
-    const lt2=tides.filter(t=>t.type==='LT')[1];
-    const ht2=tides.filter(t=>t.type==='HT')[1];
-
-    // Format as "HH:MM Xm" — fill LT and HT fields with all tides
     const ltAll=tides.filter(t=>t.type==='LT').map(t=>`${t.time} ${t.height}`).join(' / ');
     const htAll=tides.filter(t=>t.type==='HT').map(t=>`${t.time} ${t.height}`).join(' / ');
 
     if(ltAll)document.getElementById('ltTime').value=ltAll;
     if(htAll)document.getElementById('htTime').value=htAll;
-
     toast(`✓ Tides filled for ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}`);
   }catch(e){
-    toast('⚠ Could not fetch tides — check connection');
+    toast('⚠ Could not fetch tides — try manual lookup');
     console.error('fetchTides:',e);
   }
   btn.textContent='⛅ Auto-fill';btn.disabled=false;
@@ -966,7 +981,7 @@ async function fetchAirTemp(){
              parseFloat(document.getElementById('wWind').textContent)||0);
     toast('✓ '+filled+' conditions filled from Open-Meteo');
   }else{
-    toast('⚠ Fetch failed — host on HTTPS to enable weather');
+    toast('⚠ Weather fetch failed — check connection and try again');
   }
 
   btn.textContent='⛅ Populate Weather';btn.disabled=false;
@@ -1005,7 +1020,7 @@ async function handleUpload(event){
 }
 
 function savePlan(){
-  const plan={date:document.getElementById('sessionDate').value,time:document.getElementById('sessionTime').value,coach:document.getElementById('coachName').value,safety:document.getElementById('safetyCover').value,weather:{airTemp:document.getElementById('wTemp').textContent,wind:document.getElementById('wWind').textContent,windDir:document.getElementById('wDir').textContent,swell:document.getElementById('wSwell').textContent,period:document.getElementById('wPeriod').textContent,swellDir:document.getElementById('wSwellDir').textContent,seaTemp:document.getElementById('wSea').textContent,lt:document.getElementById('ltTime').value,ht:document.getElementById('htTime').value,current:document.getElementById('current').value},sessions:sessionData,safetyNotes:document.getElementById('safetyNotes').value,planB:document.getElementById('planBNotes').value,equipment:EQUIP_LIST.filter(e=>equipState[e.id].checked).map(e=>e.label).join(', ')};
+  const plan={date:document.getElementById('sessionDate').value,time:document.getElementById('sessionTime').value,coach:document.getElementById('coachName').value,safety:document.getElementById('safetyCover').value,weather:{airTemp:document.getElementById('wTemp').textContent,wind:document.getElementById('wWind').textContent,windDir:document.getElementById('wDir').textContent,swell:document.getElementById('wSwell').textContent,period:document.getElementById('wPeriod').textContent,swellDir:document.getElementById('wSwellDir').textContent,seaTemp:document.getElementById('wSea').textContent,lt:document.getElementById('ltTime').value,ht:document.getElementById('htTime').value,current:document.getElementById('current').value},sessions:sessionData,safetyNotes:document.getElementById('safetyNotes').value,planB:document.getElementById('planBNotes').value,equipment:[...EQUIP_LIST.filter(e=>equipState[e.id].checked).map(e=>e.label),...equipCustom].join(', ')};
   const blob=new Blob([JSON.stringify(plan,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='BSLSC-'+(plan.date||'plan')+'.json';a.click();
   toast('Plan saved ✓');
@@ -1044,7 +1059,7 @@ function injectPrint(){
   const wP=document.getElementById('wPeriod').textContent,wSea=document.getElementById('wSea').textContent;
   const safetyNotes=document.getElementById('safetyNotes').value;
   const planB=document.getElementById('planBNotes').value;
-  const equip=EQUIP_LIST.filter(e=>equipState[e.id].checked).map(e=>e.label).join(', ');
+  const equip=[...EQUIP_LIST.filter(e=>equipState[e.id].checked).map(e=>e.label),...equipCustom].join(', ');
   const dateStr=date?new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'—';
   // Print only the currently selected group
   const grpTime = [...document.querySelectorAll('#sessionOrder .order-item')]
@@ -1052,17 +1067,18 @@ function injectPrint(){
   const time = grpTime?.querySelector('input')?.value || '09:00';
   const groups = [{grp: activeGroup, time}];
   const tmins=t=>{if(!t)return 9*60;const[h,m]=t.split(':').map(Number);return h*60+(m||0);};
-  const tstr=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
   let html='<div id="printOverlay">';
   groups.forEach(({grp,time},idx)=>{
     const d=sessionData[grp],m=GROUP_META[grp],rows=[];
-    let c=tmins(time);
-    rows.push({t:tstr(c),act:'Safety briefing & register',cp:'Conditions, plan, buddy pairs, equipment check',sect:false});c+=5;
-    if(d.warmup.length){rows.push({t:tstr(c),act:d.warmup.join('\n'),cp:'Get warm. Correct technique.',sect:true,sl:'Warm Up'});c+=10*d.warmup.length;}
-    if(d.theory.length){rows.push({t:tstr(c),act:d.theory.join('\n'),cp:'Knowledge',sect:true,sl:'Theory / Knowledge'});c+=12*d.theory.length;}
-    if(d.mainset.length){rows.push({t:tstr(c),act:d.mainset.join('\n'),cp:d.coachingPoints||'Coaching Points',sect:true,sl:'Main Set'});c+=25*d.mainset.length;}
-    if((d.coolDown||[]).length){rows.push({t:tstr(c),act:d.coolDown.join('\n'),cp:'Cool down',sect:true,sl:'Cool Down'});}
-    const tRows=rows.map(r=>r.sect?`<tr><td colspan="3" style="background:#e8eef8;font-weight:bold;padding:3pt 6pt;border:.5pt solid #888">— ${r.sl} —</td></tr><tr><td style="border:.5pt solid #888;padding:4pt 6pt;font-weight:bold;white-space:nowrap">${r.t}</td><td style="border:.5pt solid #888;padding:4pt 6pt;white-space:pre-line">${r.act}</td><td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt">${r.cp}</td></tr>`:`<tr><td style="border:.5pt solid #888;padding:4pt 6pt;font-weight:bold;white-space:nowrap">${r.t}</td><td style="border:.5pt solid #888;padding:4pt 6pt">${r.act}</td><td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt">${r.cp}</td></tr>`).join('');
+    rows.push({act:'Safety briefing & register',cp:'Conditions, plan, buddy pairs, equipment check',sect:false});
+    if(d.warmup.length){rows.push({act:d.warmup.join('\n'),cp:'Get warm. Correct technique.',sect:true,sl:'Warm Up'});}
+    if(d.theory.length){rows.push({act:d.theory.join('\n'),cp:'Knowledge',sect:true,sl:'Theory / Knowledge'});}
+    if(d.mainset.length){rows.push({act:d.mainset.join('\n'),cp:d.coachingPoints||'Coaching Points',sect:true,sl:'Main Set'});}
+    if((d.coolDown||[]).length){rows.push({act:d.coolDown.join('\n'),cp:'Cool down',sect:true,sl:'Cool Down'});}
+    const tRows=rows.map(r=>r.sect
+      ?`<tr><td colspan="2" style="background:#e8eef8;font-weight:bold;padding:3pt 6pt;border:.5pt solid #888">— ${r.sl} —</td></tr><tr><td style="border:.5pt solid #888;padding:4pt 6pt;white-space:pre-line;width:60%">${r.act}</td><td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt;width:40%">${r.cp}</td></tr>`
+      :`<tr><td style="border:.5pt solid #888;padding:4pt 6pt;width:60%">${r.act}</td><td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt;width:40%">${r.cp}</td></tr>`
+    ).join('');
     html+=`<div style="page-break-after:${idx===groups.length-1?'avoid':'always'};padding:12pt 14pt;font-family:Arial,sans-serif;font-size:9pt;">
       <div style="text-align:center;font-size:14pt;font-weight:bold;text-transform:uppercase;letter-spacing:1pt;margin-bottom:5pt">Brighton SLSC — Coaching Session Plan</div>
       <table style="width:100%;border-collapse:collapse;margin-bottom:5pt">
@@ -1071,7 +1087,7 @@ function injectPrint(){
         <tr><td colspan="3" style="border:1pt solid black;padding:4pt 6pt"><strong>Session Aims:</strong> ${(d.aimsText||'').trim()||'—'}</td></tr>
       </table>
       <table style="width:100%;border-collapse:collapse;font-size:9pt">
-        <tr><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:12%">Time</th><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:53%">Activity</th><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:35%">Coaching Points</th></tr>
+        <tr><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:60%">Activity</th><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:40%">Coaching Points</th></tr>
         ${tRows}
       </table>
       ${(planB||safetyNotes)?`<table style="width:100%;border-collapse:collapse;margin-top:5pt;font-size:9pt"><tr>${safetyNotes?`<td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Safety Notes:</strong><br>${safetyNotes}</td>`:''}${planB?`<td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Plan B:</strong><br>${planB}</td>`:''}</tr></table>`:''}
