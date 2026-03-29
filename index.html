@@ -2,161 +2,189 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="BSLSC Planner">
 <meta name="theme-color" content="#00264d">
 <title>Brighton SLSC · Session Planner</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy:#00264d; --blue:#003f7f; --sky:#0077b6; --red:#c1121f;
-  --yellow:#ffd60a; --foam:#caf0f8; --dark:#111827; --mid:#4b5563;
-  --light:#9ca3af; --border:#e5e7eb; --bg:#f1f5f9; --white:#ffffff;
-  --c-warmup:#e85d04; --c-theory:#0891b2; --c-mainset:#0077b6; --c-aims:#16a34a;
-  --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
-  --tap:48px; --radius:12px; --radius-sm:8px;
+:root{
+  --navy:#00264d;--blue:#003f7f;--sky:#0077b6;--red:#c1121f;
+  --yellow:#ffd60a;--foam:#caf0f8;--dark:#111827;--mid:#4b5563;
+  --light:#9ca3af;--border:#e5e7eb;--bg:#f1f5f9;--white:#ffffff;
+  --c-warmup:#e85d04;--c-theory:#0891b2;--c-mainset:#0077b6;
+  --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
+  --tap:48px;--r:12px;--rs:8px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{height:100%}
-body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--dark);height:100%;overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
-input,select,textarea,button{font-size:16px;-webkit-tap-highlight-color:transparent}
-button{cursor:pointer;border:none;background:none;font-family:inherit}
+html,body{height:100%}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--dark);overflow:hidden;touch-action:manipulation;-webkit-text-size-adjust:100%}
+input,select,textarea,button{font-size:16px;-webkit-tap-highlight-color:transparent;font-family:inherit}
+button{cursor:pointer;border:none;background:none}
+/* APP SHELL */
 .app{display:flex;flex-direction:column;height:100%;height:100dvh}
-.top-bar{background:var(--navy);padding-top:calc(var(--safe-top) + 8px);padding-left:16px;padding-right:16px;padding-bottom:0;flex-shrink:0;z-index:40}
+/* TOP BAR */
+.top-bar{background:var(--navy);padding-top:calc(var(--safe-top)+8px);padding:calc(var(--safe-top)+8px) 16px 0;flex-shrink:0;z-index:40}
 .top-bar-inner{display:flex;align-items:center;gap:10px;padding-bottom:8px}
-.logo-mark{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.logo-mark{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.logo-mark img{width:40px;height:40px;object-fit:cover;border-radius:50%;display:block}
 .logo-text{flex:1;min-width:0}
 .logo-text h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17px;letter-spacing:.5px;color:white;text-transform:uppercase;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .logo-text p{font-size:11px;color:var(--foam);opacity:.8;margin-top:1px}
 .top-actions{display:flex;gap:6px;flex-shrink:0}
-.icon-btn{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,255,255,.12);transition:background .15s;flex-shrink:0}
+.icon-btn{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,255,255,.12)}
 .icon-btn.yellow{background:var(--yellow)}
-.group-select-mobile{width:100%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);border-radius:8px;color:white;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;font-size:16px;padding:10px 40px 10px 14px;-webkit-appearance:none;appearance:none;outline:none;cursor:pointer}
-.group-select-mobile option{background:#00264d;color:white}
+.grp-select{width:100%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);border-radius:8px;color:white;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;font-size:16px;padding:10px 40px 10px 14px;-webkit-appearance:none;appearance:none;margin-bottom:10px;position:relative}
+.grp-select option{background:#00264d}
+.grp-wrap{position:relative;padding-bottom:0}
+.grp-arrow{position:absolute;right:14px;top:50%;transform:translateY(-70%);color:white;pointer-events:none;font-size:12px}
+/* SCROLL */
 .main-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
 .page{display:none;padding:12px 14px 80px}
 .page.active{display:block}
-.bottom-nav{background:var(--white);border-top:1px solid var(--border);display:flex;padding-bottom:calc(var(--safe-bottom) + 4px);flex-shrink:0;z-index:40}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;font-size:10px;font-weight:600;color:var(--light);font-family:'Barlow Semi Condensed',sans-serif;gap:3px;min-height:var(--tap);transition:color .15s}
-.nav-btn .nav-icon{font-size:22px;line-height:1}
-.nav-btn.active{color:var(--sky)}
-.card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+/* BOTTOM NAV */
+.bnav{background:var(--white);border-top:1px solid var(--border);display:flex;padding-bottom:calc(var(--safe-bottom)+4px);flex-shrink:0;z-index:40}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;font-size:10px;font-weight:600;color:var(--light);font-family:'Barlow Semi Condensed',sans-serif;gap:3px;min-height:var(--tap)}
+.bnav-btn .ico{font-size:22px;line-height:1}
+.bnav-btn.active{color:var(--sky)}
+/* CARDS */
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .card-hdr{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
 .card-hdr-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;letter-spacing:.5px;text-transform:uppercase}
 .card-body{padding:12px 14px}
+/* SECTION TITLES */
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);padding-bottom:6px;border-bottom:2px solid var(--navy);margin-bottom:10px}
+/* BLOCKS */
 .aims-row{padding:12px 14px;border-bottom:1px solid var(--border);background:#f0fdf4}
 .s-block{padding:12px 14px;border-bottom:1px solid var(--border)}
-.block-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.block-hdr-left{display:flex;align-items:center;gap:6px;font-family:'Barlow Semi Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mid)}
-.block-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.add-to-block{min-height:36px;padding:0 12px;background:var(--bg);border:1px solid var(--border);border-radius:20px;font-family:'Barlow Semi Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--sky);display:flex;align-items:center;gap:4px;flex-shrink:0}
-.block-items{display:flex;flex-direction:column;gap:6px}
-.dropped-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 10px;display:flex;align-items:flex-start;gap:8px;animation:popIn .15s ease}
-@keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.s-block:last-child{border-bottom:none}
+.blk-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.blk-hdr-left{display:flex;align-items:center;gap:6px;font-family:'Barlow Semi Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mid)}
+.blk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.add-btn{min-height:36px;padding:0 12px;background:var(--bg);border:1px solid var(--border);border-radius:20px;font-family:'Barlow Semi Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--sky);display:flex;align-items:center;gap:4px;flex-shrink:0}
+.add-btn.ai{background:#eff6ff;border-color:#bfdbfe;color:var(--sky)}
+.blk-items{display:flex;flex-direction:column;gap:6px}
+.dropped-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:9px 10px;display:flex;align-items:flex-start;gap:8px}
 .dropped-item-text{flex:1;font-size:14px;line-height:1.4}
 .rm-btn{min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--light);font-size:16px;border-radius:6px;flex-shrink:0;margin-top:-2px}
 .drop-hint{font-size:13px;color:var(--light);font-style:italic;padding:4px 0;text-align:center}
-.notes-area{width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:'Barlow',sans-serif;font-size:15px;color:var(--dark);padding:10px 12px;resize:vertical;min-height:64px;outline:none;background:#fafafa;-webkit-appearance:none}
+.notes-area{width:100%;border:1px solid var(--border);border-radius:var(--rs);font-family:'Barlow',sans-serif;font-size:15px;color:var(--dark);padding:10px 12px;resize:vertical;min-height:64px;outline:none;background:#fafafa}
 .notes-area:focus{border-color:var(--sky);background:white}
-.equip-item{display:flex;flex-direction:row;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #f3f4f6;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
-.equip-item:last-child{border-bottom:none}
-.equip-check{width:24px;height:24px;border-radius:5px;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;font-weight:700;color:white;transition:all .15s}
-.equip-item.checked .equip-check{background:var(--navy);border-color:var(--navy)}
-.equip-label{flex:1;font-size:15px;color:var(--dark);font-family:'Barlow',sans-serif}
-.equip-item.checked .equip-label{color:var(--navy);font-weight:600}
-.session-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+/* EQUIP / COOLDOWN */
+.check-item{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #f3f4f6;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.check-item:last-child{border-bottom:none}
+.check-box{width:24px;height:24px;border-radius:5px;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;font-weight:700;color:white}
+.check-item.on .check-box{background:var(--navy);border-color:var(--navy)}
+.check-label{flex:1;font-size:15px}
+.check-item.on .check-label{color:var(--navy);font-weight:600}
+.custom-row{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.custom-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;outline:none;background:#fafafa}
+.custom-add{flex-shrink:0;background:var(--navy);color:white;border-radius:8px;padding:0 16px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:14px;min-height:var(--tap)}
+/* WEATHER */
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .field-g{display:flex;flex-direction:column;gap:4px}
+.field-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mid);margin-bottom:4px}
 .field-g label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mid)}
-.field-g input,.field-g select{border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-size:16px;font-family:'Barlow',sans-serif;color:var(--dark);background:white;-webkit-appearance:none;min-height:var(--tap);width:100%;outline:none}
-.fetch-btn{width:100%;min-height:var(--tap);background:var(--yellow);color:var(--navy);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;transition:background .12s}
-.weather-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.w-tile{background:var(--navy);border-radius:var(--radius-sm);padding:10px 8px;text-align:center}
-.w-tile-icon{font-size:18px;margin-bottom:2px}
+.field-g input,.field-g select{border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;font-size:16px;color:var(--dark);background:white;-webkit-appearance:none;min-height:var(--tap);width:100%;outline:none}
+.fetch-btn{width:100%;min-height:var(--tap);background:var(--yellow);color:var(--navy);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}
+.w-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.w-tile{background:var(--navy);border-radius:var(--rs);padding:10px 8px;text-align:center}
+.w-tile-ico{font-size:18px;margin-bottom:2px}
 .w-tile-val{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--yellow);line-height:1.1}
 .w-tile-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--foam);margin-top:1px}
 .tide-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.order-item{background:white;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;min-height:var(--tap)}
-.order-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.order-label{flex:1;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;font-size:15px}
-.order-time-input{border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:15px;width:82px;text-align:center;font-family:'Barlow',sans-serif;-webkit-appearance:none;background:var(--bg);min-height:36px;outline:none}
+/* LIBRARY */
 .lib-search-bar{position:sticky;top:0;background:var(--bg);padding:0 0 10px;z-index:10}
 .lib-search-wrap{position:relative}
 .lib-search-wrap::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
-.lib-search-input{width:100%;border:1px solid var(--border);border-radius:20px;padding:10px 16px 10px 40px;font-size:16px;font-family:'Barlow',sans-serif;background:white;-webkit-appearance:none;min-height:var(--tap);outline:none}
+.lib-search-input{width:100%;border:1px solid var(--border);border-radius:20px;padding:10px 16px 10px 40px;font-size:16px;background:white;-webkit-appearance:none;min-height:var(--tap);outline:none}
 .target-picker{display:flex;gap:6px;padding-bottom:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .target-picker::-webkit-scrollbar{display:none}
-.target-btn{flex-shrink:0;padding:8px 14px;border-radius:20px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;font-size:13px;border:2px solid var(--border);background:white;color:var(--mid);min-height:40px;display:flex;align-items:center;gap:5px;transition:all .12s}
+.target-btn{flex-shrink:0;padding:8px 14px;border-radius:20px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;font-size:13px;border:2px solid var(--border);background:white;color:var(--mid);min-height:40px;display:flex;align-items:center;gap:5px}
 .target-btn.active{color:white;border-color:transparent}
-.target-btn[data-block="warmup"].active{background:var(--c-warmup)}
-.target-btn[data-block="theory"].active{background:var(--c-theory)}
-.target-btn[data-block="mainset"].active{background:var(--c-mainset)}
-.target-btn[data-block="aims"].active{background:#16a34a}
+.target-btn[data-block="warmup"].active{background:#e85d04}
+.target-btn[data-block="theory"].active{background:#0891b2}
+.target-btn[data-block="mainset"].active{background:#0077b6}
 .lib-cat-hdr{font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:1.2px;padding:8px 0 5px;display:flex;align-items:center;gap:5px}
-.lib-chip{background:white;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;-webkit-tap-highlight-color:transparent}
+.lib-chip{background:white;border:1px solid var(--border);border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;-webkit-tap-highlight-color:transparent}
 .lib-chip:active{background:#eff6ff}
-.lib-chip-accent{width:3px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:20px}
-.lib-chip-body{flex:1}
-.lib-chip-text{font-size:14px;line-height:1.4}
-.lib-chip-sub{font-size:11.5px;color:var(--light);margin-top:2px}
-.lib-chip-add{min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;background:var(--sky);color:white;border-radius:50%;font-size:20px;flex-shrink:0}
-.lib-chip.added{opacity:.45;pointer-events:none}
+.lib-chip.added{opacity:.4;pointer-events:none}
+.chip-accent{width:3px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:20px}
+.chip-body{flex:1}
+.chip-text{font-size:14px;line-height:1.4}
+.chip-sub{font-size:11.5px;color:var(--light);margin-top:2px}
+.chip-add{min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;background:var(--sky);color:white;border-radius:50%;font-size:20px;flex-shrink:0}
+/* MODALS */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-bg.open{opacity:1;pointer-events:all}
-.modal-sheet{background:white;border-radius:20px 20px 0 0;width:100%;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 20px calc(var(--safe-bottom) + 20px);transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
+.modal-sheet{background:white;border-radius:20px 20px 0 0;width:100%;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 20px calc(var(--safe-bottom)+20px);transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
 .modal-bg.open .modal-sheet{transform:translateY(0)}
 .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 16px}
 .modal-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;text-transform:uppercase;color:var(--navy);margin-bottom:16px}
 .form-row{margin-bottom:14px}
 .form-row label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mid);margin-bottom:5px}
-.form-row input,.form-row select,.form-row textarea{width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:'Barlow',sans-serif;font-size:16px;padding:11px 12px;color:var(--dark);background:#fafafa;-webkit-appearance:none;outline:none;min-height:var(--tap)}
+.form-row input,.form-row select,.form-row textarea{width:100%;border:1px solid var(--border);border-radius:var(--rs);font-size:16px;padding:11px 12px;color:var(--dark);background:#fafafa;-webkit-appearance:none;outline:none;min-height:var(--tap)}
 .form-row textarea{min-height:80px;resize:vertical}
-.form-submit{width:100%;min-height:var(--tap);background:var(--navy);color:white;border-radius:var(--radius-sm);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:17px;margin-top:4px}
-.ai-panel{background:#f0f7ff;border:1px solid #bfdbfe;border-radius:var(--radius-sm);padding:12px;margin-bottom:12px}
+.form-submit{width:100%;min-height:var(--tap);background:var(--navy);color:white;border-radius:var(--rs);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:17px;margin-top:4px}
+/* AI PANEL */
+.ai-panel{background:#f0f7ff;border:1px solid #bfdbfe;border-radius:var(--rs);padding:12px;margin-bottom:12px}
 .ai-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:var(--sky);margin-bottom:6px}
 .ai-note{font-size:13px;color:var(--mid);line-height:1.5;padding:4px 0;border-bottom:1px solid #e0eefe}
 .ai-note:last-child{border-bottom:none}
 .ai-note.warn{color:#c2410c}
 .ai-note.ok{color:#16a34a}
-.toast{position:fixed;bottom:calc(var(--safe-bottom) + 64px);left:50%;transform:translateX(-50%) translateY(30px);background:var(--dark);color:white;padding:11px 20px;border-radius:24px;font-family:'Barlow Semi Condensed',sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.25);opacity:0;transition:all .22s ease;z-index:999;white-space:nowrap;pointer-events:none}
+/* TOAST */
+.toast{position:fixed;bottom:calc(var(--safe-bottom)+64px);left:50%;transform:translateX(-50%) translateY(30px);background:var(--dark);color:white;padding:11px 20px;border-radius:24px;font-family:'Barlow Semi Condensed',sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.25);opacity:0;transition:all .22s ease;z-index:999;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.section-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);padding-bottom:6px;border-bottom:2px solid var(--navy);margin-bottom:10px}
+/* ACTION ROW */
 .action-row{display:flex;gap:8px;margin-bottom:12px}
-.action-btn{flex:1;min-height:var(--tap);border-radius:var(--radius-sm);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:5px}
-.action-btn.primary{background:var(--navy);color:white}
-.action-btn.warning{background:rgba(193,18,31,.08);color:var(--red);border:1px solid rgba(193,18,31,.2)}
-.upload-btn-wrap{display:flex;align-items:center;justify-content:center;gap:6px;min-height:var(--tap);border:1.5px dashed var(--border);border-radius:var(--radius-sm);font-family:'Barlow Semi Condensed',sans-serif;font-size:14px;font-weight:600;color:var(--sky);background:#f0f8ff;padding:10px;margin-bottom:8px;cursor:pointer}
-.field-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mid);margin-bottom:4px}
-@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:white;overflow:auto}.app,.main-scroll{height:auto;overflow:visible}.top-bar,.bottom-nav{display:none!important}.no-print{display:none!important}}
+.action-btn{flex:1;min-height:var(--tap);border-radius:var(--rs);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:5px}
+.action-btn.warn{background:rgba(193,18,31,.08);color:var(--red);border:1px solid rgba(193,18,31,.2)}
+/* SCHEDULE */
+.order-item{background:white;border:1px solid var(--border);border-radius:var(--rs);padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;min-height:var(--tap)}
+.order-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.order-label{flex:1;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;font-size:15px}
+.order-time{border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:15px;width:82px;text-align:center;-webkit-appearance:none;background:var(--bg);min-height:36px;outline:none}
+/* GUIDANCE */
+.guide-card-body{font-size:15px;line-height:1.7;color:var(--dark);display:flex;flex-direction:column;gap:12px}
+.guide-step strong{color:var(--navy)}
+/* PRINT */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{background:white;overflow:auto}
+  .app,.main-scroll{height:auto;overflow:visible}
+  .top-bar,.bnav,.no-print{display:none!important}
+}
 </style>
 </head>
 <body>
 <div class="app">
+
+<!-- TOP BAR -->
 <header class="top-bar">
   <div class="top-bar-inner">
-    <div class="logo-mark"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCABQAFADASIAAhEBAxEB/8QAGwAAAgIDAQAAAAAAAAAAAAAAAAEEBQMGBwL/xAAzEAACAQMCBAUCBQMFAAAAAAABAgMABBEFEhMhMVEyQWFxkQYiFBUjgaEkQsEzUmKi0f/EABoBAAIDAQEAAAAAAAAAAAAAAAIFAAMEAQb/xAArEQABBAEBBgQHAAAAAAAAAAABAAIDERIEBRMhMYGhFUFhsSIycdHh8PH/2gAMAwEAAhEDEQA/ANTAG0ch07U8DsPigeEe1OnarSwOw+KX2+lS9Otmu9Qgt0TezuPtzjPnj+K25oC8rpLK1xOnOSKyCwxQ+jPismp1bICARaJrbWo2unXN1IixQkb/AAlhtB9s9T6CiXTriOLjCBnhJI4irkZHUHsfQ1tRJkQqJOJFnwm4M6f9lHyrA1Y6TxYNSHi2XCHfk5yQMgnueRGfMY86XybVcwF2I+iMR2uc4X0p4HYfFb99RarbW+61tYoWuP75OGp2fx1rSL1QtyxUABgHAHqM1r0OvGqHy0rZdJJFGJHcisGB2HxRgdh8U6KYLKkPCPanSHhHtTqKKdokc02rQRW8nClkJVXz4SQefxmtjMkTI8dvEHsraUW9tAelxOf7n7gda1O0na1u4bhDhonDCtnstttp2lTsf04tRbiH36H4pTtJhsO6e5/HVWMKyg3F1fSW8U8f6Cs01zN4VCnBIUcgM8gB251lv9RvbK1RRJbTcaMmC7hUrlQcMMHo3SoH4xdM1O4iQRyMryRyK/OOWNjuAJHMEHzqPqOoG84aiOKKOJCkUUWdqAnJOTzJNYpI4jGLA5df4mGj08jntOJ59K+6gkknJOSajX3+qnLH6a/5qSqlmCjqTiodzIJbh2Xw5wvsOQrVsxhzLvRb9tSARtZ52sVFFFOV5xIeEe1OkPCPanUURVtZ6hI+kT6YQrByGGeuB29f8VU0AlSCpII5gjyqqaIStxP6Ucb8HBxFqUT0EmQw6MKeX8pExTSYTjDbRJ2PIP8A+GlIYYBzRWm/25yF9+59Kw7h+WJHsR35JsNVGG5Nd7g9uBRKeBHkvulkHL/ip8/c1EpszOxZiSxOSTSphGzBtJVLIZHFxRRRRRqtIeEe1S9OsJdRuGghaNSsbSEucAKvM1EHhHtVhoupflV61wY2fdE8eFfaRuGMg46ihdePDmos35Bc7mJuLURCD8RxTIdmzO3PTPX0pSaDfIrsvClVUjdTG+eIJDtXb351Mf6nk2uIIZFkNsYFmeXfJ4t2Scc+wFeW+pZSGcQf1DxwKZC3Vo23biMefIYqkPkXeCiy6FcJKsK3NnJLxVhdElyY3JwAf38xmsaaPcFJ3kkhhjt5hC7yMVUMc+nTlViPqK3jDGHT3BkuFuGDShgrBtxC8sgGot7r1zfWN3a3BlkE84lQvJnhAZ+0D9/4roe9Sl5uNBure7S14sEszY+yJixGRkZGPMUovp/UJr2S0jjHGSMybWOCQMcvfmMd6yvrrPrDX6whQ0aoUJ3Dkm056ciM/NM6+4lmaOHaGtjBGEO3h9MEdTyx3865nJ6LtClW3NnNbQW00oAW4QugzzABIOe3MVHqy1nV21f8KzwrG8MZVip5OxOS2PLJqtq9pJHFCkPCPapujyW0WrW0l6AbdXy+Rkfv++KhDwj2p0L2ZsLT5rt0V0S81GF5w1nqVisRUDBkUc+fp7fFeIb5Y4W4mq2Ukm4YHEUDbg58u+Piue0UnGxGBuOXYKzeldAjvQsMgfVrNpCg2kSKAG3c/LtXlr6Rskarpy9SMSKfP2rQaKLwZl3l2Cm9K6At/wD02G1Ox4u7ORKuMY9umfKvcOoJ+YLJLqViLbnlOIpPnjy9viueUUJ2Iwg/Fz9ApvSrf6nmsrjWpZNP2mIqAzIMBm8yKqaKKbwxCKNsYN0KVZNm1//Z" alt="Brighton SLSC" style="width:40px;height:40px;border-radius:6px;object-fit:cover;display:block;"></div>
-    <div class="logo-text">
-      <h1>Brighton SLSC</h1>
-      <p>Session Planner</p>
-    </div>
+    <div class="logo-mark"><img src="data:image/jpeg;base64,data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCABQAFADASIAAhEBAxEB/8QAGwAAAgIDAQAAAAAAAAAAAAAAAAEEBQMGBwL/xAAzEAACAQMCBAUCBQMFAAAAAAABAgMABBEFEhMhMVEyQWFxkQYiFBUjgaEkQsEzUmKi0f/EABoBAAIDAQEAAAAAAAAAAAAAAAIFAAMEAQb/xAArEQABBAEBBgQHAAAAAAAAAAABAAIDERIEBRMhMYGhFUFhsSIycdHh8PH/2gAMAwEAAhEDEQA/ANTAG0ch07U8DsPigeEe1OnarSwOw+KX2+lS9Otmu9Qgt0TezuPtzjPnj+K25oC8rpLK1xOnOSKyCwxQ+jPismp1bICARaJrbWo2unXN1IixQkb/AAlhtB9s9T6CiXTriOLjCBnhJI4irkZHUHsfQ1tRJkQqJOJFnwm4M6f9lHyrA1Y6TxYNSHi2XCHfk5yQMgnueRGfMY86XybVcwF2I+iMR2uc4X0p4HYfFb99RarbW+61tYoWuP75OGp2fx1rSL1QtyxUABgHAHqM1r0OvGqHy0rZdJJFGJHcisGB2HxRgdh8U6KYLKkPCPanSHhHtTqKKdokc02rQRW8nClkJVXz4SQefxmtjMkTI8dvEHsraUW9tAelxOf7n7gda1O0na1u4bhDhonDCtnstttp2lTsf04tRbiH36H4pTtJhsO6e5/HVWMKyg3F1fSW8U8f6Cs01zN4VCnBIUcgM8gB251lv9RvbK1RRJbTcaMmC7hUrlQcMMHo3SoH4xdM1O4iQRyMryRyK/OOWNjuAJHMEHzqPqOoG84aiOKKOJCkUUWdqAnJOTzJNYpI4jGLA5df4mGj08jntOJ59K+6gkknJOSajX3+qnLH6a/5qSqlmCjqTiodzIJbh2Xw5wvsOQrVsxhzLvRb9tSARtZ52sVFFFOV5xIeEe1OkPCPanUURVtZ6hI+kT6YQrByGGeuB29f8VU0AlSCpII5gjyqqaIStxP6Ucb8HBxFqUT0EmQw6MKeX8pExTSYTjDbRJ2PIP8A+GlIYYBzRWm/25yF9+59Kw7h+WJHsR35JsNVGG5Nd7g9uBRKeBHkvulkHL/ip8/c1EpszOxZiSxOSTSphGzBtJVLIZHFxRRRRRqtIeEe1S9OsJdRuGghaNSsbSEucAKvM1EHhHtVhoupflV61wY2fdE8eFfaRuGMg46ihdePDmos35Bc7mJuLURCD8RxTIdmzO3PTPX0pSaDfIrsvClVUjdTG+eIJDtXb351Mf6nk2uIIZFkNsYFmeXfJ4t2Scc+wFeW+pZSGcQf1DxwKZC3Vo23biMefIYqkPkXeCiy6FcJKsK3NnJLxVhdElyY3JwAf38xmsaaPcFJ3kkhhjt5hC7yMVUMc+nTlViPqK3jDGHT3BkuFuGDShgrBtxC8sgGot7r1zfWN3a3BlkE84lQvJnhAZ+0D9/4roe9Sl5uNBure7S14sEszY+yJixGRkZGPMUovp/UJr2S0jjHGSMybWOCQMcvfmMd6yvrrPrDX6whQ0aoUJ3Dkm056ciM/NM6+4lmaOHaGtjBGEO3h9MEdTyx3865nJ6LtClW3NnNbQW00oAW4QugzzABIOe3MVHqy1nV21f8KzwrG8MZVip5OxOS2PLJqtq9pJHFCkPCPapujyW0WrW0l6AbdXy+Rkfv++KhDwj2p0L2ZsLT5rt0V0S81GF5w1nqVisRUDBkUc+fp7fFeIb5Y4W4mq2Ukm4YHEUDbg58u+Piue0UnGxGBuOXYKzeldAjvQsMgfVrNpCg2kSKAG3c/LtXlr6Rskarpy9SMSKfP2rQaKLwZl3l2Cm9K6At/wD02G1Ox4u7ORKuMY9umfKvcOoJ+YLJLqViLbnlOIpPnjy9viueUUJ2Iwg/Fz9ApvSrf6nmsrjWpZNP2mIqAzIMBm8yKqaKKbwxCKNsYN0KVZNm1//Z" alt="Brighton SLSC"></div>
+    <div class="logo-text"><h1>Brighton SLSC</h1><p>Session Planner</p></div>
     <div class="top-actions">
       <button class="icon-btn yellow" onclick="openShareModal()">🖨</button>
       <button class="icon-btn" onclick="savePlan()">💾</button>
     </div>
   </div>
-  <div style="padding:0 0 10px;position:relative;">
-    <select id="groupSelect" onchange="switchGroupSelect(this.value)" class="group-select-mobile">
+  <div class="grp-wrap">
+    <select id="grpSel" class="grp-select" onchange="switchGroup(this.value)">
       <option value="nippers">🐬 Nippers</option>
       <option value="juniors">🏊 Juniors</option>
       <option value="youth">⚡ Youth</option>
       <option value="seniors">🏄 Seniors</option>
       <option value="masters">🥇 Masters</option>
     </select>
-    <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:white;pointer-events:none;font-size:12px;">▼</span>
+    <span class="grp-arrow">▼</span>
   </div>
 </header>
 
+<!-- MAIN SCROLL -->
 <div class="main-scroll" id="mainScroll">
 
 <!-- SESSION PAGE -->
@@ -164,26 +192,68 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   <div class="card" id="sessionCard"></div>
   <div class="card">
     <div class="card-hdr"><div class="card-hdr-title">🌊 Sea &amp; Safety</div></div>
-    <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
-      <div><div class="field-label">Safety notes / hazards</div><textarea class="notes-area" id="safetyNotes" placeholder="e.g. Heavy shore dump expected at high tide. Strong W current."></textarea></div>
-      <div><div class="field-label">Plan B (if conditions change)</div><textarea class="notes-area" id="planBNotes" placeholder="e.g. If swell >1.5m: Nippers knee-depth only. Beach games noted above."></textarea></div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+      <div><div class="field-label">Safety notes / hazards</div>
+        <textarea class="notes-area" id="safetyNotes" placeholder="e.g. Heavy shore dump expected at high tide. Strong W current."></textarea></div>
+      <div><div class="field-label">Plan B (if conditions change)</div>
+        <textarea class="notes-area" id="planBNotes" placeholder="e.g. If swell &gt;1.5m: Nippers knee-depth only. Beach games noted above."></textarea></div>
     </div>
   </div>
   <div class="card">
-    <div class="card-hdr"><div class="card-hdr-title">🎒 Equipment</div><span style="font-size:11px;color:var(--light);">tap to check off</span></div>
-    <div class="card-body" style="padding-top:4px;padding-bottom:4px;">
+    <div class="card-hdr"><div class="card-hdr-title">🎒 Equipment</div><span style="font-size:11px;color:var(--light)">tap to check</span></div>
+    <div class="card-body" style="padding-top:4px;padding-bottom:4px">
       <div id="equipGrid"></div>
-      <div style="display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
-        <input type="text" id="equipCustomInput" placeholder="Add custom equipment…" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-family:'Barlow',sans-serif;color:var(--dark);background:#fafafa;outline:none;" onkeydown="if(event.key==='Enter')addCustomEquip()">
-        <button onclick="addCustomEquip()" style="flex-shrink:0;background:var(--navy);color:white;border-radius:8px;padding:0 16px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:14px;min-height:var(--tap);">+ Add</button>
+      <div class="custom-row">
+        <input type="text" id="equipCustomInput" class="custom-input" placeholder="Add custom equipment…" onkeydown="if(event.key==='Enter')addCustomEquip()">
+        <button class="custom-add" onclick="addCustomEquip()">+ Add</button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- WEATHER PAGE -->
+<div class="page" id="pageWeather">
+  <div class="sec-title">⛅ Conditions</div>
+  <div class="card">
+    <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+      <div class="field-grid">
+        <div class="field-g"><label>Date</label><input type="date" id="sessionDate" onchange="updateAll()"></div>
+        <div class="field-g"><label>Start Time</label><input type="time" id="sessionTime" value="09:00"></div>
+        <div class="field-g"><label>Coach</label><input type="text" id="coachName" placeholder="e.g. Dan P" autocomplete="off"></div>
+        <div class="field-g"><label>Safety Cover</label><input type="text" id="safetyCover" placeholder="e.g. Pete M" autocomplete="off"></div>
+      </div>
+    </div>
+  </div>
+  <button class="fetch-btn" id="fetchWeatherBtn" onclick="fetchWeather()">⛅ Populate Weather</button>
+  <div class="w-grid">
+    <div class="w-tile"><div class="w-tile-ico">🌡️</div><div class="w-tile-val" id="wTemp">--</div><div class="w-tile-lbl">Air °C</div></div>
+    <div class="w-tile"><div class="w-tile-ico">🌊</div><div class="w-tile-val" id="wSwell">--</div><div class="w-tile-lbl">Swell m</div></div>
+    <div class="w-tile"><div class="w-tile-ico">⏱</div><div class="w-tile-val" id="wPeriod">--</div><div class="w-tile-lbl">Period s</div></div>
+    <div class="w-tile"><div class="w-tile-ico">🌊</div><div class="w-tile-val" id="wSwellDir">--</div><div class="w-tile-lbl">Swell Dir</div></div>
+    <div class="w-tile"><div class="w-tile-ico">💨</div><div class="w-tile-val" id="wWind">--</div><div class="w-tile-lbl">Wind mph</div></div>
+    <div class="w-tile"><div class="w-tile-ico">🧭</div><div class="w-tile-val" id="wDir">--</div><div class="w-tile-lbl">Wind Dir</div></div>
+    <div class="w-tile"><div class="w-tile-ico">🌡️</div><div class="w-tile-val" id="wSea">--</div><div class="w-tile-lbl">Sea °C</div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-hdr-title">🌊 Tides &amp; Current</div>
+      <button onclick="fetchTides()" id="fetchTidesBtn" class="add-btn ai">⛅ Auto-fill</button>
+    </div>
+    <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+      <div class="tide-row">
+        <div class="field-g"><label>Low Tide</label><input type="text" id="ltTime" placeholder="07:02 0.78m"></div>
+        <div class="field-g"><label>High Tide</label><input type="text" id="htTime" placeholder="13:04 6.69m"></div>
+      </div>
+      <div class="field-g"><label>Current / Break</label><input type="text" id="current" placeholder="e.g. Westerly, SW 0.5m swell"></div>
+      <div style="font-size:12px;color:var(--mid)">Manual lookup: <a id="admiraltyLink" href="https://easytide.admiralty.co.uk/?PortID=0082" target="_blank" style="color:var(--sky);font-weight:600">ADMIRALTY EasyTide</a> · <a id="bbcTideLink" href="https://www.bbc.co.uk/weather/coast-and-sea/tide-tables/7/6" target="_blank" style="color:var(--sky);font-weight:600">BBC Brighton</a></div>
+    </div>
+  </div>
+  <div class="ai-panel" id="aiPanel"><div class="ai-label">✦ COACH NOTES</div><div class="ai-note">Build the session to see suggestions.</div></div>
+</div>
+
 <!-- LIBRARY PAGE -->
 <div class="page" id="pageLibrary">
-  <div class="section-title" id="libTitle">📚 Activity Library</div>
+  <div class="sec-title" id="libTitle">📚 Activity Library</div>
   <div class="target-picker" id="targetPicker">
     <button class="target-btn active" data-block="warmup" onclick="setTarget(this)">🔥 Warm Up</button>
     <button class="target-btn" data-block="theory" onclick="setTarget(this)">📖 Theory</button>
@@ -195,127 +265,84 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
     </div>
   </div>
   <div id="libContent"></div>
-  <div class="action-row" style="margin-top:4px;">
-    <button class="action-btn primary" onclick="openAddModal()">+ Custom Activity</button>
+  <div class="action-row" style="margin-top:4px">
+    <button class="action-btn" style="background:var(--navy);color:white" onclick="openAddModal()">+ Custom Activity</button>
   </div>
-  <label class="upload-btn-wrap" for="fileIn">
-    📄 Upload Training Materials
-    <input type="file" id="fileIn" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleUpload(event)">
-  </label>
-</div>
-
-<!-- WEATHER PAGE -->
-<div class="page" id="pageWeather">
-  <div class="section-title">⛅ Conditions</div>
-  <div class="card">
-    <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
-      <div class="session-fields">
-        <div class="field-g"><label>Date</label><input type="date" id="sessionDate" onchange="updateAll()"></div>
-        <div class="field-g"><label>Start Time</label><input type="time" id="sessionTime" value="09:00"></div>
-        <div class="field-g"><label>Coach</label><input type="text" id="coachName" placeholder="e.g. Dan P" autocomplete="off"></div>
-        <div class="field-g"><label>Safety Cover</label><input type="text" id="safetyCover" placeholder="e.g. Pete M" autocomplete="off"></div>
-      </div>
-    </div>
-  </div>
-  <button class="fetch-btn" id="fetchWeatherAIBtn" onclick="fetchAirTemp()">⛅ Populate Weather</button>
-  <div class="weather-grid">
-    <div class="w-tile"><div class="w-tile-icon">🌡️</div><div class="w-tile-val" id="wTemp">--</div><div class="w-tile-lbl">Air °C</div></div>
-    <div class="w-tile"><div class="w-tile-icon">🌊</div><div class="w-tile-val" id="wSwell">--</div><div class="w-tile-lbl">Swell m</div></div>
-    <div class="w-tile"><div class="w-tile-icon">⏱</div><div class="w-tile-val" id="wPeriod">--</div><div class="w-tile-lbl">Period s</div></div>
-    <div class="w-tile"><div class="w-tile-icon">🌊</div><div class="w-tile-val" id="wSwellDir">--</div><div class="w-tile-lbl">Swell Dir</div></div>
-    <div class="w-tile"><div class="w-tile-icon">💨</div><div class="w-tile-val" id="wWind">--</div><div class="w-tile-lbl">Wind mph</div></div>
-    <div class="w-tile"><div class="w-tile-icon">🧭</div><div class="w-tile-val" id="wDir">--</div><div class="w-tile-lbl">Wind Dir</div></div>
-    <div class="w-tile"><div class="w-tile-icon">🌡️</div><div class="w-tile-val" id="wSea">--</div><div class="w-tile-lbl">Sea °C</div></div>
-  </div>
-  <div class="card">
-    <div class="card-hdr">
-      <div class="card-hdr-title">🌊 Tides &amp; Current</div>
-      <button onclick="fetchTides()" id="fetchTidesBtn" class="add-to-block" style="background:#eff6ff;border-color:#bfdbfe;color:var(--sky);">⛅ Auto-fill</button>
-    </div>
-    <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
-      <div class="tide-row">
-        <div class="field-g"><label>Low Tide</label><input type="text" id="ltTime" placeholder="07:02 0.78m"></div>
-        <div class="field-g"><label>High Tide</label><input type="text" id="htTime" placeholder="13:04 6.69m"></div>
-      </div>
-      <div class="field-g"><label>Current / Break</label><input type="text" id="current" placeholder="e.g. Westerly, SW 0.5m swell"></div>
-      <div style="font-size:12px;color:var(--mid);">Manual lookup: <a id="admiraltyLink" href="https://easytide.admiralty.co.uk/?PortID=0082" target="_blank" style="color:var(--sky);font-weight:600;">ADMIRALTY EasyTide</a> · <a id="bbcTideLink" href="https://www.bbc.co.uk/weather/coast-and-sea/tide-tables/7/6" target="_blank" style="color:var(--sky);font-weight:600;">BBC Brighton</a></div>
-    </div>
-  </div>
-  <div class="ai-panel" id="aiPanel"><div class="ai-label">✦ Coach Notes</div><div class="ai-note">Build the session to see suggestions.</div></div>
 </div>
 
 <!-- SCHEDULE PAGE -->
 <div class="page" id="pageSchedule">
-  <div class="section-title">📋 Run Order</div>
+  <div class="sec-title">📋 Run Order</div>
   <div id="sessionOrder">
-    <div class="order-item" data-grp="nippers" onchange="syncTimeFromSchedule('nippers',this.value)"><span class="order-dot" style="background:#fb923c"></span><span class="order-label">🐬 Nippers</span><input class="order-time-input" type="time" value="09:00"></div>
-    <div class="order-item" data-grp="juniors" onchange="syncTimeFromSchedule('juniors',this.value)"><span class="order-dot" style="background:#38bdf8"></span><span class="order-label">🏊 Juniors</span><input class="order-time-input" type="time" value="10:00"></div>
-    <div class="order-item" data-grp="youth" onchange="syncTimeFromSchedule('youth',this.value)"><span class="order-dot" style="background:#a78bfa"></span><span class="order-label">⚡ Youth</span><input class="order-time-input" type="time" value="10:00"></div>
-    <div class="order-item" data-grp="seniors" onchange="syncTimeFromSchedule('seniors',this.value)"><span class="order-dot" style="background:#4ade80"></span><span class="order-label">🏄 Seniors</span><input class="order-time-input" type="time" value="10:00"></div>
-    <div class="order-item" data-grp="masters" onchange="syncTimeFromSchedule('masters',this.value)"><span class="order-dot" style="background:#f87171"></span><span class="order-label">🥇 Masters</span><input class="order-time-input" type="time" value="10:00"></div>
+    <div class="order-item" data-grp="nippers"><span class="order-dot" style="background:#fb923c"></span><span class="order-label">🐬 Nippers</span><input class="order-time" type="time" value="09:00" onchange="syncTime('nippers',this.value)"></div>
+    <div class="order-item" data-grp="juniors"><span class="order-dot" style="background:#38bdf8"></span><span class="order-label">🏊 Juniors</span><input class="order-time" type="time" value="10:00" onchange="syncTime('juniors',this.value)"></div>
+    <div class="order-item" data-grp="youth"><span class="order-dot" style="background:#a78bfa"></span><span class="order-label">⚡ Youth</span><input class="order-time" type="time" value="10:00" onchange="syncTime('youth',this.value)"></div>
+    <div class="order-item" data-grp="seniors"><span class="order-dot" style="background:#4ade80"></span><span class="order-label">🏄 Seniors</span><input class="order-time" type="time" value="10:00" onchange="syncTime('seniors',this.value)"></div>
+    <div class="order-item" data-grp="masters"><span class="order-dot" style="background:#f87171"></span><span class="order-label">🥇 Masters</span><input class="order-time" type="time" value="10:00" onchange="syncTime('masters',this.value)"></div>
   </div>
-  <div class="action-row" style="margin-top:16px;"><button class="action-btn warning" onclick="clearAll()">🗑 Clear All</button></div>
+  <div class="action-row" style="margin-top:16px">
+    <button class="action-btn warn" onclick="clearAll()">🗑 Clear All</button>
+  </div>
 </div>
 
-<!-- GUIDANCE PAGE — excluded from print -->
+<!-- GUIDANCE PAGE (no-print) -->
 <div class="page no-print" id="pageGuidance">
-  <div class="section-title">ℹ️ Guide</div>
-
+  <div class="sec-title">ℹ️ Guide</div>
   <div class="card">
     <div class="card-hdr"><div class="card-hdr-title">About this tool</div></div>
-    <div class="card-body" style="display:flex;flex-direction:column;gap:14px;font-size:15px;line-height:1.6;color:var(--dark);">
+    <div class="card-body guide-card-body">
       <p>This app helps Brighton Surf Life Saving Club coaches plan Saturday morning sessions for Nippers, Juniors, Youth, Seniors and Masters. It is designed to make session planning quicker, more consistent and easier to record.</p>
-      <p>It is a <strong>work in progress</strong>. The more it is used, the more insight we will have to make adjustments and improvements. Your feedback is genuinely valued — please reach out to <strong>Dan P</strong> with any thoughts.</p>
+      <p>It is a <strong>work in progress</strong>. The more it is used, the more insight we will have to make adjustments and improvements. Your feedback is genuinely valued — please reach out to <strong>Dan P</strong>.</p>
     </div>
   </div>
-
   <div class="card">
     <div class="card-hdr"><div class="card-hdr-title">How to use it</div></div>
-    <div class="card-body" style="font-size:15px;line-height:1.7;color:var(--dark);display:flex;flex-direction:column;gap:12px;">
-      <div><strong>1. Weather tab</strong> — enter the date, start time, coach and safety cover. Tap <em>⛅ Populate Weather</em> to auto-fill conditions, and <em>⛅ Auto-fill</em> in the Tides section to fetch Brighton Marina tide times for the session date. Both require an internet connection. Manual tide lookup links are provided as a backup.</div>
-      <div><strong>2. Session tab</strong> — select a group from the dropdown. Use <em>+ Add</em> on each block to browse the activity library, or tap <em>✦</em> to get AI suggestions for that block. Once your warm up, theory and main set are set, tap <em>✦ Generate</em> to auto-create session aims — then edit them to suit.</div>
-      <div><strong>3. Library tab</strong> — browse and search activities filtered to the selected group. Activities are categorised as Warm Up, Theory or Main Set.</div>
-      <div><strong>4. Schedule tab</strong> — set start times for each group. These feed through automatically to the session time when you switch groups.</div>
-      <div><strong>5. Print / Save</strong> — tap 🖨 to print the current group's session plan as a CP1-format PDF, save to Photos, or save the full plan as a file to reopen later.</div>
+    <div class="card-body guide-card-body">
+      <div class="guide-step"><strong>1. Weather tab</strong> — enter the date, start time, coach and safety cover. Tap ⛅ Populate Weather to auto-fill conditions, and ⛅ Auto-fill in the Tides section to fetch Brighton Marina tide times for the session date. Both require an internet connection. Manual tide lookup links are also provided.</div>
+      <div class="guide-step"><strong>2. Session tab</strong> — select a group from the dropdown. Use + Add on each block to browse the activity library, or tap ✦ to get AI suggestions for that block. Once warm up, theory and main set are set, tap ✦ Generate to auto-create session aims — then edit them as needed.</div>
+      <div class="guide-step"><strong>3. Library tab</strong> — browse and search activities filtered to the selected group. Activities are categorised as Warm Up, Theory or Main Set.</div>
+      <div class="guide-step"><strong>4. Schedule tab</strong> — set start times for each group. These feed through to the session time when you switch groups.</div>
+      <div class="guide-step"><strong>5. Print / Save</strong> — tap 🖨 to print the current group session plan as a CP1-format PDF, save to Photos, or save the full plan as a file to reopen later.</div>
     </div>
   </div>
-
-  <div class="card" style="border-left:4px solid var(--red);">
-    <div class="card-hdr"><div class="card-hdr-title" style="color:var(--red);">⚠️ AI disclaimer</div></div>
-    <div class="card-body" style="font-size:15px;line-height:1.6;color:var(--dark);display:flex;flex-direction:column;gap:10px;">
+  <div class="card" style="border-left:4px solid var(--red)">
+    <div class="card-hdr"><div class="card-hdr-title" style="color:var(--red)">⚠️ AI disclaimer</div></div>
+    <div class="card-body guide-card-body">
       <p>Some content in this tool is generated by artificial intelligence — including weather forecasts, session aim suggestions and activity recommendations.</p>
       <p><strong>AI can make mistakes.</strong> It is the responsibility of the coach to review all details before using them in a session, including auto-populated weather and conditions data. Always apply your own judgement and refer to live conditions on the day.</p>
     </div>
   </div>
-
   <div class="card">
     <div class="card-hdr"><div class="card-hdr-title">💬 Share your feedback</div></div>
-    <div class="card-body" style="font-size:15px;line-height:1.6;color:var(--dark);display:flex;flex-direction:column;gap:12px;">
-      <p>If you use a free-text field to describe an activity or session aim that works well, and you think it would be useful to add to the library for others, please share it with <strong>Dan P</strong>.</p>
-      <p>Equally, if something doesn't work as expected, an activity description is wrong, or you have ideas for improvement — please get in touch. The tool will get better with use.</p>
-      <div style="margin-top:4px;">
-        <div class="field-label" style="margin-bottom:6px;">Your feedback</div>
-        <textarea class="notes-area" id="feedbackText" placeholder="Type your feedback, suggested activity, or improvement idea here…" style="min-height:100px;"></textarea>
-        <button onclick="copyFeedback()" style="margin-top:8px;width:100%;min-height:var(--tap);background:var(--navy);color:white;border-radius:var(--radius-sm);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:15px;">📋 Copy to clipboard — then send to Dan P</button>
+    <div class="card-body guide-card-body">
+      <p>If you use a free-text field to describe an activity or session aim that works well and think it would be useful for others, please share it with <strong>Dan P</strong>.</p>
+      <p>If something does not work as expected, an activity description is wrong, or you have ideas for improvement — please get in touch. The tool will get better with use.</p>
+      <div>
+        <div class="field-label" style="margin-bottom:6px">Your feedback</div>
+        <textarea class="notes-area" id="feedbackText" placeholder="Type your feedback, suggested activity, or improvement idea here…" style="min-height:100px"></textarea>
+        <button onclick="copyFeedback()" style="margin-top:8px;width:100%;min-height:var(--tap);background:var(--navy);color:white;border-radius:var(--rs);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:15px">📋 Copy to clipboard — then send to Dan P</button>
       </div>
     </div>
   </div>
-
-  <div style="text-align:center;font-size:12px;color:var(--light);padding:12px 0 4px;">Brighton SLSC Session Planner · Built with Claude AI</div>
+  <div style="text-align:center;font-size:12px;color:var(--light);padding:12px 0 4px">Brighton SLSC Session Planner · Built with Claude AI</div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-btn active" id="nav-builder" onclick="showPage('Builder',this)"><span class="nav-icon">📋</span>Session</button>
-  <button class="nav-btn" id="nav-weather" onclick="showPage('Weather',this)"><span class="nav-icon">⛅</span>Weather</button>
-  <button class="nav-btn" id="nav-library" onclick="showPage('Library',this)"><span class="nav-icon">📚</span>Library</button>
-  <button class="nav-btn" id="nav-schedule" onclick="showPage('Schedule',this)"><span class="nav-icon">📊</span>Schedule</button>
-  <button class="nav-btn" id="nav-guidance" onclick="showPage('Guidance',this)"><span class="nav-icon">ℹ️</span>Guide</button>
+</div><!-- end main-scroll -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="bnav-btn active" id="nav-builder" onclick="showPage('Builder',this)"><span class="ico">📋</span>Session</button>
+  <button class="bnav-btn" id="nav-weather" onclick="showPage('Weather',this)"><span class="ico">⛅</span>Weather</button>
+  <button class="bnav-btn" id="nav-library" onclick="showPage('Library',this)"><span class="ico">📚</span>Library</button>
+  <button class="bnav-btn" id="nav-schedule" onclick="showPage('Schedule',this)"><span class="ico">📊</span>Schedule</button>
+  <button class="bnav-btn" id="nav-guidance" onclick="showPage('Guidance',this)"><span class="ico">ℹ️</span>Guide</button>
 </nav>
-</div>
+
+</div><!-- end .app -->
 
 <div class="toast" id="toast"></div>
 
-<!-- ADD MODAL -->
+<!-- ADD CUSTOM MODAL -->
 <div class="modal-bg" id="addModal" onclick="if(event.target===this)closeModal('addModal')">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -323,24 +350,23 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
     <div class="form-row"><label>Activity Name</label><input type="text" id="customName" placeholder="e.g. Bodyboard technique drill" autocomplete="off"></div>
     <div class="form-row"><label>Category</label>
       <select id="customCat">
-        <option value="aims">🎯 Session Aim</option>
         <option value="warmup">🔥 Warm Up</option>
         <option value="theory">📖 Theory</option>
         <option value="mainset">🏊 Main Set</option>
       </select>
     </div>
-    <div class="form-row"><label>Notes</label><input type="text" id="customSub" placeholder="e.g. All ages · 15 min" autocomplete="off"></div>
+    <div class="form-row"><label>Age Group</label><input type="text" id="customSub" placeholder="e.g. All groups" autocomplete="off"></div>
     <button class="form-submit" onclick="submitCustom()">Add to Library</button>
   </div>
 </div>
 
-<!-- AI MODAL -->
+<!-- AI SUGGEST MODAL -->
 <div class="modal-bg" id="aiModal" onclick="if(event.target===this)closeModal('aiModal')">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title" id="aiModalTitle">✦ AI Suggestions</div>
-    <div id="aiModalBody" style="font-size:14px;color:var(--mid);line-height:1.5;">Loading…</div>
-    <button class="form-submit" style="margin-top:16px;" onclick="closeModal('aiModal')">Done</button>
+    <div id="aiModalBody" style="font-size:14px;color:var(--mid);line-height:1.5">Loading…</div>
+    <button class="form-submit" style="margin-top:16px" onclick="closeModal('aiModal')">Done</button>
   </div>
 </div>
 
@@ -349,19 +375,16 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">🖨 Save &amp; Share</div>
-    <button onclick="doPrint()" style="width:100%;min-height:56px;background:var(--navy);color:white;border-radius:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;gap:14px;padding:0 18px;margin-bottom:10px;border:none;cursor:pointer;">
-      <span style="font-size:26px;">📄</span>
-      <div style="text-align:left;"><div>Print / Save as PDF</div><div style="font-size:12px;font-weight:400;opacity:.75;">Opens print dialog → Save as PDF</div></div>
+    <button onclick="doPrint()" style="width:100%;min-height:56px;background:var(--navy);color:white;border-radius:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;gap:14px;padding:0 18px;margin-bottom:10px;border:none;cursor:pointer">
+      <span style="font-size:26px">📄</span><div style="text-align:left"><div>Print / Save as PDF</div><div style="font-size:12px;font-weight:400;opacity:.75">Opens print dialog → Save as PDF</div></div>
     </button>
-    <button onclick="saveAsImage()" style="width:100%;min-height:56px;background:var(--sky);color:white;border-radius:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;gap:14px;padding:0 18px;margin-bottom:10px;border:none;cursor:pointer;">
-      <span style="font-size:26px;">📸</span>
-      <div style="text-align:left;"><div>Save to Photos</div><div style="font-size:12px;font-weight:400;opacity:.75;">Print → Share icon → Save to Photos</div></div>
+    <button onclick="saveAsImage()" style="width:100%;min-height:56px;background:var(--sky);color:white;border-radius:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;gap:14px;padding:0 18px;margin-bottom:10px;border:none;cursor:pointer">
+      <span style="font-size:26px">📸</span><div style="text-align:left"><div>Save to Photos</div><div style="font-size:12px;font-weight:400;opacity:.75">Print → Share icon → Save to Photos</div></div>
     </button>
-    <button onclick="savePlan();closeModal('shareModal')" style="width:100%;min-height:56px;background:#f1f5f9;color:var(--dark);border-radius:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;gap:14px;padding:0 18px;margin-bottom:10px;border:1px solid var(--border);cursor:pointer;">
-      <span style="font-size:26px;">💾</span>
-      <div style="text-align:left;"><div>Save Plan File</div><div style="font-size:12px;font-weight:400;color:var(--mid);">Downloads .json to reopen later</div></div>
+    <button onclick="savePlan();closeModal('shareModal')" style="width:100%;min-height:56px;background:#f1f5f9;color:var(--dark);border-radius:10px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:16px;display:flex;align-items:center;gap:14px;padding:0 18px;margin-bottom:10px;border:1px solid var(--border);cursor:pointer">
+      <span style="font-size:26px">💾</span><div style="text-align:left"><div>Save Plan File</div><div style="font-size:12px;font-weight:400;color:var(--mid)">Downloads .json to reopen later</div></div>
     </button>
-    <button class="form-submit" style="background:#f1f5f9;color:var(--mid);border:1px solid var(--border);font-size:15px;" onclick="closeModal('shareModal')">Close</button>
+    <button class="form-submit" style="background:#f1f5f9;color:var(--mid);border:1px solid var(--border);font-size:15px" onclick="closeModal('shareModal')">Close</button>
   </div>
 </div>
 
@@ -427,7 +450,7 @@ const LIBRARY=[
   {cat:'theory',text:'Spinal injury management: when to suspect spinal injury in surf (wipeout, dumped by wave, diving), in-water stabilisation, log roll, when to immobilise vs evacuate quickly',sub:'Seniors/Masters'},
   {cat:'theory',text:'Radio communications: phonetic alphabet, correct procedure for emergency call, channel use, equipment check',sub:'Youth/Seniors/Masters'},
   {cat:'theory',text:'Cold water immersion and hypothermia: stages of cold water shock, how to help a hypothermic casualty',sub:'Juniors/Youth/Seniors/Masters'},
-  {cat:'theory',text:'Open water sighting technique: why pool times don\&#39;t predict surf performance, how to sight without breaking stroke rhythm, using landmarks vs buoys, effect of chop and swell on sighting, common errors and fixes',sub:'Youth/Seniors/Masters'},
+  {cat:'theory',text:'Open water sighting technique: why pool times don\\\'t predict surf performance, how to sight without breaking stroke rhythm, using landmarks vs buoys, effect of chop and swell on sighting, common errors and fixes',sub:'Youth/Seniors/Masters'},
   {cat:'theory',text:'Beach sprint biomechanics: pebble vs sand surface differences, arm drive mechanics, acceleration phase vs max velocity phase, how to peak for competition day',sub:'Youth/Seniors/Masters'},
   // ── MAIN SETS ──
   {cat:'mainset',text:'Beach flags: competitors ready, heads down on pebbles, whistle — race to flags, correct technique: toes, hands, twist, momentum',sub:'All groups'},
@@ -456,7 +479,7 @@ const LIBRARY=[
   {cat:'mainset',text:'Treasure Grab: teams with own base, treasure (balls/flags) spread in central area. Players race one at a time to collect and return treasure. When all gone, teams can steal ONE piece from rivals. Most treasure wins',sub:'Nippers/Juniors'},
   {cat:'mainset',text:'Water Flags (Board): pairs face down on boards heads pointing to sea, on whistle turn board and race to shore to grab a flag',sub:'All groups'},
   {cat:'mainset',text:'Water Flags (Swim): pairs standing chest-depth facing out to sea, on whistle turn and race to shore to grab a flag. Develop: body surfing, dolphin diving, wading technique',sub:'All groups'},
-  {cat:'mainset',text:'Sand Dredge: teams fill small container with sand, charge into sea to empty into helper\&#39;s large container, sprint back and pass container to next person. Variation: use water instead of sand, helper balances container on head',sub:'Nippers/Juniors'},
+  {cat:'mainset',text:'Sand Dredge: teams fill small container with sand, charge into sea to empty into helper\\\'s large container, sprint back and pass container to next person. Variation: use water instead of sand, helper balances container on head',sub:'Nippers/Juniors'},
   {cat:'mainset',text:'Wading Bull Rush: tagger tries to catch others wading across shallow water zone. Tagged players become taggers. Develop wading speed and low centre of gravity technique',sub:'Nippers/Juniors'},
   {cat:'mainset',text:'Duck Diving Race: course through breaking water, competitors race to far marker using correct duck dive technique under each wave. Focus on timing, streamlined body position',sub:'Nippers/Juniors'},
   {cat:'mainset',text:'Body Surfing Flags: participants chest-deep facing out to sea, on whistle body surf back and grab a flag. Combines wave timing, body surfing technique and speed',sub:'Nippers/Juniors'},
@@ -486,640 +509,749 @@ const LIBRARY=[
   {cat:'mainset',text:'Multi-casualty beach scenario: 2 casualties (one conscious in water, one unconscious on beach), limited equipment, team must prioritise, communicate roles, execute rescues simultaneously. Timed debrief',sub:'Seniors/Masters/Youth'},
 ];
 
+</script>
+<script>
+// ── CONSTANTS ──────────────────────────────────────────────────────────────
+const CAT_COLORS = {warmup:'#e85d04', theory:'#0891b2', mainset:'#0077b6'};
+const CAT_LABELS = {warmup:'🔥 Warm Ups', theory:'📖 Theory', mainset:'🏊 Main Sets'};
 
+const COOLDOWN_OPTIONS = [
+  'Free swim / surf',
+  'Sardines in shorebreak',
+  'Raft up — walk the plank',
+  'Bodysurf fun time'
+];
 
-const CAT_COLORS={warmup:'#e85d04',theory:'#0891b2',mainset:'#0077b6',aims:'#16a34a'};
-const CAT_LABELS={warmup:'🔥 Warm Ups',theory:'📖 Theory / Knowledge',mainset:'🏊 Main Sets',aims:'🎯 Session Aims'};
-const COOLDOWN_OPTIONS=['Free swim / surf','Sardines in shorebreak','Raft up — walk the plank','Bodysurf fun time'];
-const EQUIP_LIST=[{id:'rescueboards',label:'Rescue boards'},{id:'raceboards',label:'Race boards'},{id:'tubes',label:'Rescue tubes'},{id:'sup',label:'Giant SUP'}];
-const equipState={};
-const equipCustom=[];
-EQUIP_LIST.forEach(e=>equipState[e.id]={checked:false});
-const GROUPS=['nippers','juniors','youth','seniors','masters'];
-const GROUP_META={nippers:{icon:'🐬',label:'Nippers',color:'#e85d04'},juniors:{icon:'🏊',label:'Juniors',color:'#0077b6'},youth:{icon:'⚡',label:'Youth',color:'#7c3aed'},seniors:{icon:'🏄',label:'Seniors',color:'#2d6a4f'},masters:{icon:'🥇',label:'Masters',color:'#c1121f'}};
-const sessionData={};
-GROUPS.forEach(g=>sessionData[g]={aims:[],aimsText:'',warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''});
-let activeGroup='nippers',activeTarget='warmup',draggingChip=null;
+const EQUIP_PRESET = [
+  {id:'rescueboards', label:'Rescue boards'},
+  {id:'raceboards',   label:'Race boards'},
+  {id:'tubes',        label:'Rescue tubes'},
+  {id:'sup',          label:'Giant SUP'}
+];
 
-document.addEventListener('DOMContentLoaded',()=>{
-  const sat=new Date(),d=sat.getDay();
-  sat.setDate(sat.getDate()+(d===6?0:6-d));
-  document.getElementById('sessionDate').value=sat.toISOString().split('T')[0];
-  buildLibrary();renderSession('nippers');buildEquipment();updateAll();
-});
-
-function showPage(name,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page'+name).classList.add('active');
-  btn.classList.add('active');
-  document.getElementById('mainScroll').scrollTop=0;
-}
-
-function switchGroup(g){switchGroupSelect(g);}
-function switchGroupSelect(grp){
-  activeGroup=grp;
-  const s=document.getElementById('groupSelect');
-  if(s)s.value=grp;
-  // Sync session time from the schedule page start time for this group
-  const orderItem=document.querySelector(`#sessionOrder .order-item[data-grp="${grp}"]`);
-  if(orderItem){
-    const t=orderItem.querySelector('input')?.value;
-    if(t)document.getElementById('sessionTime').value=t;
-  }
-  renderSession(grp);updateAll();
-}
-function openShareModal(){document.getElementById('shareModal').classList.add('open');}
-function doPrint(){closeModal('shareModal');setTimeout(()=>window.print(),250);}
-function saveAsImage(){closeModal('shareModal');setTimeout(()=>{window.print();toast('Tap Share → Save to Photos');},250);}
-
-function renderSession(grp){
-  const d=sessionData[grp],m=GROUP_META[grp];
-  const blockHtml=(bt,label,color)=>{
-    const items=d[bt]||[];
-    return `<div class="s-block" ondragover="blockOver(event)" ondragleave="blockLeave(event)" ondrop="blockDrop(event,'${grp}','${bt}')">
-      <div class="block-hdr">
-        <div class="block-hdr-left"><span class="block-dot" style="background:${color}"></span>${label}</div>
-        <div style="display:flex;gap:6px;">
-          <button class="add-to-block" style="background:#eff6ff;border-color:#bfdbfe;color:var(--sky);" onclick="aiSuggestBlock('${grp}','${bt}')">✦</button>
-          <button class="add-to-block" onclick="openLibraryFor('${bt}')">+ Add</button>
-        </div>
-      </div>
-      <div class="block-items">${items.length?items.map((it,i)=>`<div class="dropped-item"><span class="dropped-item-text">${it}</span><button class="rm-btn" onclick="removeItem('${grp}','${bt}',${i})">✕</button></div>`).join(''):'<div class="drop-hint">Tap + Add</div>'}</div>
-    </div>`;
-  };
-  const cdArr=d.coolDown||[];
-  document.getElementById('sessionCard').innerHTML=`
-    <div class="card-hdr" style="border-left:4px solid ${m.color}">
-      <div class="card-hdr-title" style="color:${m.color}">${m.icon} ${m.label}</div>
-      <button class="add-to-block" style="color:var(--red);border-color:rgba(193,18,31,.2);" onclick="clearSession('${grp}')">Clear</button>
-    </div>
-    <div class="aims-row">
-      <div class="block-hdr">
-        <div class="block-hdr-left"><span class="block-dot" style="background:#16a34a"></span>🎯 Session Aims</div>
-        <button class="add-to-block" style="background:#eff6ff;border-color:#bfdbfe;color:var(--sky);" onclick="generateAims('${grp}')" id="generateAimsBtn_${grp}">✦ Generate</button>
-      </div>
-      <div style="font-size:12px;color:var(--mid);margin-bottom:8px;">Auto-generated from your warm up, theory &amp; main set — edit freely below</div>
-      <textarea class="notes-area" id="aimsText_${grp}" style="font-size:14px;min-height:80px;" placeholder="Session aims will appear here after tapping ✦ Generate, or write your own…" onchange="sessionData['${grp}'].aimsText=this.value">${d.aimsText||''}</textarea>
-    </div>
-    ${blockHtml('warmup','🔥 Warm Up','#e85d04')}
-    ${blockHtml('theory','📖 Theory','#0891b2')}
-    ${blockHtml('mainset','🏊 Main Set','#0077b6')}
-    <div class="s-block" style="border-bottom:none;">
-      <div class="block-hdr"><div class="block-hdr-left"><span class="block-dot" style="background:#64748b"></span>🌊 Cool Down</div></div>
-      <div>
-        ${COOLDOWN_OPTIONS.map(opt=>{const on=cdArr.includes(opt);return`<div class="equip-item ${on?'checked':''}" onclick="toggleCoolDown('${grp}','${opt.replace(/'/g,'&#39;')}')"><div class="equip-check">${on?'✓':''}</div><span class="equip-label">${opt}</span></div>`;}).join('')}
-        ${cdArr.filter(o=>!COOLDOWN_OPTIONS.includes(o)).map((opt,i)=>`<div class="equip-item checked"><div class="equip-check" onclick="toggleCoolDown('${grp}','${opt.replace(/'/g,'&#39;')}')">✓</div><span class="equip-label" style="flex:1;">${opt}</span><button class="rm-btn" onclick="toggleCoolDown('${grp}','${opt.replace(/'/g,'&#39;')}')">✕</button></div>`).join('')}
-        <div style="display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
-          <input type="text" id="cdCustom_${grp}" placeholder="Add custom cool down…" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:15px;font-family:'Barlow',sans-serif;color:var(--dark);background:#fafafa;outline:none;" onkeydown="if(event.key==='Enter')addCustomCoolDown('${grp}')">
-          <button onclick="addCustomCoolDown('${grp}')" style="flex-shrink:0;background:var(--navy);color:white;border-radius:8px;padding:0 16px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:14px;min-height:var(--tap);">+ Add</button>
-        </div>
-      </div>
-    </div>
-    <div class="s-block" style="border-bottom:none;">
-      <div class="block-hdr"><div class="block-hdr-left"><span class="block-dot" style="background:#94a3b8"></span>📝 Coaching Points</div></div>
-      <textarea class="notes-area" style="font-size:14px;" id="cp_${grp}" placeholder="Key technique notes, safety reminders…" onchange="sessionData['${grp}'].coachingPoints=this.value">${d.coachingPoints||''}</textarea>
-      <div class="block-hdr" style="margin-top:10px;"><div class="block-hdr-left"><span class="block-dot" style="background:#cbd5e1"></span>✏️ Review / Strengths</div></div>
-      <textarea class="notes-area" style="font-size:14px;" id="rev_${grp}" placeholder="Fill in after the session…" onchange="sessionData['${grp}'].review=this.value">${d.review||''}</textarea>
-    </div>`;
-}
-
-function toggleCoolDown(grp,opt){const arr=sessionData[grp].coolDown||[];const idx=arr.indexOf(opt);if(idx===-1)arr.push(opt);else arr.splice(idx,1);sessionData[grp].coolDown=arr;renderSession(grp);updateProgress();}
-
-function addCustomCoolDown(grp){
-  const input=document.getElementById('cdCustom_'+grp);
-  if(!input)return;
-  const val=input.value.trim();
-  if(!val)return;
-  const arr=sessionData[grp].coolDown||[];
-  if(!arr.includes(val)){arr.push(val);sessionData[grp].coolDown=arr;}
-  renderSession(grp);updateProgress();
-}
-
-function buildEquipment(){
-  const grid=document.getElementById('equipGrid');if(!grid)return;
-  const standard=EQUIP_LIST.map(e=>{const s=equipState[e.id];return`<div class="equip-item ${s.checked?'checked':''}" onclick="toggleEquip('${e.id}')"><div class="equip-check">${s.checked?'✓':''}</div><span class="equip-label">${e.label}</span></div>`;}).join('');
-  const custom=(equipCustom||[]).map((label,i)=>`<div class="equip-item checked"><div class="equip-check">✓</div><span class="equip-label" style="flex:1;">${label}</span><button class="rm-btn" onclick="removeCustomEquip(${i})">✕</button></div>`).join('');
-  grid.innerHTML=standard+custom;
-}
-function toggleEquip(id){equipState[id].checked=!equipState[id].checked;buildEquipment();}
-function addCustomEquip(){
-  const inp=document.getElementById('equipCustomInput');
-  if(!inp)return;
-  const val=inp.value.trim();if(!val)return;
-  equipCustom.push(val);inp.value='';buildEquipment();
-}
-function removeCustomEquip(i){equipCustom.splice(i,1);buildEquipment();}
-
-// Maps each group to the keywords that should match in the sub field
-const GROUP_KEYWORDS = {
-  nippers: ['nippers','all groups','all ages','all'],
-  juniors: ['juniors','all groups','all ages','all'],
-  youth:   ['youth','all groups','all ages','all'],
-  seniors: ['seniors','all groups','all ages','all'],
-  masters: ['masters','all groups','all ages','all'],
+const GROUPS = ['nippers','juniors','youth','seniors','masters'];
+const GROUP_META = {
+  nippers: {icon:'🐬', label:'Nippers',  color:'#e85d04'},
+  juniors: {icon:'🏊', label:'Juniors',  color:'#0077b6'},
+  youth:   {icon:'⚡', label:'Youth',    color:'#7c3aed'},
+  seniors: {icon:'🏄', label:'Seniors',  color:'#2d6a4f'},
+  masters: {icon:'🥇', label:'Masters',  color:'#c1121f'}
 };
 
-function itemMatchesGroup(item, grp){
-  const sub = item.sub.toLowerCase();
-  // If no group keywords present at all, show to everyone
-  const anyGroupKeyword = ['nippers','juniors','youth','seniors','masters','all groups','all ages'].some(k=>sub.includes(k));
-  if(!anyGroupKeyword) return true;
-  // Otherwise check if any of this group's keywords appear in sub
-  return (GROUP_KEYWORDS[grp]||[]).some(k=>sub.includes(k));
+const GROUP_KEYS = {
+  nippers: ['nippers','all groups','all'],
+  juniors: ['juniors','all groups','all'],
+  youth:   ['youth','all groups','all'],
+  seniors: ['seniors','all groups','all'],
+  masters: ['masters','all groups','all']
+};
+
+const API_URL = 'https://api.anthropic.com/v1/messages';
+const API_HEADERS = {'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'};
+const MODEL = 'claude-sonnet-4-20250514';
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+function freshSession() {
+  return {warmup:[], theory:[], mainset:[], coolDown:[], aimsText:'', coachingPoints:'', review:''};
+}
+const sessionData = {};
+GROUPS.forEach(g => sessionData[g] = freshSession());
+
+const equipState = {};
+EQUIP_PRESET.forEach(e => equipState[e.id] = false);
+let equipCustom = [];
+
+let activeGroup = 'nippers';
+let activeTarget = 'warmup';
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Default date to next Saturday
+  const sat = new Date();
+  const d = sat.getDay();
+  sat.setDate(sat.getDate() + (d === 6 ? 0 : 6 - d));
+  document.getElementById('sessionDate').value = sat.toISOString().split('T')[0];
+
+  buildLibrary();
+  renderSession('nippers');
+  buildEquipment();
+  updateAll();
+});
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('mainScroll').scrollTop = 0;
 }
 
-function buildLibrary(filter=''){
-  const container=document.getElementById('libContent');if(!container)return;
-  const q=(filter||'').toLowerCase();
-  const items=LIBRARY.filter(l=>
-    l.cat===activeTarget &&
-    itemMatchesGroup(l, activeGroup) &&
-    (!q||l.text.toLowerCase().includes(q)||l.sub.toLowerCase().includes(q))
-  );
-  if(!items.length){
-    container.innerHTML='<p style="color:var(--light);font-size:14px;text-align:center;padding:24px 0;">No activities match for '+GROUP_META[activeGroup].label+'</p>';
-    return;
+// ── GROUP SWITCHING ────────────────────────────────────────────────────────
+function switchGroup(grp) {
+  activeGroup = grp;
+  const sel = document.getElementById('grpSel');
+  if (sel) sel.value = grp;
+  // Sync session time from schedule
+  const oi = document.querySelector('#sessionOrder .order-item[data-grp="' + grp + '"]');
+  if (oi) {
+    const t = oi.querySelector('input').value;
+    if (t) document.getElementById('sessionTime').value = t;
   }
-  const color=CAT_COLORS[activeTarget]||'#0077b6';
-  let html=`<div class="lib-cat-hdr" style="color:${color}">${CAT_LABELS[activeTarget]||''} <span style="font-weight:400;font-size:10px;color:var(--light);"> — ${items.length} for ${GROUP_META[activeGroup].label}</span></div>`;
-  items.forEach(item=>{
-    const added=(sessionData[activeGroup][activeTarget]||[]).includes(item.text);
-    const safe=item.text.replace(/'/g,'&#39;').replace(/"/g,'&quot;');
-    html+=`<div class="lib-chip ${added?'added':''}" draggable="true" ondragstart="chipDragStart(event,'${safe}','${item.cat}')" onclick="addFromLibrary('${safe}','${item.cat}')"><div class="lib-chip-accent" style="background:${color}"></div><div class="lib-chip-body"><div class="lib-chip-text">${item.text}</div><div class="lib-chip-sub">${item.sub}</div></div><div class="lib-chip-add">+</div></div>`;
-  });
-  container.innerHTML=html;
+  renderSession(grp);
+  updateAll();
 }
 
-function setTarget(btn){
-  activeTarget=btn.getAttribute('data-block');
-  document.querySelectorAll('.target-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('libSearch').value='';
-  buildLibrary('');
-}
-
-function openLibraryFor(blockType){
-  activeTarget=blockType;
-  document.querySelectorAll('.target-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-block')===blockType));
-  // Update library title to show current group
-  const t=document.getElementById('libTitle');
-  if(t)t.textContent=`📚 ${GROUP_META[activeGroup].icon} ${GROUP_META[activeGroup].label} Library`;
-  buildLibrary('');
-  showPage('Library',document.getElementById('nav-library'));
-}
-
-function addAISuggestion(i){
-  const s=window._aiSuggestions;
-  if(!s||!s.items[i]){toast('Error: suggestion not found');return;}
-  const text=s.items[i];
-  const arr=sessionData[s.grp][s.blockType]||[];
-  if(arr.includes(text)){toast('Already added');return;}
-  arr.push(text);
-  sessionData[s.grp][s.blockType]=arr;
-  LIBRARY.push({cat:s.blockType,text,sub:'✦ AI'});
-  // Mark button first, before renderSession wipes the DOM
-  const btns=document.querySelectorAll('#aiModalBody button');
-  if(btns[i]){btns[i].textContent='✓ Added';btns[i].disabled=true;btns[i].style.background='#16a34a';}
-  toast('Added to '+s.blockType+' ✓');
-  // Update session in background without closing modal
-  updateProgress();updateAI();
-  // Re-render session card but keep modal open
-  const card=document.getElementById('sessionCard');
-  if(card){renderSession(s.grp);}
-}
-
-function addDirectly(text,cat){
-  // Adds straight to the specified category — no activeTarget involved
-  const validCats=['aims','warmup','theory','mainset'];
-  const target=validCats.includes(cat)?cat:'mainset';
-  const arr=sessionData[activeGroup][target]||[];
-  if(arr.includes(text)){toast('Already added');return;}
-  arr.push(text);
-  sessionData[activeGroup][target]=arr;
-  renderSession(activeGroup);updateAll();buildLibrary(document.getElementById('libSearch').value);
-  toast('Added to '+target+' ✓');
-  setTimeout(()=>showPage('Builder',document.getElementById('nav-builder')),350);
-}
-
-function addFromLibrary(text,cat){
-  // Use the item's own category (cat) if valid, otherwise fall back to activeTarget
-  const target=['aims','warmup','theory','mainset'].includes(cat) ? cat : activeTarget;
-  const arr=sessionData[activeGroup][target]||[];
-  if(arr.includes(text)){toast('Already added');return;}
-  arr.push(text);
-  sessionData[activeGroup][target]=arr;
-  renderSession(activeGroup);updateAll();buildLibrary(document.getElementById('libSearch').value);
-  toast('Added to '+target+' ✓');
-  setTimeout(()=>showPage('Builder',document.getElementById('nav-builder')),350);
-}
-
-function chipDragStart(e,text,cat){draggingChip={text,cat};e.dataTransfer.setData('text/plain',text);e.dataTransfer.effectAllowed='copy';}
-function blockOver(e){e.preventDefault();e.currentTarget.classList.add('dragover');}
-function blockLeave(e){e.currentTarget.classList.remove('dragover');}
-function blockDrop(e,grp,bt){
-  e.preventDefault();e.currentTarget.classList.remove('dragover');
-  const text=draggingChip?draggingChip.text:e.dataTransfer.getData('text/plain');
-  if(!text)return;
-  sessionData[grp][bt].push(text);draggingChip=null;
-  renderSession(grp);updateAll();buildLibrary(document.getElementById('libSearch').value);toast('Added ✓');
-}
-function removeItem(grp,bt,idx){sessionData[grp][bt].splice(idx,1);renderSession(grp);updateAll();buildLibrary(document.getElementById('libSearch').value);}
-
-function clearSession(grp){sessionData[grp]={aims:[],aimsText:'',warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''};renderSession(grp);updateAll();buildLibrary();toast('Session cleared');}
-function clearAll(){GROUPS.forEach(g=>sessionData[g]={aims:[],aimsText:'',warmup:[],theory:[],mainset:[],coolDown:[],coachingPoints:'',review:''});renderSession(activeGroup);updateAll();buildLibrary();toast('All cleared');}
-
-function updateProgress(){
-  const sel=document.getElementById('groupSelect');
-  if(!sel)return;
-  GROUPS.forEach(g=>{
-    const opt=sel.querySelector(`option[value="${g}"]`);if(!opt)return;
-    const m=GROUP_META[g];
-    const filled=['warmup','theory','mainset'].filter(b=>(sessionData[g][b]||[]).length).length;
-    const hasAims=!!(sessionData[g].aimsText||'').trim();
-    opt.textContent=`${m.icon} ${m.label}${(filled===3&&hasAims)?' ✓':''}`;
-  });
-}
-
-function updateTimeSummary(){}
-
-function syncTimeFromSchedule(grp, time){
-  // If this group is currently active, update the session time field too
-  if(grp === activeGroup && time){
+function syncTime(grp, time) {
+  if (grp === activeGroup && time) {
     document.getElementById('sessionTime').value = time;
   }
 }
 
-function updateAll(){updateProgress();updateTimeSummary();updateAI();updateTideLinks();}
+// ── SESSION RENDERING ──────────────────────────────────────────────────────
+function renderSession(grp) {
+  const d = sessionData[grp];
+  const m = GROUP_META[grp];
 
-function updateTideLinks(){
-  const date=document.getElementById('sessionDate').value;
-  const admiralty=document.getElementById('admiraltyLink');
-  const bbc=document.getElementById('bbcTideLink');
-  if(!admiralty||!bbc||!date)return;
+  const blockHtml = (bt, label, color) => {
+    const items = d[bt] || [];
+    const itemsHtml = items.length
+      ? items.map((it, i) => '<div class="dropped-item"><span class="dropped-item-text">' + esc(it) + '</span><button class="rm-btn" onclick="removeItem(\'' + grp + '\',\'' + bt + '\',' + i + ')">✕</button></div>').join('')
+      : '<div class="drop-hint">Tap + Add</div>';
+    return '<div class="s-block">' +
+      '<div class="blk-hdr">' +
+        '<div class="blk-hdr-left"><span class="blk-dot" style="background:' + color + '"></span>' + label + '</div>' +
+        '<div style="display:flex;gap:6px">' +
+          '<button class="add-btn ai" onclick="aiSuggest(\'' + grp + '\',\'' + bt + '\')">✦</button>' +
+          '<button class="add-btn" onclick="openLibFor(\'' + bt + '\')">+ Add</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="blk-items">' + itemsHtml + '</div>' +
+    '</div>';
+  };
 
-  // ADMIRALTY EasyTide: PortID=0082 (Brighton Marina), date param = YYYY-MM-DD
-  admiralty.href='https://easytide.admiralty.co.uk/?PortID=0082&date='+date;
-  admiralty.textContent='ADMIRALTY EasyTide ('+formatShortDate(date)+')';
+  const cdArr = d.coolDown || [];
+  const cdHtml = COOLDOWN_OPTIONS.map(opt => {
+    const on = cdArr.includes(opt);
+    return '<div class="check-item ' + (on ? 'on' : '') + '" onclick="toggleCD(\'' + grp + '\',\'' + opt.replace(/'/g, "\\'") + '\')">' +
+      '<div class="check-box">' + (on ? '✓' : '') + '</div>' +
+      '<span class="check-label">' + opt + '</span></div>';
+  }).join('');
 
-  // BBC tide tables for Brighton don't support a date param, but update label
-  bbc.textContent='BBC Tides Brighton';
+  const cdCustomHtml = cdArr.filter(o => !COOLDOWN_OPTIONS.includes(o)).map(opt => {
+    return '<div class="check-item on">' +
+      '<div class="check-box" onclick="toggleCD(\'' + grp + '\',\'' + opt.replace(/'/g, "\\'") + '\')">✓</div>' +
+      '<span class="check-label" style="flex:1">' + esc(opt) + '</span>' +
+      '<button class="rm-btn" onclick="toggleCD(\'' + grp + '\',\'' + opt.replace(/'/g, "\\'") + '\')">✕</button></div>';
+  }).join('');
+
+  document.getElementById('sessionCard').innerHTML =
+    '<div class="card-hdr" style="border-left:4px solid ' + m.color + '">' +
+      '<div class="card-hdr-title" style="color:' + m.color + '">' + m.icon + ' ' + m.label + '</div>' +
+      '<button class="add-btn" style="color:var(--red);border-color:rgba(193,18,31,.2)" onclick="clearSess(\'' + grp + '\')">Clear</button>' +
+    '</div>' +
+    // AIMS
+    '<div class="aims-row">' +
+      '<div class="blk-hdr">' +
+        '<div class="blk-hdr-left"><span class="blk-dot" style="background:#16a34a"></span>🎯 Session Aims</div>' +
+        '<button class="add-btn ai" id="genAimsBtn_' + grp + '" onclick="generateAims(\'' + grp + '\')">✦ Generate</button>' +
+      '</div>' +
+      '<div style="font-size:12px;color:var(--mid);margin-bottom:8px">Auto-generated from your session — edit freely below</div>' +
+      '<textarea class="notes-area" id="aimsText_' + grp + '" style="font-size:14px;min-height:80px" ' +
+        'placeholder="Tap ✦ Generate to create session aims, or write your own…" ' +
+        'onchange="sessionData[\'' + grp + '\'].aimsText=this.value">' + esc(d.aimsText || '') + '</textarea>' +
+    '</div>' +
+    blockHtml('warmup', '🔥 Warm Up', '#e85d04') +
+    blockHtml('theory', '📖 Theory', '#0891b2') +
+    blockHtml('mainset', '🏊 Main Set', '#0077b6') +
+    // COOL DOWN
+    '<div class="s-block">' +
+      '<div class="blk-hdr"><div class="blk-hdr-left"><span class="blk-dot" style="background:#64748b"></span>🌊 Cool Down</div></div>' +
+      '<div>' + cdHtml + cdCustomHtml + '</div>' +
+      '<div class="custom-row">' +
+        '<input type="text" id="cdCustom_' + grp + '" class="custom-input" placeholder="Add custom cool down…" onkeydown="if(event.key===\'Enter\')addCustomCD(\'' + grp + '\')">' +
+        '<button class="custom-add" onclick="addCustomCD(\'' + grp + '\')">+ Add</button>' +
+      '</div>' +
+    '</div>' +
+    // COACHING POINTS
+    '<div class="s-block" style="border-bottom:none">' +
+      '<div class="blk-hdr"><div class="blk-hdr-left"><span class="blk-dot" style="background:#94a3b8"></span>📝 Coaching Points</div></div>' +
+      '<textarea class="notes-area" style="font-size:14px" id="cp_' + grp + '" placeholder="Key technique notes, safety reminders…" onchange="sessionData[\'' + grp + '\'].coachingPoints=this.value">' + esc(d.coachingPoints || '') + '</textarea>' +
+      '<div class="blk-hdr" style="margin-top:10px"><div class="blk-hdr-left"><span class="blk-dot" style="background:#cbd5e1"></span>✏️ Review / Strengths</div></div>' +
+      '<textarea class="notes-area" style="font-size:14px" id="rev_' + grp + '" placeholder="Fill in after the session…" onchange="sessionData[\'' + grp + '\'].review=this.value">' + esc(d.review || '') + '</textarea>' +
+    '</div>';
 }
 
-function formatShortDate(dateStr){
-  if(!dateStr)return'';
-  const d=new Date(dateStr+'T12:00:00');
-  return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-function updateAI(swellM,windMph){
-  const d=sessionData[activeGroup],m=GROUP_META[activeGroup],notes=[];
-  if(swellM>1.0)notes.push({type:'warn',msg:`🌊 Swell ${swellM}m — keep Nippers in knee depth.`});
-  if(windMph>20)notes.push({type:'warn',msg:`💨 Wind ${windMph}mph — consider dryside theory.`});
-  if(!d.warmup.length)notes.push({type:'warn',msg:`⚠ ${m.label}: no warm up added.`});
-  if(!d.mainset.length)notes.push({type:'warn',msg:`⚠ ${m.label}: no main set added.`});
-  if(!d.theory.length)notes.push({type:'ok',msg:`💡 Add theory — CHUMS, signals or rips work well.`});
-  if(!(d.aimsText||'').trim())notes.push({type:'ok',msg:`💡 Tap ✦ Generate to create session aims from your plan.`});
-  if((d.aimsText||'').trim()&&d.warmup.length&&d.mainset.length&&d.theory.length)notes.push({type:'ok',msg:`✅ ${m.label} session looks complete!`});
-  document.getElementById('aiPanel').innerHTML='<div class="ai-label">✦ COACH NOTES</div>'+(notes.length?notes.map(n=>`<div class="ai-note ${n.type}">${n.msg}</div>`).join(''):'<div class="ai-note">Build the session to see suggestions.</div>');
+// ── COOL DOWN & EQUIPMENT ──────────────────────────────────────────────────
+function toggleCD(grp, opt) {
+  const arr = sessionData[grp].coolDown || [];
+  const i = arr.indexOf(opt);
+  if (i === -1) arr.push(opt); else arr.splice(i, 1);
+  sessionData[grp].coolDown = arr;
+  renderSession(grp);
 }
 
-async function generateAims(grp){
-  const d=sessionData[grp],m=GROUP_META[grp];
-  const btn=document.getElementById('generateAimsBtn_'+grp);
-  const textarea=document.getElementById('aimsText_'+grp);
-  if(!d.warmup.length&&!d.theory.length&&!d.mainset.length){
-    toast('Add warm up, theory or main set first');return;
+function addCustomCD(grp) {
+  const inp = document.getElementById('cdCustom_' + grp);
+  if (!inp) return;
+  const v = inp.value.trim();
+  if (!v) return;
+  const arr = sessionData[grp].coolDown || [];
+  if (!arr.includes(v)) arr.push(v);
+  sessionData[grp].coolDown = arr;
+  renderSession(grp);
+}
+
+function buildEquipment() {
+  const grid = document.getElementById('equipGrid');
+  if (!grid) return;
+  const preset = EQUIP_PRESET.map(e =>
+    '<div class="check-item ' + (equipState[e.id] ? 'on' : '') + '" onclick="toggleEquip(\'' + e.id + '\')">' +
+      '<div class="check-box">' + (equipState[e.id] ? '✓' : '') + '</div>' +
+      '<span class="check-label">' + e.label + '</span></div>'
+  ).join('');
+  const custom = equipCustom.map((label, i) =>
+    '<div class="check-item on">' +
+      '<div class="check-box">✓</div>' +
+      '<span class="check-label" style="flex:1">' + esc(label) + '</span>' +
+      '<button class="rm-btn" onclick="removeCustomEquip(' + i + ')">✕</button></div>'
+  ).join('');
+  grid.innerHTML = preset + custom;
+}
+
+function toggleEquip(id) {
+  equipState[id] = !equipState[id];
+  buildEquipment();
+}
+
+function addCustomEquip() {
+  const inp = document.getElementById('equipCustomInput');
+  if (!inp) return;
+  const v = inp.value.trim();
+  if (!v) return;
+  equipCustom.push(v);
+  inp.value = '';
+  buildEquipment();
+}
+
+function removeCustomEquip(i) {
+  equipCustom.splice(i, 1);
+  buildEquipment();
+}
+
+function getEquipList() {
+  return [...EQUIP_PRESET.filter(e => equipState[e.id]).map(e => e.label), ...equipCustom].join(', ');
+}
+
+// ── LIBRARY ────────────────────────────────────────────────────────────────
+function itemMatchesGroup(item, grp) {
+  const sub = item.sub.toLowerCase();
+  const anyKey = ['nippers','juniors','youth','seniors','masters','all groups'].some(k => sub.includes(k));
+  if (!anyKey) return true;
+  return (GROUP_KEYS[grp] || []).some(k => sub.includes(k));
+}
+
+function buildLibrary(filter) {
+  const container = document.getElementById('libContent');
+  if (!container) return;
+  const q = (filter || '').toLowerCase();
+  const items = LIBRARY.filter(l =>
+    l.cat === activeTarget &&
+    itemMatchesGroup(l, activeGroup) &&
+    (!q || l.text.toLowerCase().includes(q) || l.sub.toLowerCase().includes(q))
+  );
+  const title = document.getElementById('libTitle');
+  if (title) title.textContent = '📚 ' + GROUP_META[activeGroup].icon + ' ' + GROUP_META[activeGroup].label + ' Library';
+
+  if (!items.length) {
+    container.innerHTML = '<p style="color:var(--light);font-size:14px;text-align:center;padding:24px 0">No activities for ' + GROUP_META[activeGroup].label + '</p>';
+    return;
   }
-  if(btn){btn.textContent='⏳ Generating…';btn.disabled=true;}
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:
-        `You are an expert surf lifesaving coach at Brighton SLSC, UK. Based on this ${m.label} session plan, write 2-3 clear, concise session aims suitable for ${m.label}. Brighton beach: pebble, steeply shelved, shore dump at HT.
+  const color = CAT_COLORS[activeTarget] || '#0077b6';
+  let html = '<div class="lib-cat-hdr" style="color:' + color + '">' + (CAT_LABELS[activeTarget] || '') +
+    ' <span style="font-weight:400;font-size:10px;color:var(--light)">— ' + items.length + ' for ' + GROUP_META[activeGroup].label + '</span></div>';
+  items.forEach(item => {
+    const added = (sessionData[activeGroup][activeTarget] || []).includes(item.text);
+    html += '<div class="lib-chip ' + (added ? 'added' : '') + '" onclick="addFromLib(' + JSON.stringify(item.text) + ',' + JSON.stringify(item.cat) + ')">' +
+      '<div class="chip-accent" style="background:' + color + '"></div>' +
+      '<div class="chip-body"><div class="chip-text">' + esc(item.text) + '</div><div class="chip-sub">' + esc(item.sub) + '</div></div>' +
+      '<div class="chip-add">+</div></div>';
+  });
+  container.innerHTML = html;
+}
 
-Warm up: ${d.warmup.join('; ')||'none'}
-Theory: ${d.theory.join('; ')||'none'}
-Main set: ${d.mainset.join('; ')||'none'}
+function setTarget(btn) {
+  activeTarget = btn.getAttribute('data-block');
+  document.querySelectorAll('.target-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('libSearch').value = '';
+  buildLibrary('');
+}
 
-Write the aims as simple numbered sentences starting with "By the end of this session, participants will be able to..." or "Participants will develop...". No bullet points, no markdown, no headings. Plain text only, each aim on its own line.`
-      }]})
-    });
-    const data=await res.json();
-    console.log('generateAims raw response:', JSON.stringify(data).substring(0,500));
-    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-    if(!text){
-      const errDetail=data.error?data.error.message:'no text block, types: '+(data.content||[]).map(b=>b.type).join(',');
-      throw new Error(errDetail);
-    }
-    if(textarea){
-      // If there's existing text, append rather than overwrite
-      const existing=(sessionData[grp].aimsText||'').trim();
-      textarea.value = existing ? existing+'\n\n'+text : text;
-      sessionData[grp].aimsText=textarea.value;
+function openLibFor(blockType) {
+  activeTarget = blockType;
+  document.querySelectorAll('.target-btn').forEach(b =>
+    b.classList.toggle('active', b.getAttribute('data-block') === blockType)
+  );
+  buildLibrary('');
+  showPage('Library', document.getElementById('nav-library'));
+}
+
+function addFromLib(text, cat) {
+  const target = ['warmup','theory','mainset'].includes(cat) ? cat : activeTarget;
+  const arr = sessionData[activeGroup][target] || [];
+  if (arr.includes(text)) { toast('Already added'); return; }
+  arr.push(text);
+  sessionData[activeGroup][target] = arr;
+  renderSession(activeGroup);
+  updateAll();
+  buildLibrary(document.getElementById('libSearch').value);
+  toast('Added ✓');
+  setTimeout(() => showPage('Builder', document.getElementById('nav-builder')), 350);
+}
+
+function removeItem(grp, bt, idx) {
+  sessionData[grp][bt].splice(idx, 1);
+  renderSession(grp);
+  updateAll();
+  buildLibrary(document.getElementById('libSearch').value);
+}
+
+// ── CLEAR ──────────────────────────────────────────────────────────────────
+function clearSess(grp) {
+  sessionData[grp] = freshSession();
+  renderSession(grp); updateAll(); buildLibrary(); toast('Session cleared');
+}
+function clearAll() {
+  GROUPS.forEach(g => sessionData[g] = freshSession());
+  renderSession(activeGroup); updateAll(); buildLibrary(); toast('All cleared');
+}
+
+// ── MODALS ──────────────────────────────────────────────────────────────────
+function openShareModal() { document.getElementById('shareModal').classList.add('open'); }
+function doPrint() { closeModal('shareModal'); setTimeout(() => window.print(), 250); }
+function saveAsImage() { closeModal('shareModal'); setTimeout(() => { window.print(); toast('Tap Share → Save to Photos'); }, 250); }
+function openAddModal() { document.getElementById('addModal').classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function submitCustom() {
+  const name = document.getElementById('customName').value.trim();
+  const cat  = document.getElementById('customCat').value;
+  const sub  = document.getElementById('customSub').value.trim() || 'All groups';
+  if (!name) return;
+  LIBRARY.push({cat, text: name, sub});
+  buildLibrary(document.getElementById('libSearch').value);
+  document.getElementById('customName').value = '';
+  document.getElementById('customSub').value = '';
+  closeModal('addModal');
+  toast('Added to library ✓');
+}
+
+// ── PROGRESS / UPDATE ──────────────────────────────────────────────────────
+function updateProgress() {
+  const sel = document.getElementById('grpSel');
+  if (!sel) return;
+  GROUPS.forEach(g => {
+    const opt = sel.querySelector('option[value="' + g + '"]');
+    if (!opt) return;
+    const m = GROUP_META[g];
+    const filled = ['warmup','theory','mainset'].filter(b => (sessionData[g][b] || []).length).length;
+    const hasAims = !!(sessionData[g].aimsText || '').trim();
+    opt.textContent = m.icon + ' ' + m.label + (filled === 3 && hasAims ? ' ✓' : '');
+  });
+}
+
+function updateAI(swellM, windMph) {
+  const d = sessionData[activeGroup];
+  const m = GROUP_META[activeGroup];
+  const notes = [];
+  if (swellM > 1.0) notes.push({type:'warn', msg:'🌊 Swell ' + swellM + 'm — keep Nippers in knee depth.'});
+  if (windMph > 20) notes.push({type:'warn', msg:'💨 Wind ' + windMph + 'mph — consider dryside theory.'});
+  if (!d.warmup.length) notes.push({type:'warn', msg:'⚠ ' + m.label + ': no warm up added.'});
+  if (!d.mainset.length) notes.push({type:'warn', msg:'⚠ ' + m.label + ': no main set added.'});
+  if (!d.theory.length) notes.push({type:'ok', msg:'💡 Add theory — CHUMS, signals or rips work well.'});
+  if (!(d.aimsText || '').trim()) notes.push({type:'ok', msg:'💡 Tap ✦ Generate to create session aims.'});
+  if ((d.aimsText || '').trim() && d.warmup.length && d.mainset.length && d.theory.length)
+    notes.push({type:'ok', msg:'✅ ' + m.label + ' session looks complete!'});
+  const panel = document.getElementById('aiPanel');
+  if (panel) panel.innerHTML = '<div class="ai-label">✦ COACH NOTES</div>' +
+    (notes.length ? notes.map(n => '<div class="ai-note ' + n.type + '">' + n.msg + '</div>').join('') :
+    '<div class="ai-note">Build the session to see suggestions.</div>');
+}
+
+function updateTideLinks() {
+  const date = document.getElementById('sessionDate').value;
+  const a = document.getElementById('admiraltyLink');
+  const b = document.getElementById('bbcTideLink');
+  if (!a || !b || !date) return;
+  a.href = 'https://easytide.admiralty.co.uk/?PortID=0082&date=' + date;
+  const d = new Date(date + 'T12:00:00');
+  a.textContent = 'ADMIRALTY EasyTide (' + d.toLocaleDateString('en-GB', {day:'numeric',month:'short'}) + ')';
+}
+
+function updateAll() {
+  updateProgress();
+  updateAI();
+  updateTideLinks();
+}
+
+// ── AI FEATURES ────────────────────────────────────────────────────────────
+
+async function callClaude(prompt, maxTokens) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: API_HEADERS,
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: maxTokens || 800,
+      messages: [{role: 'user', content: prompt}]
+    })
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+  if (!text) throw new Error('Empty response from AI');
+  return text;
+}
+
+async function generateAims(grp) {
+  const d = sessionData[grp];
+  const m = GROUP_META[grp];
+  const btn = document.getElementById('genAimsBtn_' + grp);
+  const ta  = document.getElementById('aimsText_' + grp);
+  if (!d.warmup.length && !d.theory.length && !d.mainset.length) {
+    toast('Add warm up, theory or main set first'); return;
+  }
+  if (btn) { btn.textContent = '⏳…'; btn.disabled = true; }
+  try {
+    const prompt = 'You are an expert surf lifesaving coach at Brighton SLSC.\n' +
+      'Group: ' + m.label + '. Session plan:\n' +
+      'Warm up: ' + (d.warmup.join('; ') || 'none') + '\n' +
+      'Theory: ' + (d.theory.join('; ') || 'none') + '\n' +
+      'Main set: ' + (d.mainset.join('; ') || 'none') + '\n\n' +
+      'Write 2-3 concise session aims for this group. Each aim on its own line. ' +
+      'No bullet points, no numbers, no markdown. Plain sentences only.';
+    const text = await callClaude(prompt, 300);
+    if (ta) {
+      const existing = (sessionData[grp].aimsText || '').trim();
+      ta.value = existing ? existing + '\n\n' + text : text;
+      sessionData[grp].aimsText = ta.value;
     }
     updateProgress();
-    toast('✦ Session aims generated — edit as needed');
-  }catch(e){
-    toast('Could not reach AI: '+e.message.substring(0,60));
-    console.error('generateAims:',e);
+    toast('✦ Session aims generated');
+  } catch(e) {
+    toast('AI error: ' + e.message.substring(0, 50));
+    console.error('generateAims:', e);
   }
-  if(btn){btn.textContent='✦ Generate';btn.disabled=false;}
+  if (btn) { btn.textContent = '✦ Generate'; btn.disabled = false; }
 }
 
-async function aiSuggestBlock(grp, blockType){
-  const d=sessionData[grp],m=GROUP_META[grp];
-  const blockLabels={aims:'Session Aims',warmup:'Warm Up',theory:'Theory',mainset:'Main Set'};
-  document.getElementById('aiModalTitle').textContent=`✦ AI · ${m.label} · ${blockLabels[blockType]}`;
-  document.getElementById('aiModalBody').innerHTML='<div style="text-align:center;padding:20px;color:var(--light)">Loading…</div>';
+async function aiSuggest(grp, blockType) {
+  const d = sessionData[grp];
+  const m = GROUP_META[grp];
+  const labels = {warmup:'Warm Up', theory:'Theory', mainset:'Main Set'};
+  document.getElementById('aiModalTitle').textContent = '✦ AI · ' + m.label + ' · ' + labels[blockType];
+  document.getElementById('aiModalBody').innerHTML = '<div style="text-align:center;padding:20px;color:var(--light)">Loading…</div>';
   document.getElementById('aiModal').classList.add('open');
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,messages:[{role:'user',content:
-        `You are an expert surf lifesaving coach at Brighton SLSC, UK. Group: ${m.label}. Brighton beach: pebble, steeply shelved, shore dump at HT, spiller at LT.\nCurrent session: Warm-up: ${d.warmup.join('; ')||'empty'}, Theory: ${d.theory.join('; ')||'empty'}, Main set: ${d.mainset.join('; ')||'empty'}.\nSuggest 3 "${blockType}" activities only. Use Brighton SLSC terminology (bunny hop, shore dump, CHUMS, beach flags, groyne, prone/knee paddling). Return ONLY a JSON array of 3 strings, no objects, no markdown, no explanation: ["activity one","activity two","activity three"]`
-      }]})
-    });
-    const data=await res.json();
-    // DEBUG: show full response so we can see what's coming back
-    console.log('aiSuggestBlock raw response:', JSON.stringify(data).substring(0,500));
-    // Extract only text blocks (ignore tool_use, tool_result etc)
-    const raw=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-    if(!raw){
-      const errDetail=data.error?data.error.message:(data.content||[]).map(b=>b.type).join(',');
-      throw new Error('No text block. Response types: '+errDetail);
-    }
-    // Find JSON array in response
-    const arrMatch=raw.match(/\[[\s\S]*\]/);
-    if(!arrMatch)throw new Error('No JSON array found in: '+raw.substring(0,100));
-    const suggestions=JSON.parse(arrMatch[0]);
-
-    // Store for safe index-based access
-    window._aiSuggestions={grp,blockType,items:suggestions};
-
-    document.getElementById('aiModalBody').innerHTML=`
-      <p style="font-size:12px;color:var(--mid);margin-bottom:12px;">Suggestions for <strong>${blockLabels[blockType]}</strong> — tap to add:</p>
-      ${suggestions.map((text,i)=>`
-        <div style="background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;">
-          <div style="flex:1;font-size:14px;line-height:1.4;">${text}</div>
-          <button onclick="addAISuggestion(${i})" style="flex-shrink:0;background:var(--sky);color:white;border-radius:6px;padding:6px 14px;font-size:13px;font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;border:none;cursor:pointer;">+ Add</button>
-        </div>`).join('')}`;
-  }catch(err){
-    console.error('aiSuggestBlock error:', err);
-    document.getElementById('aiModalBody').innerHTML='<div style="color:var(--red);font-size:13px;line-height:1.5;">Error: '+err.message+'<br><br><span style="color:var(--mid);font-size:11px;">Check Safari console for full details</span></div>';
-  }
+  try {
+    const prompt = 'You are an expert surf lifesaving coach at Brighton SLSC. ' +
+      'Group: ' + m.label + '. Brighton beach: pebble, steeply shelved, shore dump at HT.\n' +
+      'Current session — Warm-up: ' + (d.warmup.join('; ') || 'none') +
+      ', Theory: ' + (d.theory.join('; ') || 'none') +
+      ', Main set: ' + (d.mainset.join('; ') || 'none') + '.\n' +
+      'Suggest exactly 3 activities for the ' + labels[blockType] + ' block only. ' +
+      'Use Brighton SLSC terminology (bunny hop, shore dump, CHUMS, beach flags, groyne, prone/knee paddling). ' +
+      'Return ONLY a JSON array of 3 strings: ["activity one","activity two","activity three"] ' +
+      'No other text, no markdown, no explanation.';
+    const raw = await callClaude(prompt, 600);
+    const match = raw.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error('No JSON array in response');
+    const suggestions = JSON.parse(match[0]);
+    if (!Array.isArray(suggestions) || !suggestions.length) throw new Error('Empty suggestions array');
+    window._aiSug = {grp, blockType, items: suggestions};
+    document.getElementById('aiModalBody').innerHTML =
+      '<p style="font-size:12px;color:var(--mid);margin-bottom:12px">Suggestions for <strong>' + labels[blockType] + '</strong> — tap to add:</p>' +
+      suggestions.map((text, i) =>
+        '<div style="background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px">' +
+          '<div style="flex:1;font-size:14px;line-height:1.4">' + esc(text) + '</div>' +
+          '<button onclick="addAISug(' + i + ')" style="flex-shrink:0;background:var(--sky);color:white;border-radius:6px;padding:6px 14px;font-size:13px;font-family:\'Barlow Semi Condensed\',sans-serif;font-weight:600;border:none;cursor:pointer">+ Add</button>' +
+        '</div>'
+      ).join('');
+  } catch(err) {
+    console.error('aiSuggest:', err);
+    document.getElementById('aiModalBody').innerHTML = '<div style="color:var(--red);font-size:14px">Error: ' + err.message + '</div>';
   }
 }
 
-async function fetchTides(){
-  const btn=document.getElementById('fetchTidesBtn');
-  const date=document.getElementById('sessionDate').value;
-  if(!date){toast('Set a session date first');return;}
-  btn.textContent='⏳…';btn.disabled=true;
+function addAISug(i) {
+  const s = window._aiSug;
+  if (!s || !s.items[i]) return;
+  const text = s.items[i];
+  const arr = sessionData[s.grp][s.blockType] || [];
+  if (arr.includes(text)) { toast('Already added'); return; }
+  arr.push(text);
+  sessionData[s.grp][s.blockType] = arr;
+  LIBRARY.push({cat: s.blockType, text, sub: '✦ AI'});
+  const btns = document.querySelectorAll('#aiModalBody button');
+  if (btns[i]) { btns[i].textContent = '✓ Added'; btns[i].disabled = true; btns[i].style.background = '#16a34a'; }
+  updateProgress(); updateAI();
+  renderSession(s.grp);
+  toast('Added to ' + s.blockType + ' ✓');
+}
 
-  const d=new Date(date+'T12:00:00');
-  const dayStr=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const dateStr=d.getFullYear().toString()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
-  const tideUrl=`https://www.tidetimes.org.uk/brighton-marina-tide-times-${dateStr}`;
+// ── WEATHER ────────────────────────────────────────────────────────────────
+async function fetchWeather() {
+  const btn = document.getElementById('fetchWeatherBtn');
+  btn.textContent = '⏳ Fetching…'; btn.disabled = true;
+  const date = document.getElementById('sessionDate').value;
+  const time = (document.getElementById('sessionTime').value || '09:00').substring(0, 5);
+  const lat = 50.8226, lon = -0.1372, tz = 'Europe%2FLondon';
+  let filled = 0;
 
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:500,
-        tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{role:'user',content:
-          `Search for the tide times at Brighton Marina, UK on ${dayStr}. Use the URL ${tideUrl} or search "Brighton Marina tide times ${dayStr}".
+  function hourIdx(times) {
+    const target = date + 'T' + time;
+    let i = times.indexOf(target);
+    if (i === -1) i = times.findIndex(t => t.startsWith(date));
+    return i >= 0 ? i : 0;
+  }
 
-Find ALL high tide (HT) and low tide (LT) times and heights for that specific date.
+  try {
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&hourly=temperature_2m,windspeed_10m,winddirection_10m&forecast_days=14&timezone=' + tz);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const idx = hourIdx(j.hourly.time);
+    const DIRS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    const temp = j.hourly.temperature_2m[idx];
+    const wspd = j.hourly.windspeed_10m[idx];
+    const wdir = j.hourly.winddirection_10m[idx];
+    if (temp != null) { document.getElementById('wTemp').textContent = temp.toFixed(1) + '°'; filled++; }
+    if (wspd != null) { document.getElementById('wWind').textContent = Math.round(wspd * 0.621371) + ' mph'; filled++; }
+    if (wdir != null) { document.getElementById('wDir').textContent = DIRS[Math.round(wdir / 22.5) % 16]; filled++; }
+  } catch(e) { console.warn('Weather API:', e.message); }
 
-Respond with ONLY this JSON and nothing else:
-{"tides":[{"type":"HT","time":"06:14","height":"6.2m"},{"type":"LT","time":"12:28","height":"0.9m"}]}
+  try {
+    const r = await fetch('https://marine-api.open-meteo.com/v1/marine?latitude=' + lat + '&longitude=' + lon + '&hourly=wave_height,wave_period,wave_direction,sea_surface_temperature&forecast_days=7&timezone=' + tz);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const idx = hourIdx(j.hourly.time);
+    const DIRS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    const wh = j.hourly.wave_height[idx];
+    const wp = j.hourly.wave_period[idx];
+    const wd = j.hourly.wave_direction[idx];
+    const st = j.hourly.sea_surface_temperature[idx];
+    if (wh != null) { document.getElementById('wSwell').textContent = wh.toFixed(2) + 'm'; filled++; }
+    if (wp != null) { document.getElementById('wPeriod').textContent = wp.toFixed(0) + 's'; filled++; }
+    if (wd != null) {
+      const dir = DIRS[Math.round(wd / 22.5) % 16];
+      document.getElementById('wSwellDir').textContent = dir;
+      if (!document.getElementById('current').value) document.getElementById('current').value = dir + ' swell';
+      filled++;
+    }
+    if (st != null) { document.getElementById('wSea').textContent = st.toFixed(1) + '°'; filled++; }
+    else {
+      const avg = [9,9,9,10,12,14,16,17,16,14,12,10];
+      document.getElementById('wSea').textContent = '~' + avg[new Date().getMonth()] + '°';
+    }
+  } catch(e) { console.warn('Marine API:', e.message); }
 
-Use 24-hour time format. List all tides for the day in chronological order.`
+  if (filled > 0) {
+    updateAI(parseFloat(document.getElementById('wSwell').textContent) || 0,
+             parseFloat(document.getElementById('wWind').textContent) || 0);
+    toast('✓ ' + filled + ' conditions filled');
+  } else {
+    toast('⚠ Weather fetch failed');
+  }
+  btn.textContent = '⛅ Populate Weather'; btn.disabled = false;
+}
+
+async function fetchTides() {
+  const btn = document.getElementById('fetchTidesBtn');
+  const date = document.getElementById('sessionDate').value;
+  if (!date) { toast('Set a session date first'); return; }
+  btn.textContent = '⏳…'; btn.disabled = true;
+  const d = new Date(date + 'T12:00:00');
+  const dayStr = d.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const dateStr = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: API_HEADERS,
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 500,
+        tools: [{type:'web_search_20250305', name:'web_search'}],
+        messages: [{role:'user', content:
+          'Search for Brighton Marina tide times on ' + dayStr + '. ' +
+          'Try the URL https://www.tidetimes.org.uk/brighton-marina-tide-times-' + dateStr + ' ' +
+          'Return ONLY valid JSON with this exact structure, no other text: ' +
+          '{"tides":[{"type":"HT","time":"06:14","height":"6.2m"},{"type":"LT","time":"12:28","height":"0.9m"}]}'
         }]
       })
     });
-    const data=await res.json();
-    // Extract text content only (ignore tool_use blocks)
-    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-    if(!text)throw new Error('No text response');
-    const match=text.match(/\{[\s\S]*?\}/);
-    if(!match)throw new Error('No JSON in response');
-    const result=JSON.parse(match[0]);
-    const tides=result.tides||[];
-    if(!tides.length)throw new Error('No tides found');
-
-    const ltAll=tides.filter(t=>t.type==='LT').map(t=>`${t.time} ${t.height}`).join(' / ');
-    const htAll=tides.filter(t=>t.type==='HT').map(t=>`${t.time} ${t.height}`).join(' / ');
-
-    if(ltAll)document.getElementById('ltTime').value=ltAll;
-    if(htAll)document.getElementById('htTime').value=htAll;
-    toast(`✓ Tides filled for ${d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}`);
-  }catch(e){
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+    if (!text) throw new Error('No text in response');
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('No JSON found');
+    const result = JSON.parse(match[0]);
+    const tides = result.tides || [];
+    if (!tides.length) throw new Error('No tides found');
+    const ltAll = tides.filter(t => t.type === 'LT').map(t => t.time + ' ' + t.height).join(' / ');
+    const htAll = tides.filter(t => t.type === 'HT').map(t => t.time + ' ' + t.height).join(' / ');
+    if (ltAll) document.getElementById('ltTime').value = ltAll;
+    if (htAll) document.getElementById('htTime').value = htAll;
+    toast('✓ Tides filled for ' + d.toLocaleDateString('en-GB', {day:'numeric',month:'short'}));
+  } catch(e) {
     toast('⚠ Could not fetch tides — try manual lookup');
-    console.error('fetchTides:',e);
+    console.error('fetchTides:', e);
   }
-  btn.textContent='⛅ Auto-fill';btn.disabled=false;
+  btn.textContent = '⛅ Auto-fill'; btn.disabled = false;
 }
 
-async function fetchAirTemp(){
-  const btn=document.getElementById('fetchWeatherAIBtn');
-  btn.textContent='⏳ Fetching…';btn.disabled=true;
-
-  const date=document.getElementById('sessionDate').value;
-  const time=(document.getElementById('sessionTime').value||'09:00').substring(0,5);
-  const lat=50.8226,lon=-0.1372;
-  const tz='Europe%2FLondon';
-
-  // Helper: find hour index closest to session date+time
-  function hourIdx(times){
-    const target=date+'T'+time;
-    let i=times.indexOf(target);
-    if(i===-1)i=times.findIndex(t=>t.startsWith(date));
-    return i>=0?i:0;
-  }
-
-  let filled=0;
-
-  // ── 1. Weather: air temp + wind ──────────────────────────────────────────
-  try{
-    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,windspeed_10m,winddirection_10m&forecast_days=14&timezone=${tz}`);
-    if(!r.ok)throw new Error('weather HTTP '+r.status);
-    const j=await r.json();
-    console.log('Open-Meteo weather OK, times sample:', j.hourly?.time?.slice(0,3));
-    const idx=hourIdx(j.hourly.time);
-    const temp=j.hourly.temperature_2m[idx];
-    const wspd=j.hourly.windspeed_10m[idx];
-    const wdir=j.hourly.winddirection_10m[idx];
-    const DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
-    if(temp!=null){document.getElementById('wTemp').textContent=temp.toFixed(1)+'°';filled++;}
-    if(wspd!=null){document.getElementById('wWind').textContent=Math.round(wspd*0.621371)+' mph';filled++;}
-    if(wdir!=null){document.getElementById('wDir').textContent=DIRS[Math.round(wdir/22.5)%16];filled++;}
-  }catch(e){console.warn('Weather API error:',e.message);}
-
-  // ── 2. Marine: swell + sea temp ──────────────────────────────────────────
-  try{
-    const r=await fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&hourly=wave_height,wave_period,wave_direction,sea_surface_temperature&forecast_days=7&timezone=${tz}`);
-    if(!r.ok)throw new Error('marine HTTP '+r.status);
-    const j=await r.json();
-    const idx=hourIdx(j.hourly.time);
-    const wh=j.hourly.wave_height[idx];
-    const wp=j.hourly.wave_period[idx];
-    const wd=j.hourly.wave_direction[idx];
-    const st=j.hourly.sea_surface_temperature[idx];
-    const DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
-    if(wh!=null){document.getElementById('wSwell').textContent=wh.toFixed(2)+'m';filled++;}
-    if(wp!=null){document.getElementById('wPeriod').textContent=wp.toFixed(0)+'s';filled++;}
-    if(wd!=null){
-      const dir=DIRS[Math.round(wd/22.5)%16];
-      document.getElementById('wSwellDir').textContent=dir;
-      if(!document.getElementById('current').value)document.getElementById('current').value=dir+' swell';
-      filled++;
-    }
-    if(st!=null){document.getElementById('wSea').textContent=st.toFixed(1)+'°';filled++;}
-    else{
-      // English Channel monthly average fallback
-      const avg=[9,9,9,10,12,14,16,17,16,14,12,10];
-      document.getElementById('wSea').textContent='~'+avg[new Date().getMonth()]+'°';
-    }
-  }catch(e){console.warn('Marine API error:',e.message);}
-
-  if(filled>0){
-    updateAI(parseFloat(document.getElementById('wSwell').textContent)||0,
-             parseFloat(document.getElementById('wWind').textContent)||0);
-    toast('✓ '+filled+' conditions filled from Open-Meteo');
-  }else{
-    toast('⚠ Weather fetch failed — see Safari console for details');
-  }
-
-  btn.textContent='⛅ Populate Weather';btn.disabled=false;
-}
-
-function openAddModal(){document.getElementById('addModal').classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-
-function submitCustom(){
-  const name=document.getElementById('customName').value.trim();
-  const cat=document.getElementById('customCat').value;
-  const sub=document.getElementById('customSub').value.trim();
-  if(!name)return;
-  LIBRARY.push({cat,text:name,sub});
-  buildLibrary(document.getElementById('libSearch').value);
-  document.getElementById('customName').value='';
-  document.getElementById('customSub').value='';
-  closeModal('addModal');toast('Added ✓');
-}
-
-async function handleUpload(event){
-  const file=event.target.files[0];if(!file)return;
-  toast('📄 Reading '+file.name+'…');
-  const reader=new FileReader();
-  reader.onload=async e=>{
-    const text=(e.target.result||'').substring(0,3000);
-    try{
-      const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:'Extract 6-10 coaching activities from this Brighton SLSC training material. Return ONLY a JSON array: [{text,category,sub}] where category is aims/warmup/theory/mainset. Max 20 words per text. Sub = age/duration. No markdown. Material:\n'+text}]})});
-      const data=await res.json();
-      const activities=JSON.parse(data.content?.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim());
-      activities.forEach(a=>LIBRARY.push({cat:a.category||'mainset',text:a.text,sub:'📄 '+file.name.split('.')[0]}));
-      buildLibrary();toast('✦ '+activities.length+' activities extracted');
-    }catch{toast('Could not extract — AI unavailable');}
+// ── SAVE ───────────────────────────────────────────────────────────────────
+function savePlan() {
+  const plan = {
+    date: document.getElementById('sessionDate').value,
+    time: document.getElementById('sessionTime').value,
+    coach: document.getElementById('coachName').value,
+    safety: document.getElementById('safetyCover').value,
+    weather: {
+      airTemp: document.getElementById('wTemp').textContent,
+      wind: document.getElementById('wWind').textContent,
+      windDir: document.getElementById('wDir').textContent,
+      swell: document.getElementById('wSwell').textContent,
+      period: document.getElementById('wPeriod').textContent,
+      swellDir: document.getElementById('wSwellDir').textContent,
+      seaTemp: document.getElementById('wSea').textContent,
+      lt: document.getElementById('ltTime').value,
+      ht: document.getElementById('htTime').value,
+      current: document.getElementById('current').value
+    },
+    sessions: sessionData,
+    safetyNotes: document.getElementById('safetyNotes').value,
+    planB: document.getElementById('planBNotes').value,
+    equipment: getEquipList()
   };
-  reader.readAsText(file);
-}
-
-function savePlan(){
-  const plan={date:document.getElementById('sessionDate').value,time:document.getElementById('sessionTime').value,coach:document.getElementById('coachName').value,safety:document.getElementById('safetyCover').value,weather:{airTemp:document.getElementById('wTemp').textContent,wind:document.getElementById('wWind').textContent,windDir:document.getElementById('wDir').textContent,swell:document.getElementById('wSwell').textContent,period:document.getElementById('wPeriod').textContent,swellDir:document.getElementById('wSwellDir').textContent,seaTemp:document.getElementById('wSea').textContent,lt:document.getElementById('ltTime').value,ht:document.getElementById('htTime').value,current:document.getElementById('current').value},sessions:sessionData,safetyNotes:document.getElementById('safetyNotes').value,planB:document.getElementById('planBNotes').value,equipment:[...EQUIP_LIST.filter(e=>equipState[e.id].checked).map(e=>e.label),...equipCustom].join(', ')};
-  const blob=new Blob([JSON.stringify(plan,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='BSLSC-'+(plan.date||'plan')+'.json';a.click();
+  const blob = new Blob([JSON.stringify(plan, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'BSLSC-' + (plan.date || 'plan') + '.json';
+  a.click();
   toast('Plan saved ✓');
 }
 
-function copyFeedback(){
-  const text=document.getElementById('feedbackText').value.trim();
-  if(!text){toast('Please type your feedback first');return;}
-  navigator.clipboard.writeText(text).then(()=>{
-    toast('Copied! Now send to Dan P 👍');
-  }).catch(()=>{
-    // Fallback for older browsers
-    const ta=document.createElement('textarea');
-    ta.value=text;document.body.appendChild(ta);ta.select();
-    document.execCommand('copy');document.body.removeChild(ta);
-    toast('Copied! Now send to Dan P 👍');
+// ── FEEDBACK ───────────────────────────────────────────────────────────────
+function copyFeedback() {
+  const text = document.getElementById('feedbackText').value.trim();
+  if (!text) { toast('Please type your feedback first'); return; }
+  navigator.clipboard.writeText(text).then(() => toast('Copied — send to Dan P 👍')).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    toast('Copied — send to Dan P 👍');
   });
 }
 
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
 </script>
-
 <script>
-const _origPrint=window.print.bind(window);
-window.print=function(){injectPrint();setTimeout(()=>{_origPrint();setTimeout(removePrint,1000);},150);};
 
-function injectPrint(){
-  const date=document.getElementById('sessionDate').value;
-  const coach=document.getElementById('coachName').value||'—';
-  const safety=document.getElementById('safetyCover').value||'—';
-  const lt=document.getElementById('ltTime').value||'—';
-  const ht=document.getElementById('htTime').value||'—';
-  const cur=document.getElementById('current').value||'—';
-  const wT=document.getElementById('wTemp').textContent,wW=document.getElementById('wWind').textContent;
-  const wD=document.getElementById('wDir').textContent,wS=document.getElementById('wSwell').textContent;
-  const wP=document.getElementById('wPeriod').textContent,wSea=document.getElementById('wSea').textContent;
-  const safetyNotes=document.getElementById('safetyNotes').value;
-  const planB=document.getElementById('planBNotes').value;
-  const equip=[...EQUIP_LIST.filter(e=>equipState[e.id].checked).map(e=>e.label),...equipCustom].join(', ');
-  const dateStr=date?new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'—';
-  // Print only the currently selected group
-  const grpTime = [...document.querySelectorAll('#sessionOrder .order-item')]
-    .find(i=>i.getAttribute('data-grp')===activeGroup);
-  const time = grpTime?.querySelector('input')?.value || '09:00';
-  const groups = [{grp: activeGroup, time}];
-  const tmins=t=>{if(!t)return 9*60;const[h,m]=t.split(':').map(Number);return h*60+(m||0);};
-  let html='<div id="printOverlay">';
-  groups.forEach(({grp,time},idx)=>{
-    const d=sessionData[grp],m=GROUP_META[grp],rows=[];
-    rows.push({act:'Safety briefing & register',cp:'Conditions, plan, buddy pairs, equipment check',sect:false});
-    if(d.warmup.length){rows.push({act:d.warmup.join('\n'),cp:'Get warm. Correct technique.',sect:true,sl:'Warm Up'});}
-    if(d.theory.length){rows.push({act:d.theory.join('\n'),cp:'Knowledge',sect:true,sl:'Theory / Knowledge'});}
-    if(d.mainset.length){rows.push({act:d.mainset.join('\n'),cp:d.coachingPoints||'Coaching Points',sect:true,sl:'Main Set'});}
-    if((d.coolDown||[]).length){rows.push({act:d.coolDown.join('\n'),cp:'Cool down',sect:true,sl:'Cool Down'});}
-    const tRows=rows.map(r=>r.sect
-      ?`<tr><td colspan="2" style="background:#e8eef8;font-weight:bold;padding:3pt 6pt;border:.5pt solid #888">— ${r.sl} —</td></tr><tr><td style="border:.5pt solid #888;padding:4pt 6pt;white-space:pre-line;width:60%">${r.act}</td><td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt;width:40%">${r.cp}</td></tr>`
-      :`<tr><td style="border:.5pt solid #888;padding:4pt 6pt;width:60%">${r.act}</td><td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt;width:40%">${r.cp}</td></tr>`
-    ).join('');
-    html+=`<div style="page-break-after:${idx===groups.length-1?'avoid':'always'};padding:12pt 14pt;font-family:Arial,sans-serif;font-size:9pt;">
-      <div style="text-align:center;font-size:14pt;font-weight:bold;text-transform:uppercase;letter-spacing:1pt;margin-bottom:5pt">Brighton SLSC — Coaching Session Plan</div>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:5pt">
-        <tr><td style="border:1pt solid black;padding:4pt 6pt;width:30%"><strong>Date:</strong> ${dateStr}<br><strong>Group:</strong> ${m.icon} ${m.label}</td><td style="border:1pt solid black;padding:4pt 6pt;width:40%"><strong>LT:</strong> ${lt} &nbsp;<strong>HT:</strong> ${ht}<br><strong>Swell:</strong> ${wS} @ ${wP} &nbsp;<strong>Wind:</strong> ${wW} ${wD}<br><strong>Air:</strong> ${wT} &nbsp;<strong>Sea:</strong> ${wSea} &nbsp;<strong>Current:</strong> ${cur}</td><td style="border:1pt solid black;padding:4pt 6pt;width:30%"><strong>Location:</strong> Brighton Beach<br><strong>Start:</strong> ${time}</td></tr>
-        <tr><td style="border:1pt solid black;padding:4pt 6pt"><strong>Coach:</strong> ${coach}</td><td colspan="2" style="border:1pt solid black;padding:4pt 6pt"><strong>Safety Cover:</strong> ${safety}</td></tr>
-        <tr><td colspan="3" style="border:1pt solid black;padding:4pt 6pt"><strong>Session Aims:</strong> ${(d.aimsText||'').trim()||'—'}</td></tr>
-      </table>
-      <table style="width:100%;border-collapse:collapse;font-size:9pt">
-        <tr><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:60%">Activity</th><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:40%">Coaching Points</th></tr>
-        ${tRows}
-      </table>
-      ${(planB||safetyNotes)?`<table style="width:100%;border-collapse:collapse;margin-top:5pt;font-size:9pt"><tr>${safetyNotes?`<td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Safety Notes:</strong><br>${safetyNotes}</td>`:''}${planB?`<td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Plan B:</strong><br>${planB}</td>`:''}</tr></table>`:''}
-      ${equip?`<div style="margin-top:4pt;font-size:8.5pt;border:.5pt solid #ccc;padding:3pt 6pt"><strong>Equipment:</strong> ${equip}</div>`:''}
-      <table style="width:100%;border-collapse:collapse;margin-top:5pt;font-size:9pt">
-        <tr><th colspan="2" style="background:#e8eef8;padding:3pt 6pt;text-align:left;border:.5pt solid #888">Review</th></tr>
-        <tr><td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;height:30pt;vertical-align:top"><strong>Strengths:</strong><br>${d.review||''}</td><td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Areas for development:</strong></td></tr>
-        <tr><td colspan="2" style="border:.5pt solid #888;padding:4pt 6pt"><strong>Team feedback / action points:</strong></td></tr>
-        <tr><td colspan="2" style="border:.5pt solid #888;padding:4pt 6pt"><strong>Health &amp; Safety Review:</strong></td></tr>
-      </table>
-      <div style="margin-top:4pt;font-size:7.5pt;color:#888;text-align:right">Brighton SLSC · ${dateStr} · CP1</div>
-    </div>`;
-  });
-  html+='</div>';
-  const div=document.createElement('div');div.id='printOverlay';div.innerHTML=html;
-  const st=document.createElement('style');st.id='printOverlayStyle';
-  st.textContent='@media print{body>*:not(#printOverlay){display:none!important}#printOverlay{display:block!important}}';
-  document.head.appendChild(st);document.body.appendChild(div);
+const _origPrint = window.print.bind(window);
+window.print = function() { injectPrint(); setTimeout(() => { _origPrint(); setTimeout(removePrint, 1200); }, 150); };
+
+function injectPrint() {
+  const date = document.getElementById('sessionDate').value;
+  const coach = document.getElementById('coachName').value || '—';
+  const safety = document.getElementById('safetyCover').value || '—';
+  const lt = document.getElementById('ltTime').value || '—';
+  const ht = document.getElementById('htTime').value || '—';
+  const cur = document.getElementById('current').value || '—';
+  const wT = document.getElementById('wTemp').textContent;
+  const wW = document.getElementById('wWind').textContent;
+  const wD = document.getElementById('wDir').textContent;
+  const wS = document.getElementById('wSwell').textContent;
+  const wP = document.getElementById('wPeriod').textContent;
+  const wSea = document.getElementById('wSea').textContent;
+  const safetyNotes = document.getElementById('safetyNotes').value;
+  const planB = document.getElementById('planBNotes').value;
+  const equip = getEquipList();
+  const dateStr = date ? new Date(date + 'T12:00:00').toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'}) : '—';
+
+  const orderItem = document.querySelector('#sessionOrder .order-item[data-grp="' + activeGroup + '"]');
+  const time = orderItem ? orderItem.querySelector('input').value : '09:00';
+  const d = sessionData[activeGroup];
+  const m = GROUP_META[activeGroup];
+
+  const rows = [];
+  rows.push({act:'Safety briefing & register', cp:'Conditions, plan, buddy pairs, equipment check', sect:false});
+  if (d.warmup.length) rows.push({act:d.warmup.join('\n'), cp:'Get warm. Correct technique.', sect:true, sl:'Warm Up'});
+  if (d.theory.length) rows.push({act:d.theory.join('\n'), cp:'Knowledge', sect:true, sl:'Theory / Knowledge'});
+  if (d.mainset.length) rows.push({act:d.mainset.join('\n'), cp:d.coachingPoints||'Coaching Points', sect:true, sl:'Main Set'});
+  if ((d.coolDown||[]).length) rows.push({act:d.coolDown.join('\n'), cp:'Cool down', sect:true, sl:'Cool Down'});
+
+  const tRows = rows.map(r => r.sect
+    ? '<tr><td colspan="2" style="background:#e8eef8;font-weight:bold;padding:3pt 6pt;border:.5pt solid #888">— ' + r.sl + ' —</td></tr>' +
+      '<tr><td style="border:.5pt solid #888;padding:4pt 6pt;white-space:pre-line;width:60%">' + r.act + '</td>' +
+      '<td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt;width:40%">' + r.cp + '</td></tr>'
+    : '<tr><td style="border:.5pt solid #888;padding:4pt 6pt;width:60%">' + r.act + '</td>' +
+      '<td style="border:.5pt solid #888;padding:4pt 6pt;font-size:8.5pt;width:40%">' + r.cp + '</td></tr>'
+  ).join('');
+
+  const html = '<div id="printOverlay">' +
+    '<div style="padding:12pt 14pt;font-family:Arial,sans-serif;font-size:9pt">' +
+    '<div style="text-align:center;font-size:14pt;font-weight:bold;text-transform:uppercase;letter-spacing:1pt;margin-bottom:5pt">Brighton SLSC — Coaching Session Plan</div>' +
+    '<table style="width:100%;border-collapse:collapse;margin-bottom:5pt">' +
+      '<tr>' +
+        '<td style="border:1pt solid black;padding:4pt 6pt;width:30%"><strong>Date:</strong> ' + dateStr + '<br><strong>Group:</strong> ' + m.icon + ' ' + m.label + '</td>' +
+        '<td style="border:1pt solid black;padding:4pt 6pt;width:40%"><strong>LT:</strong> ' + lt + ' &nbsp;<strong>HT:</strong> ' + ht + '<br><strong>Swell:</strong> ' + wS + ' @ ' + wP + ' &nbsp;<strong>Wind:</strong> ' + wW + ' ' + wD + '<br><strong>Air:</strong> ' + wT + ' &nbsp;<strong>Sea:</strong> ' + wSea + ' &nbsp;<strong>Current:</strong> ' + cur + '</td>' +
+        '<td style="border:1pt solid black;padding:4pt 6pt;width:30%"><strong>Location:</strong> Brighton Beach<br><strong>Start:</strong> ' + time + '</td>' +
+      '</tr>' +
+      '<tr><td style="border:1pt solid black;padding:4pt 6pt"><strong>Coach:</strong> ' + coach + '</td><td colspan="2" style="border:1pt solid black;padding:4pt 6pt"><strong>Safety Cover:</strong> ' + safety + '</td></tr>' +
+      '<tr><td colspan="3" style="border:1pt solid black;padding:4pt 6pt"><strong>Session Aims:</strong> ' + ((d.aimsText||'').trim()||'—') + '</td></tr>' +
+    '</table>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:9pt">' +
+      '<tr><th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:60%">Activity</th>' +
+          '<th style="background:#00264d;color:white;padding:4pt 6pt;text-align:left;border:.5pt solid #888;width:40%">Coaching Points</th></tr>' +
+      tRows +
+    '</table>' +
+    (safetyNotes||planB ? '<table style="width:100%;border-collapse:collapse;margin-top:5pt;font-size:9pt"><tr>' +
+      (safetyNotes ? '<td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Safety Notes:</strong><br>' + safetyNotes + '</td>' : '') +
+      (planB ? '<td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Plan B:</strong><br>' + planB + '</td>' : '') +
+    '</tr></table>' : '') +
+    (equip ? '<div style="margin-top:4pt;font-size:8.5pt;border:.5pt solid #ccc;padding:3pt 6pt"><strong>Equipment:</strong> ' + equip + '</div>' : '') +
+    '<table style="width:100%;border-collapse:collapse;margin-top:5pt;font-size:9pt">' +
+      '<tr><th colspan="2" style="background:#e8eef8;padding:3pt 6pt;text-align:left;border:.5pt solid #888">Review</th></tr>' +
+      '<tr><td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;height:30pt;vertical-align:top"><strong>Strengths:</strong><br>' + (d.review||'') + '</td><td style="border:.5pt solid #888;padding:4pt 6pt;width:50%;vertical-align:top"><strong>Areas for development:</strong></td></tr>' +
+      '<tr><td colspan="2" style="border:.5pt solid #888;padding:4pt 6pt"><strong>Team feedback / action points:</strong></td></tr>' +
+      '<tr><td colspan="2" style="border:.5pt solid #888;padding:4pt 6pt"><strong>Health &amp; Safety Review:</strong></td></tr>' +
+    '</table>' +
+    '<div style="margin-top:4pt;font-size:7.5pt;color:#888;text-align:right">Brighton SLSC · ' + dateStr + ' · CP1</div>' +
+    '</div></div>';
+
+  const div = document.createElement('div'); div.id = 'printOverlay'; div.innerHTML = html;
+  const st = document.createElement('style'); st.id = 'printOverlayStyle';
+  st.textContent = '@media print{body>*:not(#printOverlay){display:none!important}#printOverlay{display:block!important}}';
+  document.head.appendChild(st); document.body.appendChild(div);
 }
 
-function removePrint(){document.getElementById('printOverlay')?.remove();document.getElementById('printOverlayStyle')?.remove();}
+function removePrint() {
+  document.getElementById('printOverlay')?.remove();
+  document.getElementById('printOverlayStyle')?.remove();
+}
+
 </script>
 </body>
 </html>
