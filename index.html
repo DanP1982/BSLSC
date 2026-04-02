@@ -358,7 +358,7 @@ button{cursor:pointer;border:none;background:none}
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">Add Custom Activity</div>
-    <div class="form-row"><label>Activity Name</label><input type="text" id="customName" placeholder="e.g. Bodyboard technique drill" autocomplete="off"></div>
+    <div class="form-row"><label>Activity Description</label><input type="text" id="customName" placeholder="e.g. Board technique drill…" autocomplete="off"></div>
     <div class="form-row"><label>Category</label>
       <select id="customCat">
         <option value="warmup">🔥 Warm Up</option>
@@ -475,7 +475,6 @@ const LIBRARY=[
   {cat:'mainset',text:'Conscious tube rescue in pairs: swimmer out, rescuer pushes tube, strap over one shoulder not neck; CHUMS on return',sub:'Juniors/Youth/Seniors/Masters'},
   {cat:'mainset',text:'Conscious board rescue in pairs: casualty signals for help, rescuer paddles out, turns board, gets casualty onto board, paddle back to shore',sub:'All groups'},
   {cat:'mainset',text:'Board rescues: conscious and unconscious; board positioning, speeding up board entry, body position for easiest paddling',sub:'Masters/Seniors/Youth'},
-  {cat:'mainset',text:'Shark/fish game',sub:'Nippers/Juniors'},
   {cat:'mainset',text:'Rips & Rocks game: pairs in beach flag start, one side Rips other Rocks, shout and try to catch each other',sub:'Nippers/Juniors'},
   {cat:'mainset',text:'Water entry relay: teams of 4, run into sea to waist deep round safety marker and back',sub:'Nippers'},
   {cat:'mainset',text:'Caterpillar relay in the water: team lines up, person at back goes through legs to front until team reaches shore',sub:'Nippers/Juniors'},
@@ -922,10 +921,10 @@ function updateAll() {
 
 // ── API KEY MANAGEMENT ─────────────────────────────────────────────────────
 function getApiKey() {
-  return localStorage.getItem('bslsc_api_key') || '';
+  return (localStorage.getItem('bslsc_api_key') || '').trim();
 }
 function saveApiKey(val) {
-  val = val.trim();
+  val = (val || '').trim();
   if (val) {
     localStorage.setItem('bslsc_api_key', val);
     document.getElementById('apiKeyStatus').textContent = '✓ Key saved';
@@ -940,19 +939,26 @@ function initApiKey() {
   const k = getApiKey();
   const inp = document.getElementById('apiKeyInput');
   const st = document.getElementById('apiKeyStatus');
-  if (inp && k) { inp.value = k; }
+  if (inp && k) inp.value = k;
   if (st) { st.textContent = k ? '✓ Key saved' : 'No key saved'; st.style.color = k ? '#16a34a' : 'var(--mid)'; }
 }
 function getApiHeaders() {
   const key = getApiKey();
-  const h = {'Content-Type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true'};
-  if (key) h['x-api-key'] = key;
-  return h;
+  // x-api-key is always required; anthropic-dangerous-direct-browser-access allows CORS from browser
+  return {
+    'Content-Type': 'application/json',
+    'x-api-key': key,
+    'anthropic-version': '2023-06-01',
+    'anthropic-dangerous-direct-browser-access': 'true'
+  };
 }
 
 // ── AI FEATURES ────────────────────────────────────────────────────────────
 
 async function callClaude(prompt, maxTokens) {
+  if (!getApiKey()) {
+    throw new Error('No API key — add it in the Guide tab');
+  }
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: getApiHeaders(),
@@ -977,10 +983,10 @@ async function generateAims(grp) {
   const d = sessionData[grp];
   const m = GROUP_META[grp];
   const btn = document.getElementById('genAimsBtn_' + grp);
-  const ta  = document.getElementById('aimsText_' + grp);
   if (!d.warmup.length && !d.theory.length && !d.mainset.length) {
     toast('Add warm up, theory or main set first'); return;
   }
+  if (!getApiKey()) { toast('Add your API key in the Guide tab first'); return; }
   if (btn) { btn.textContent = '⏳…'; btn.disabled = true; }
   try {
     const prompt = 'You are an expert surf lifesaving coach at Brighton SLSC.\n' +
@@ -991,18 +997,20 @@ async function generateAims(grp) {
       'Write 2-3 concise session aims for this group. Each aim on its own line. ' +
       'No bullet points, no numbers, no markdown. Plain sentences only.';
     const text = await callClaude(prompt, 300);
-    if (ta) {
-      const existing = (sessionData[grp].aimsText || '').trim();
-      ta.value = existing ? existing + '\n\n' + text : text;
-      sessionData[grp].aimsText = ta.value;
-    }
+    // Re-query textarea after async — DOM may have changed
+    const existing = (sessionData[grp].aimsText || '').trim();
+    sessionData[grp].aimsText = existing ? existing + '\n\n' + text : text;
+    // Re-render to show updated aims text, then restore button
+    renderSession(grp);
     updateProgress();
     toast('✦ Session aims generated');
   } catch(e) {
-    toast('AI error: ' + e.message.substring(0, 50));
+    toast('AI error: ' + e.message.substring(0, 60));
     console.error('generateAims:', e);
   }
-  if (btn) { btn.textContent = '✦ Generate'; btn.disabled = false; }
+  // Re-query button after possible re-render
+  const btnAfter = document.getElementById('genAimsBtn_' + grp);
+  if (btnAfter) { btnAfter.textContent = '✦ Generate'; btnAfter.disabled = false; }
 }
 
 async function aiSuggest(grp, blockType) {
@@ -1061,8 +1069,9 @@ function addAISug(i) {
 // ── WEATHER ────────────────────────────────────────────────────────────────
 async function fetchWeather() {
   const btn = document.getElementById('fetchWeatherBtn');
-  btn.textContent = '⏳ Fetching…'; btn.disabled = true;
   const date = document.getElementById('sessionDate').value;
+  if (!date) { toast('Set a session date first'); return; }
+  btn.textContent = '⏳ Fetching…'; btn.disabled = true;
   const time = (document.getElementById('sessionTime').value || '09:00').substring(0, 5);
   const lat = 50.8226, lon = -0.1372, tz = 'Europe%2FLondon';
   let filled = 0;
@@ -1126,6 +1135,7 @@ async function fetchTides() {
   const btn = document.getElementById('fetchTidesBtn');
   const date = document.getElementById('sessionDate').value;
   if (!date) { toast('Set a session date first'); return; }
+  if (!getApiKey()) { toast('Add your API key in the Guide tab first'); return; }
   btn.textContent = '⏳…'; btn.disabled = true;
   const d = new Date(date + 'T12:00:00');
   const dayStr = d.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
