@@ -247,6 +247,7 @@ button{cursor:pointer;border:none;background:none}
       <div style="font-size:12px;color:var(--mid)">Manual lookup: <a id="admiraltyLink" href="https://easytide.admiralty.co.uk/?PortID=0082" target="_blank" style="color:var(--sky);font-weight:600">ADMIRALTY EasyTide</a> · <a id="bbcTideLink" href="https://www.bbc.co.uk/weather/coast-and-sea/tide-tables/7/6" target="_blank" style="color:var(--sky);font-weight:600">BBC Brighton</a></div>
     </div>
   </div>
+  <div style="font-size:12px;color:var(--mid);text-align:center;margin-bottom:8px;padding:6px 0">Weather data: <a href="https://open-meteo.com" target="_blank" style="color:var(--sky);font-weight:600">Open-Meteo</a> (air &amp; wind) · <a href="https://open-meteo.com" target="_blank" style="color:var(--sky);font-weight:600">Open-Meteo Marine</a> (swell &amp; sea temp) · open-source, no API key required</div>
   <div class="ai-panel" id="aiPanel"><div class="ai-label">✦ COACH NOTES</div><div class="ai-note">Build the session to see suggestions.</div></div>
 </div>
 
@@ -276,9 +277,9 @@ button{cursor:pointer;border:none;background:none}
   <div id="sessionOrder">
     <div class="order-item" data-grp="nippers"><span class="order-dot" style="background:#fb923c"></span><span class="order-label">🐬 Nippers</span><input class="order-time" type="time" value="09:00" onchange="syncTime('nippers',this.value)"></div>
     <div class="order-item" data-grp="juniors"><span class="order-dot" style="background:#38bdf8"></span><span class="order-label">🏊 Juniors</span><input class="order-time" type="time" value="10:00" onchange="syncTime('juniors',this.value)"></div>
-    <div class="order-item" data-grp="youth"><span class="order-dot" style="background:#a78bfa"></span><span class="order-label">⚡ Youth</span><input class="order-time" type="time" value="10:00" onchange="syncTime('youth',this.value)"></div>
-    <div class="order-item" data-grp="seniors"><span class="order-dot" style="background:#4ade80"></span><span class="order-label">🏄 Seniors</span><input class="order-time" type="time" value="10:00" onchange="syncTime('seniors',this.value)"></div>
-    <div class="order-item" data-grp="masters"><span class="order-dot" style="background:#f87171"></span><span class="order-label">🥇 Masters</span><input class="order-time" type="time" value="10:00" onchange="syncTime('masters',this.value)"></div>
+    <div class="order-item" data-grp="youth"><span class="order-dot" style="background:#a78bfa"></span><span class="order-label">⚡ Youth</span><input class="order-time" type="time" value="11:00" onchange="syncTime('youth',this.value)"></div>
+    <div class="order-item" data-grp="seniors"><span class="order-dot" style="background:#4ade80"></span><span class="order-label">🏄 Seniors</span><input class="order-time" type="time" value="11:00" onchange="syncTime('seniors',this.value)"></div>
+    <div class="order-item" data-grp="masters"><span class="order-dot" style="background:#f87171"></span><span class="order-label">🥇 Masters</span><input class="order-time" type="time" value="09:00" onchange="syncTime('masters',this.value)"></div>
   </div>
   <div class="action-row" style="margin-top:16px">
     <button class="action-btn warn" onclick="clearAll()">🗑 Clear All</button>
@@ -385,26 +386,28 @@ const LIBRARY=[
   {cat:'aims',text:'Demonstrate correct racing start and bunny hop board entry technique',sub:''},
   {cat:'aims',text:'Identify a rip current and know the correct self-rescue response',sub:''},
   {cat:'aims',text:'Perform conscious board rescue: approach, turn board, get casualty on board, return to shore',sub:''},
-  {cat:'aims',text:'Recall all 5 CHUMS questions and apply them in a missing person scenario',sub:''},
-  {cat:'aims',text:'Demonstrate whistle signals: 1, 2, 3, 4 blasts and respond correctly to all 4',sub:''},
+  {cat:'aims',text:'Recall all 5 CHUMS questions and apply them in a scenario',sub:''},
+  {cat:'aims',text:'Outline whistle signals: 1, 2, 3 and 4 blasts and correct response',sub:''},
   {cat:'aims',text:'Build confidence in rough water: shore dump entries, going under waves, breath-hold technique',sub:''},
   {cat:'aims',text:'Complete prone and knee paddling circuit maintaining board trim and correct body position',sub:''},
   {cat:'aims',text:'Work effectively in partnership: communicate during two-up board paddling and casualty pick-up',sub:''},
   {cat:'aims',text:'Relay coherent 999 PPP call under simulated stress',sub:''},
   {cat:'aims',text:'Develop board paddling technique: correct kneeling position, deep catch at front straps, high hip/low chin pull, arms parallel to rails on recovery',sub:''},
-  {cat:'aims',text:'Understand NOP and EAP — know the club Normal Operating Procedure and Emergency Action Plan and apply them in the session briefing',sub:''},
+  {cat:'aims',text:'Understand NOP and EAP — know the club Normal Operating Procedure and Emergency Action Plan and apply them in the session briefing',sub:'Youth/Seniors/Masters'},
   {cat:'aims',text:'Develop teamwork, communication and leadership skills through games and relay activities',sub:''},
   {cat:'aims',text:'Complete a pre-session risk assessment: water state, depth, hazards, temperature, beach conditions, equipment, weather and UV',sub:''},
   {cat:'aims',text:'Understand ski wash riding positions: side wash (most forward for passing), tail wash (failsafe), V wash (most energy efficient but can be boxed in)',sub:'Seniors/Youth'},
-  {cat:'aims',text:'Complete a 200m pool time trial and set a target time for next assessment — use as baseline for training plan',sub:'Seniors/Masters'},
-  {cat:'aims',text:'Demonstrate correct unconscious board rescue from 100m: approach, load, paddle, beach handover',sub:'Seniors/Masters'},
-  {cat:'aims',text:'Apply correct radio communication procedure under simulated emergency conditions',sub:'Youth/Seniors'},
-  {cat:'aims',text:'Understand and describe the stages of cold water shock and the correct response for self-rescue and helping a casualty',sub:'Seniors/Masters'},
-  {cat:'aims',text:'Set one personal performance goal for the season — swim time, race entry, or rescue qualification',sub:'Youth/Seniors/Masters'},
+  {cat:'aims',text:'Demonstrate correct unconscious board rescue from 50m: approach, load, paddle, beach handover',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'aims',text:'Apply correct radio communication procedure under simulated emergency conditions',sub:'Youth/Seniors/Masters'},
+  {cat:'aims',text:'Understand and describe the stages of cold water shock and the correct response',sub:'Youth/Seniors/Masters'},
   {cat:'aims',text:'Sight accurately to a fixed landmark every 6 strokes without breaking stroke rhythm or veering off course',sub:'Youth/Seniors/Masters'},
   {cat:'aims',text:'Execute a correct tight buoy turn — approach on correct side, touch and spin without wide arc, maintain speed out of turn',sub:'Youth/Seniors/Masters'},
-  {cat:'aims',text:'Demonstrate correct in-water spinal injury management: stabilise head, log roll with partner, load onto board without rotation',sub:'Seniors/Masters'},
-  {cat:'aims',text:'Complete a run-swim-run transition maintaining race pace — no more than 5s slowdown in first 15m of each run segment after water exit',sub:'Youth/Seniors'},
+  {cat:'aims',text:'Demonstrate correct in-water suspected spinal injury management and recovery',sub:'Youth/Seniors/Masters'},
+  {cat:'aims',text:'Perform CPR correctly: 30 compressions to 2 rescue breaths, correct hand position, depth and rate, knowing when to stop',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'aims',text:'Place an unconscious breathing casualty in the recovery position and explain why it is used',sub:'Juniors/Youth/Seniors/Masters'},
+  {cat:'aims',text:'Complete a stamina swim set: 4×50m front crawl with correct bilateral breathing technique and maintained pace',sub:'Youth/Seniors/Masters'},
+  {cat:'aims',text:'Identify the key hazards at Brighton beach: steeply shelved pebble, shore dump at HT, cross-shore current, cold water, groynes',sub:'All groups'},
+  {cat:'aims',text:'Demonstrate confident and correct use of a rescue tube: entry, approach, tube presentation, conscious tow back to shore',sub:'Juniors/Youth/Seniors/Masters'},
   // ── WARM UPS ──
   {cat:'warmup',text:'Long jog, side step, skip, kick, stretch on beach',sub:'All groups'},
   {cat:'warmup',text:'Run to wall and back with dynamic stretches',sub:'All groups'},
@@ -956,42 +959,66 @@ async function fetchTides() {
   const date = document.getElementById('sessionDate').value;
   if (!date) { toast('Set a session date first'); return; }
   btn.textContent = '⏳…'; btn.disabled = true;
+
   const d = new Date(date + 'T12:00:00');
-  const dateStr = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
-  // Fetch Brighton Marina RSS feed via allorigins CORS proxy (no API key needed)
+  const dateStr = d.getFullYear() +
+    String(d.getMonth()+1).padStart(2,'0') +
+    String(d.getDate()).padStart(2,'0');
   const rssUrl = 'https://www.tidetimes.org.uk/brighton-marina-tide-times-' + dateStr + '.rss';
-  const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
-  try {
-    const r = await fetch(proxyUrl);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const j = await r.json();
-    const xml = j.contents;
-    if (!xml) throw new Error('Empty response from proxy');
-    // Parse tide entries from RSS XML
-    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m => m[1]);
-    if (!items.length) throw new Error('No tide data in feed');
+
+  // Try multiple CORS proxies in order
+  const proxies = [
+    'https://corsproxy.io/?' + encodeURIComponent(rssUrl),
+    'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl),
+    'https://thingproxy.freeboard.io/fetch/' + rssUrl
+  ];
+
+  function parseRSS(xml) {
     const tides = [];
-    items.forEach(item => {
-      const title = (item.match(/<title>(.*?)<\/title>/) || [])[1] || '';
-      // Title format: "Low Tide at 07:14 (0.78m)" or "High Tide at 13:04 (6.69m)"
+    const itemRe = /<item>([\s\S]*?)<\/item>/g;
+    let m;
+    while ((m = itemRe.exec(xml)) !== null) {
+      const item = m[1];
+      const titleM = item.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/);
+      const title = titleM ? titleM[1] : '';
       const isHT = /high tide/i.test(title);
       const isLT = /low tide/i.test(title);
-      if (!isHT && !isLT) return;
+      if (!isHT && !isLT) continue;
       const timeM = title.match(/(\d{1,2}:\d{2})/);
-      const heightM = title.match(/\(([^)]+)\)/);
+      const heightM = title.match(/\(([^)]+m)\)/);
       if (timeM && heightM) {
         tides.push({type: isHT ? 'HT' : 'LT', time: timeM[1], height: heightM[1]});
       }
-    });
-    if (!tides.length) throw new Error('Could not parse tide times from feed');
+    }
+    return tides;
+  }
+
+  let tides = [];
+  let lastErr = '';
+  for (const proxyUrl of proxies) {
+    try {
+      const r = await fetch(proxyUrl, {signal: AbortSignal.timeout(8000)});
+      if (!r.ok) { lastErr = 'HTTP ' + r.status; continue; }
+      const xml = await r.text();
+      if (!xml || xml.length < 100) { lastErr = 'Empty response'; continue; }
+      tides = parseRSS(xml);
+      if (tides.length) break;
+      lastErr = 'No tide items found in feed';
+    } catch(e) {
+      lastErr = e.message;
+      continue;
+    }
+  }
+
+  if (tides.length) {
     const ltAll = tides.filter(t => t.type === 'LT').map(t => t.time + ' ' + t.height).join(' / ');
     const htAll = tides.filter(t => t.type === 'HT').map(t => t.time + ' ' + t.height).join(' / ');
     if (ltAll) document.getElementById('ltTime').value = ltAll;
     if (htAll) document.getElementById('htTime').value = htAll;
     toast('✓ Tides filled for ' + d.toLocaleDateString('en-GB', {day:'numeric',month:'short'}));
-  } catch(e) {
-    toast('⚠ Tides unavailable — use ADMIRALTY link below');
-    console.error('fetchTides:', e);
+  } else {
+    toast('⚠ Tides unavailable — use ADMIRALTY link');
+    console.warn('fetchTides failed:', lastErr);
   }
   btn.textContent = '⛅ Auto-fill'; btn.disabled = false;
 }
