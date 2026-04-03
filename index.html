@@ -349,11 +349,6 @@ button{cursor:pointer;border:none;background:none}
   </div>
 </div>
 
-    <div class="modal-title" id="aiModalTitle">✦ AI Suggestions</div>
-    <div id="aiModalBody" style="font-size:14px;color:var(--mid);line-height:1.5">Loading…</div>
-    <button class="form-submit" style="margin-top:16px" onclick="closeModal('aiModal')">Done</button>
-  </div>
-</div>
 
 <!-- SHARE MODAL -->
 <div class="modal-bg" id="shareModal" onclick="if(event.target===this)closeModal('shareModal')">
@@ -940,13 +935,13 @@ async function fetchTides() {
   try {
     // Open-Meteo marine API — same service as weather, no API key, no proxy needed
     const url = 'https://marine-api.open-meteo.com/v1/marine?latitude=' + lat +
-      '&longitude=' + lon + '&hourly=ocean_tide_height&forecast_days=7&timezone=' + tz;
+      '&longitude=' + lon + '&hourly=sea_level_height&forecast_days=7&timezone=' + tz;
     const r = await fetch(url);
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const j = await r.json();
     const times = j.hourly && j.hourly.time;
-    const heights = j.hourly && j.hourly.ocean_tide_height;
-    if (!times || !heights) throw new Error('No ocean_tide_height in response');
+    const heights = j.hourly && j.hourly.sea_level_height;
+    if (!times || !heights) throw new Error('No sea_level_height in response');
     const dayStart = times.findIndex(t => t.startsWith(date));
     if (dayStart === -1) throw new Error('Date outside 7-day forecast range');
     const dayTimes   = times.slice(dayStart, dayStart + 24);
