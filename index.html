@@ -129,12 +129,7 @@ button{cursor:pointer;border:none;background:none}
 .form-row textarea{min-height:80px;resize:vertical}
 .form-submit{width:100%;min-height:var(--tap);background:var(--navy);color:white;border-radius:var(--rs);font-family:'Barlow Semi Condensed',sans-serif;font-weight:700;font-size:17px;margin-top:4px}
 /* AI PANEL */
-.ai-panel{background:#f0f7ff;border:1px solid #bfdbfe;border-radius:var(--rs);padding:12px;margin-bottom:12px}
-.ai-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:var(--sky);margin-bottom:6px}
-.ai-note{font-size:13px;color:var(--mid);line-height:1.5;padding:4px 0;border-bottom:1px solid #e0eefe}
 .ai-note:last-child{border-bottom:none}
-.ai-note.warn{color:#c2410c}
-.ai-note.ok{color:#16a34a}
 /* TOAST */
 .toast{position:fixed;bottom:calc(var(--safe-bottom)+64px);left:50%;transform:translateX(-50%) translateY(30px);background:var(--dark);color:white;padding:11px 20px;border-radius:24px;font-family:'Barlow Semi Condensed',sans-serif;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.25);opacity:0;transition:all .22s ease;z-index:999;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -248,7 +243,6 @@ button{cursor:pointer;border:none;background:none}
     </div>
   </div>
   <div style="font-size:12px;color:var(--mid);text-align:center;margin-bottom:8px;padding:6px 0">Weather data: <a href="https://open-meteo.com" target="_blank" style="color:var(--sky);font-weight:600">Open-Meteo</a> (air &amp; wind) · <a href="https://open-meteo.com" target="_blank" style="color:var(--sky);font-weight:600">Open-Meteo Marine</a> (swell &amp; sea temp) · open-source, no API key required</div>
-  <div class="ai-panel" id="aiPanel"><div class="ai-label">✦ COACH NOTES</div><div class="ai-note">Build the session to see suggestions.</div></div>
 </div>
 
 <!-- LIBRARY PAGE -->
@@ -859,23 +853,6 @@ function updateProgress() {
   });
 }
 
-function updateAI(swellM, windMph) {
-  const d = sessionData[activeGroup];
-  const m = GROUP_META[activeGroup];
-  const notes = [];
-  if (swellM > 1.0) notes.push({type:'warn', msg:'🌊 Swell ' + swellM + 'm — keep Nippers in knee depth.'});
-  if (windMph > 20) notes.push({type:'warn', msg:'💨 Wind ' + windMph + 'mph — consider dryside theory.'});
-  if (!d.warmup.length) notes.push({type:'warn', msg:'⚠ ' + m.label + ': no warm up added.'});
-  if (!d.mainset.length) notes.push({type:'warn', msg:'⚠ ' + m.label + ': no main set added.'});
-  if (!d.theory.length) notes.push({type:'ok', msg:'💡 Add theory — CHUMS, signals or rips work well.'});
-  if (!(d.aims || []).length) notes.push({type:'ok', msg:'💡 Add session aims from the library.'});
-  if ((d.aims||[]).length && d.warmup.length && d.mainset.length && d.theory.length)
-    notes.push({type:'ok', msg:'✅ ' + m.label + ' session looks complete!'});
-  const panel = document.getElementById('aiPanel');
-  if (panel) panel.innerHTML = '<div class="ai-label">✦ COACH NOTES</div>' +
-    (notes.length ? notes.map(n => '<div class="ai-note ' + n.type + '">' + n.msg + '</div>').join('') :
-    '<div class="ai-note">Build the session to see suggestions.</div>');
-}
 
 function updateTideLinks() {
   const date = document.getElementById('sessionDate').value;
@@ -889,7 +866,6 @@ function updateTideLinks() {
 
 function updateAll() {
   updateProgress();
-  updateAI();
   updateTideLinks();
 }
 
@@ -945,8 +921,6 @@ async function fetchWeather() {
   } catch(e) { console.warn('Marine API:', e.message); }
 
   if (filled > 0) {
-    updateAI(parseFloat(document.getElementById('wSwell').textContent) || 0,
-             parseFloat(document.getElementById('wWind').textContent) || 0);
     toast('✓ ' + filled + ' conditions filled');
   } else {
     toast('⚠ Weather fetch failed — check connection');
@@ -960,99 +934,40 @@ async function fetchTides() {
   if (!date) { toast('Set a session date first'); return; }
   btn.textContent = '⏳…'; btn.disabled = true;
 
-  const d = new Date(date + 'T12:00:00');
-  const dateStr = d.getFullYear() +
-    String(d.getMonth()+1).padStart(2,'0') +
-    String(d.getDate()).padStart(2,'0');
-  const rssUrl = 'https://www.tidetimes.org.uk/brighton-marina-tide-times-' + dateStr + '.rss';
-  const shortDate = d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
+  const lat = 50.8226, lon = -0.1372, tz = 'Europe%2FLondon';
+  const shortDate = new Date(date + 'T12:00:00').toLocaleDateString('en-GB', {day:'numeric', month:'short'});
 
-  function parseRSS(xml) {
-    const tides = [];
-    const itemRe = /<item>([\s\S]*?)<\/item>/g;
-    let m;
-    while ((m = itemRe.exec(xml)) !== null) {
-      const titleM = m[1].match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/);
-      const title = titleM ? titleM[1] : '';
-      const isHT = /high tide/i.test(title);
-      const isLT = /low tide/i.test(title);
-      if (!isHT && !isLT) continue;
-      const timeM = title.match(/(\d{1,2}:\d{2})/);
-      const heightM = title.match(/\(([^)]+m)\)/);
-      if (timeM && heightM) {
-        tides.push({type: isHT ? 'HT' : 'LT', time: timeM[1], height: heightM[1]});
-      }
-    }
-    return tides;
-  }
-
-  function parseRSS2JSON(items) {
-    const tides = [];
-    (items || []).forEach(item => {
-      const title = item.title || '';
-      const isHT = /high tide/i.test(title);
-      const isLT = /low tide/i.test(title);
-      if (!isHT && !isLT) return;
-      const timeM = title.match(/(\d{1,2}:\d{2})/);
-      const heightM = title.match(/\(([^)]+m)\)/);
-      if (timeM && heightM) {
-        tides.push({type: isHT ? 'HT' : 'LT', time: timeM[1], height: heightM[1]});
-      }
-    });
-    return tides;
-  }
-
-  async function tryFetch(url, asJson, timeoutMs) {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-    try {
-      const r = await fetch(url, {signal: ctrl.signal});
-      clearTimeout(timer);
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return asJson ? await r.json() : await r.text();
-    } catch(e) {
-      clearTimeout(timer);
-      throw e;
-    }
-  }
-
-  let tides = [];
-  let lastErr = '';
-
-  // Method 1: rss2json.com — converts RSS to JSON with CORS support
   try {
-    const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
-    const j = await tryFetch(apiUrl, true, 5000);
-    if (j && j.status === 'ok' && j.items) {
-      tides = parseRSS2JSON(j.items);
+    // Open-Meteo marine API — same service as weather, no API key, no proxy needed
+    const url = 'https://marine-api.open-meteo.com/v1/marine?latitude=' + lat +
+      '&longitude=' + lon + '&hourly=ocean_tide_height&forecast_days=7&timezone=' + tz;
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const times = j.hourly && j.hourly.time;
+    const heights = j.hourly && j.hourly.ocean_tide_height;
+    if (!times || !heights) throw new Error('No ocean_tide_height in response');
+    const dayStart = times.findIndex(t => t.startsWith(date));
+    if (dayStart === -1) throw new Error('Date outside 7-day forecast range');
+    const dayTimes   = times.slice(dayStart, dayStart + 24);
+    const dayHeights = heights.slice(dayStart, dayStart + 24);
+    // Find local peaks (HT) and troughs (LT)
+    const tides = [];
+    for (let i = 1; i < dayHeights.length - 1; i++) {
+      const h0 = dayHeights[i-1], h1 = dayHeights[i], h2 = dayHeights[i+1];
+      if (h0 == null || h1 == null || h2 == null) continue;
+      if (h1 > h0 && h1 > h2) tides.push({type:'HT', time:dayTimes[i].substring(11,16), height:h1.toFixed(2)+'m'});
+      else if (h1 < h0 && h1 < h2) tides.push({type:'LT', time:dayTimes[i].substring(11,16), height:h1.toFixed(2)+'m'});
     }
-  } catch(e) { lastErr = 'rss2json: ' + e.message; }
-
-  // Method 2: corsproxy.io — direct RSS proxy
-  if (!tides.length) {
-    try {
-      const xml = await tryFetch('https://corsproxy.io/?' + encodeURIComponent(rssUrl), false, 5000);
-      if (xml && xml.length > 100) tides = parseRSS(xml);
-    } catch(e) { lastErr = 'corsproxy: ' + e.message; }
-  }
-
-  // Method 3: allorigins raw
-  if (!tides.length) {
-    try {
-      const xml = await tryFetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl), false, 5000);
-      if (xml && xml.length > 100) tides = parseRSS(xml);
-    } catch(e) { lastErr = 'allorigins: ' + e.message; }
-  }
-
-  if (tides.length) {
+    if (!tides.length) throw new Error('Could not detect tide turning points');
     const ltAll = tides.filter(t => t.type === 'LT').map(t => t.time + ' ' + t.height).join(' / ');
     const htAll = tides.filter(t => t.type === 'HT').map(t => t.time + ' ' + t.height).join(' / ');
     if (ltAll) document.getElementById('ltTime').value = ltAll;
     if (htAll) document.getElementById('htTime').value = htAll;
     toast('✓ Tides filled for ' + shortDate);
-  } else {
-    toast('⚠ Tides unavailable — use ADMIRALTY link');
-    console.warn('fetchTides failed:', lastErr);
+  } catch(e) {
+    toast('⚠ Tides: ' + e.message.substring(0,50));
+    console.warn('fetchTides:', e.message);
   }
   btn.textContent = '⛅ Auto-fill'; btn.disabled = false;
 }
